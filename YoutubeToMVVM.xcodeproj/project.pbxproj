@@ -69,7 +69,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5BDAA4572C0B1908007DD2ED /* YoutubeToMVVC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoutubeToMVVC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BDAA4572C0B1908007DD2ED /* YoutubeToMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoutubeToMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BDAA45C2C0B1908007DD2ED /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5BDAA45E2C0B1908007DD2ED /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,9 +77,9 @@
 		5BDAA4632C0B1909007DD2ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BDAA4662C0B1909007DD2ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5BDAA4682C0B1909007DD2ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5BDAA46D2C0B1909007DD2ED /* YoutubeToMVVCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoutubeToMVVCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BDAA46D2C0B1909007DD2ED /* YoutubeToMVVMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoutubeToMVVMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BDAA4712C0B1909007DD2ED /* YoutubeToMVVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVCTests.swift; sourceTree = "<group>"; };
-		5BDAA4772C0B1909007DD2ED /* YoutubeToMVVCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoutubeToMVVCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BDAA4772C0B1909007DD2ED /* YoutubeToMVVMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoutubeToMVVMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BDAA47B2C0B1909007DD2ED /* YoutubeToMVVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVCUITests.swift; sourceTree = "<group>"; };
 		5BDAA47D2C0B1909007DD2ED /* YoutubeToMVVCUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVCUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5BDAA48B2C0B198D007DD2ED /* STVWelcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STVWelcome.swift; sourceTree = "<group>"; };
@@ -145,9 +145,9 @@
 		5BDAA44E2C0B1908007DD2ED = {
 			isa = PBXGroup;
 			children = (
-				5BDAA4592C0B1908007DD2ED /* YoutubeToMVVC */,
-				5BDAA4702C0B1909007DD2ED /* YoutubeToMVVCTests */,
-				5BDAA47A2C0B1909007DD2ED /* YoutubeToMVVCUITests */,
+				5BDAA4592C0B1908007DD2ED /* YoutubeToMVVM */,
+				5BDAA4702C0B1909007DD2ED /* YoutubeToMVVMTests */,
+				5BDAA47A2C0B1909007DD2ED /* YoutubeToMVVMUITests */,
 				5BDAA4582C0B1908007DD2ED /* Products */,
 			);
 			sourceTree = "<group>";
@@ -155,14 +155,14 @@
 		5BDAA4582C0B1908007DD2ED /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5BDAA4572C0B1908007DD2ED /* YoutubeToMVVC.app */,
-				5BDAA46D2C0B1909007DD2ED /* YoutubeToMVVCTests.xctest */,
-				5BDAA4772C0B1909007DD2ED /* YoutubeToMVVCUITests.xctest */,
+				5BDAA4572C0B1908007DD2ED /* YoutubeToMVVM.app */,
+				5BDAA46D2C0B1909007DD2ED /* YoutubeToMVVMTests.xctest */,
+				5BDAA4772C0B1909007DD2ED /* YoutubeToMVVMUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5BDAA4592C0B1908007DD2ED /* YoutubeToMVVC */ = {
+		5BDAA4592C0B1908007DD2ED /* YoutubeToMVVM */ = {
 			isa = PBXGroup;
 			children = (
 				5BDAA48D2C0B198D007DD2ED /* Model */,
@@ -177,24 +177,24 @@
 				5BDAA4652C0B1909007DD2ED /* LaunchScreen.storyboard */,
 				5BDAA4682C0B1909007DD2ED /* Info.plist */,
 			);
-			path = YoutubeToMVVC;
+			path = YoutubeToMVVM;
 			sourceTree = "<group>";
 		};
-		5BDAA4702C0B1909007DD2ED /* YoutubeToMVVCTests */ = {
+		5BDAA4702C0B1909007DD2ED /* YoutubeToMVVMTests */ = {
 			isa = PBXGroup;
 			children = (
 				5BDAA4712C0B1909007DD2ED /* YoutubeToMVVCTests.swift */,
 			);
-			path = YoutubeToMVVCTests;
+			path = YoutubeToMVVMTests;
 			sourceTree = "<group>";
 		};
-		5BDAA47A2C0B1909007DD2ED /* YoutubeToMVVCUITests */ = {
+		5BDAA47A2C0B1909007DD2ED /* YoutubeToMVVMUITests */ = {
 			isa = PBXGroup;
 			children = (
 				5BDAA47B2C0B1909007DD2ED /* YoutubeToMVVCUITests.swift */,
 				5BDAA47D2C0B1909007DD2ED /* YoutubeToMVVCUITestsLaunchTests.swift */,
 			);
-			path = YoutubeToMVVCUITests;
+			path = YoutubeToMVVMUITests;
 			sourceTree = "<group>";
 		};
 		5BDAA48D2C0B198D007DD2ED /* Model */ = {
@@ -309,9 +309,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5BDAA4562C0B1908007DD2ED /* YoutubeToMVVC */ = {
+		5BDAA4562C0B1908007DD2ED /* YoutubeToMVVM */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5BDAA4812C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVC" */;
+			buildConfigurationList = 5BDAA4812C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVM" */;
 			buildPhases = (
 				5BDAA4532C0B1908007DD2ED /* Sources */,
 				5BDAA4542C0B1908007DD2ED /* Frameworks */,
@@ -321,14 +321,14 @@
 			);
 			dependencies = (
 			);
-			name = YoutubeToMVVC;
+			name = YoutubeToMVVM;
 			productName = YoutubeToMVVC;
-			productReference = 5BDAA4572C0B1908007DD2ED /* YoutubeToMVVC.app */;
+			productReference = 5BDAA4572C0B1908007DD2ED /* YoutubeToMVVM.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5BDAA46C2C0B1909007DD2ED /* YoutubeToMVVCTests */ = {
+		5BDAA46C2C0B1909007DD2ED /* YoutubeToMVVMTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5BDAA4842C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVCTests" */;
+			buildConfigurationList = 5BDAA4842C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVMTests" */;
 			buildPhases = (
 				5BDAA4692C0B1909007DD2ED /* Sources */,
 				5BDAA46A2C0B1909007DD2ED /* Frameworks */,
@@ -339,14 +339,14 @@
 			dependencies = (
 				5BDAA46F2C0B1909007DD2ED /* PBXTargetDependency */,
 			);
-			name = YoutubeToMVVCTests;
+			name = YoutubeToMVVMTests;
 			productName = YoutubeToMVVCTests;
-			productReference = 5BDAA46D2C0B1909007DD2ED /* YoutubeToMVVCTests.xctest */;
+			productReference = 5BDAA46D2C0B1909007DD2ED /* YoutubeToMVVMTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		5BDAA4762C0B1909007DD2ED /* YoutubeToMVVCUITests */ = {
+		5BDAA4762C0B1909007DD2ED /* YoutubeToMVVMUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5BDAA4872C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVCUITests" */;
+			buildConfigurationList = 5BDAA4872C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVMUITests" */;
 			buildPhases = (
 				5BDAA4732C0B1909007DD2ED /* Sources */,
 				5BDAA4742C0B1909007DD2ED /* Frameworks */,
@@ -357,9 +357,9 @@
 			dependencies = (
 				5BDAA4792C0B1909007DD2ED /* PBXTargetDependency */,
 			);
-			name = YoutubeToMVVCUITests;
+			name = YoutubeToMVVMUITests;
 			productName = YoutubeToMVVCUITests;
-			productReference = 5BDAA4772C0B1909007DD2ED /* YoutubeToMVVCUITests.xctest */;
+			productReference = 5BDAA4772C0B1909007DD2ED /* YoutubeToMVVMUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -385,7 +385,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5BDAA4522C0B1908007DD2ED /* Build configuration list for PBXProject "YoutubeToMVVC" */;
+			buildConfigurationList = 5BDAA4522C0B1908007DD2ED /* Build configuration list for PBXProject "YoutubeToMVVM" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -398,9 +398,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5BDAA4562C0B1908007DD2ED /* YoutubeToMVVC */,
-				5BDAA46C2C0B1909007DD2ED /* YoutubeToMVVCTests */,
-				5BDAA4762C0B1909007DD2ED /* YoutubeToMVVCUITests */,
+				5BDAA4562C0B1908007DD2ED /* YoutubeToMVVM */,
+				5BDAA46C2C0B1909007DD2ED /* YoutubeToMVVMTests */,
+				5BDAA4762C0B1909007DD2ED /* YoutubeToMVVMUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -498,12 +498,12 @@
 /* Begin PBXTargetDependency section */
 		5BDAA46F2C0B1909007DD2ED /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5BDAA4562C0B1908007DD2ED /* YoutubeToMVVC */;
+			target = 5BDAA4562C0B1908007DD2ED /* YoutubeToMVVM */;
 			targetProxy = 5BDAA46E2C0B1909007DD2ED /* PBXContainerItemProxy */;
 		};
 		5BDAA4792C0B1909007DD2ED /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5BDAA4562C0B1908007DD2ED /* YoutubeToMVVC */;
+			target = 5BDAA4562C0B1908007DD2ED /* YoutubeToMVVM */;
 			targetProxy = 5BDAA4782C0B1909007DD2ED /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -656,7 +656,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M2MF9LH58A;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = YoutubeToMVVC/Info.plist;
+				INFOPLIST_FILE = YoutubeToMVVM/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -667,7 +667,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Lydia.YoutubeToMVVC;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Lydia.YoutubeToMVVM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -684,7 +684,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M2MF9LH58A;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = YoutubeToMVVC/Info.plist;
+				INFOPLIST_FILE = YoutubeToMVVM/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -695,7 +695,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Lydia.YoutubeToMVVC;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Lydia.YoutubeToMVVM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -719,7 +719,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YoutubeToMVVC.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/YoutubeToMVVC";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YoutubeToMVVM.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/YoutubeToMVVM";
 			};
 			name = Debug;
 		};
@@ -739,7 +739,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YoutubeToMVVC.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/YoutubeToMVVC";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YoutubeToMVVM.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/YoutubeToMVVM";
 			};
 			name = Release;
 		};
@@ -782,7 +782,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5BDAA4522C0B1908007DD2ED /* Build configuration list for PBXProject "YoutubeToMVVC" */ = {
+		5BDAA4522C0B1908007DD2ED /* Build configuration list for PBXProject "YoutubeToMVVM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5BDAA47F2C0B1909007DD2ED /* Debug */,
@@ -791,7 +791,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5BDAA4812C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVC" */ = {
+		5BDAA4812C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5BDAA4822C0B1909007DD2ED /* Debug */,
@@ -800,7 +800,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5BDAA4842C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVCTests" */ = {
+		5BDAA4842C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVMTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5BDAA4852C0B1909007DD2ED /* Debug */,
@@ -809,7 +809,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5BDAA4872C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVCUITests" */ = {
+		5BDAA4872C0B1909007DD2ED /* Build configuration list for PBXNativeTarget "YoutubeToMVVMUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5BDAA4882C0B1909007DD2ED /* Debug */,

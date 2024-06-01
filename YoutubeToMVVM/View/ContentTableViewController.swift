@@ -14,9 +14,7 @@ class ContentTableViewController: UITableViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
