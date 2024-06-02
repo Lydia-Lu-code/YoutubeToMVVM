@@ -1,6 +1,5 @@
 import UIKit
 
-//class SubscribeVC: BaseViewController {
 class SubscribeVC: BaseViewController {
  
     let keywords = ["2023 K-pop 一位安可舞台"]

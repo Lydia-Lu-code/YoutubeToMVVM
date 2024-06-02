@@ -19,7 +19,6 @@
 		5BDAA4B82C0B198D007DD2ED /* STVWelcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA48B2C0B198D007DD2ED /* STVWelcome.swift */; };
 		5BDAA4B92C0B198D007DD2ED /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA48C2C0B198D007DD2ED /* Welcome.swift */; };
 		5BDAA4BA2C0B198D007DD2ED /* ContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA48E2C0B198D007DD2ED /* ContainerVC.swift */; };
-		5BDAA4BB2C0B198D007DD2ED /* UIBarButtonItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA48F2C0B198D007DD2ED /* UIBarButtonItem+Extension.swift */; };
 		5BDAA4BC2C0B198D007DD2ED /* UIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4912C0B198D007DD2ED /* UIViewController+Additions.swift */; };
 		5BDAA4BD2C0B198D007DD2ED /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4932C0B198D007DD2ED /* Observable.swift */; };
 		5BDAA4BE2C0B198D007DD2ED /* SlideInTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4942C0B198D007DD2ED /* SlideInTransition.swift */; };
@@ -85,7 +84,6 @@
 		5BDAA48B2C0B198D007DD2ED /* STVWelcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STVWelcome.swift; sourceTree = "<group>"; };
 		5BDAA48C2C0B198D007DD2ED /* Welcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
 		5BDAA48E2C0B198D007DD2ED /* ContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerVC.swift; sourceTree = "<group>"; };
-		5BDAA48F2C0B198D007DD2ED /* UIBarButtonItem+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Extension.swift"; sourceTree = "<group>"; };
 		5BDAA4912C0B198D007DD2ED /* UIViewController+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Additions.swift"; sourceTree = "<group>"; };
 		5BDAA4932C0B198D007DD2ED /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		5BDAA4942C0B198D007DD2ED /* SlideInTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInTransition.swift; sourceTree = "<group>"; };
@@ -210,7 +208,6 @@
 			isa = PBXGroup;
 			children = (
 				5BDAA48E2C0B198D007DD2ED /* ContainerVC.swift */,
-				5BDAA48F2C0B198D007DD2ED /* UIBarButtonItem+Extension.swift */,
 			);
 			path = viewController;
 			sourceTree = "<group>";
@@ -293,7 +290,6 @@
 				5BDAA4A72C0B198D007DD2ED /* Shorts */,
 				5BDAA4AA2C0B198D007DD2ED /* Subscribe */,
 				5BDAA4AB2C0B198D007DD2ED /* AddVC.swift */,
-				5BDAA4AC2C0B198D007DD2ED /* BaseViewController.swift */,
 				5BDAA4AD2C0B198D007DD2ED /* ButtonCollectionViewCell.swift */,
 				5BDAA4AE2C0B198D007DD2ED /* ContentTableViewController.swift */,
 				5BDAA4AF2C0B198D007DD2ED /* HomeVC.swift */,
@@ -302,6 +298,7 @@
 				5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */,
 				5BDAA4B42C0B198D007DD2ED /* SubscribeVC.swift */,
 				5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */,
+				5BDAA4AC2C0B198D007DD2ED /* BaseViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -438,7 +435,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BDAA4CA2C0B198D007DD2ED /* ShortsBtnView.swift in Sources */,
-				5BDAA4BB2C0B198D007DD2ED /* UIBarButtonItem+Extension.swift in Sources */,
 				5BDAA4D42C0B198D007DD2ED /* MainTabBarController.swift in Sources */,
 				5BDAA4C62C0B198D007DD2ED /* NotificationLogVC.swift in Sources */,
 				5BDAA4D82C0B198D007DD2ED /* SubscribeVC.swift in Sources */,

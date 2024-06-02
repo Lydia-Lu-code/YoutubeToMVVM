@@ -5,25 +5,39 @@ protocol BaseVCDelegate: AnyObject {
     func didTapNotificationLogButtonMid()
 }
 
-
-
+enum ViewControllerType: String {
+    case home
+    case subscribe
+}
 
 class BaseViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ButtonCollectionCellDelegate, UICollectionViewDelegateFlowLayout {
     
     weak var delegate: BaseVCDelegate?
     
-
+    var vcType: ViewControllerType?
+    
+    init(vcType: ViewControllerType) {
+        self.vcType = vcType
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     let buttonTitles = ["📍", "全部", "音樂", "遊戲", "合輯", "直播中", "動畫", "寵物", "最新上傳", "讓你耳目一新的影片", "提供意見"]
     
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        //        scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
     lazy var contentView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
+        //        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -46,8 +60,8 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(systemName: "play.circle")
         imageView.tintColor = UIColor.systemBlue
-        imageView.widthAnchor.constraint(equalToConstant: 35).isActive = true // 設置寬度為 50
-        imageView.heightAnchor.constraint(equalToConstant: 35).isActive = true // 設置高度為 50
+        imageView.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 35).isActive = true
         imageView.setContentCompressionResistancePriority(.required, for: .horizontal) // 設置內容壓縮抗壓縮性
         return imageView
     }()
@@ -55,7 +69,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // 定義一個 UILabel 用於顯示 "Shorts" 文字
     lazy var shortsLbl: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+        //        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Shorts"
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 18) // 設置粗體 18PT
@@ -66,7 +80,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // 定義一個 StackView 用於將播放器符號和 "Shorts" 文字放在一起
     public lazy var shortsStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        //        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 8 // 設置元件間距
         stackView.distribution = .fill // 將分佈設置為填充
@@ -84,13 +98,13 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     lazy var homeShortsFrameCollectionView: HomeShortsFrameCollectionView = {
         let collectionView = HomeShortsFrameCollectionView()
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        //        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
     lazy var subscribeHoriCollectionView: SubscribeHoriCollectionView = {
         let collectionView = SubscribeHoriCollectionView()
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        //        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
@@ -116,146 +130,111 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func setupViews() {
-        if self is HomeVC {
-            view.addSubview(scrollView)
-            scrollView.addSubview(contentView)
-            contentView.addSubview(buttonCollectionView)
-            contentView.addSubview(singleVideoFrameView)
-            contentView.addSubview(shortsStackView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(buttonCollectionView)
+        contentView.addSubview(singleVideoFrameView)
+        contentView.addSubview(shortsStackView)
+        
+        if vcType == .home {
             contentView.addSubview(homeShortsFrameCollectionView)
-        } else if self is SubscribeVC {
-            view.addSubview(scrollView)
-            scrollView.addSubview(contentView)
+        } else if vcType == .subscribe {
             contentView.addSubview(subscribeSecItemView)
-            contentView.addSubview(buttonCollectionView)
-            contentView.addSubview(singleVideoFrameView)
-            contentView.addSubview(shortsStackView)
             contentView.addSubview(subscribeHoriCollectionView)
         }
     }
     
-    
-    
     func setLayout() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
-//        contentView.heightAnchor.constraint(equalToConstant: contentView.intrinsicContentSize.height).isActive = true
         subscribeSecItemView.translatesAutoresizingMaskIntoConstraints = false
         buttonCollectionView.translatesAutoresizingMaskIntoConstraints = false
         singleVideoFrameView.translatesAutoresizingMaskIntoConstraints = false
         shortsStackView.translatesAutoresizingMaskIntoConstraints = false
-//        subscribeHoriCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        
+        homeShortsFrameCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        subscribeHoriCollectionView.translatesAutoresizingMaskIntoConstraints = false
 
-        
-        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
-            
+
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.heightAnchor.constraint(equalToConstant: totalHeight)
         ])
-        
-        // 在这里根据条件设置 subscribeSecItemView
-        if self is HomeVC {
-            NSLayoutConstraint.activate([
 
+        NSLayoutConstraint.activate([
+            
+
+            singleVideoFrameView.topAnchor.constraint(equalTo: buttonCollectionView.bottomAnchor),
+            singleVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            singleVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            singleVideoFrameView.heightAnchor.constraint(equalToConstant: 300),
+
+            shortsStackView.topAnchor.constraint(equalTo: singleVideoFrameView.bottomAnchor),
+            shortsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            shortsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            shortsStackView.heightAnchor.constraint(equalToConstant: 60)
+        ])
+
+        if vcType == .home {
+            NSLayoutConstraint.activate([
                 
                 buttonCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
                 buttonCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 buttonCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 buttonCollectionView.heightAnchor.constraint(equalToConstant: 60),
-            ])
-            
-        }else if self is SubscribeVC {
-            NSLayoutConstraint.activate([
                 
-                subscribeSecItemView.topAnchor.constraint(equalTo: contentView.bottomAnchor),
+                homeShortsFrameCollectionView.topAnchor.constraint(equalTo: shortsStackView.bottomAnchor),
+                homeShortsFrameCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                homeShortsFrameCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                homeShortsFrameCollectionView.heightAnchor.constraint(equalToConstant: 660)
+            ])
+        } else if vcType == .subscribe {
+            NSLayoutConstraint.activate([
+                subscribeSecItemView.topAnchor.constraint(equalTo: contentView.topAnchor),
                 subscribeSecItemView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 subscribeSecItemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//                subscribeSecItemView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor), // 确保它的底部与 contentView 的底部对齐
-                subscribeSecItemView.heightAnchor.constraint(equalToConstant: 90), // 根据需要设置高度
+                subscribeSecItemView.heightAnchor.constraint(equalToConstant: 90),
 
                 buttonCollectionView.topAnchor.constraint(equalTo: subscribeSecItemView.bottomAnchor),
                 buttonCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 buttonCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 buttonCollectionView.heightAnchor.constraint(equalToConstant: 60),
-            ])
-        }
-        
-            
-            NSLayoutConstraint.activate([
 
-            
-            // 确保 singleVideoFrameView 在 subscribeSecItemView 下面
-            singleVideoFrameView.topAnchor.constraint(equalTo: buttonCollectionView.bottomAnchor),
-            singleVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor), // 使用 self. 来明确指定
-            singleVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor), // 使用 self. 来明确指定
-            singleVideoFrameView.heightAnchor.constraint(equalToConstant: 370), // 使用 self. 来明确指定
-
-            // 确保 shortsStackView 在 singleVideoFrameView 下面
-            shortsStackView.topAnchor.constraint(equalTo: singleVideoFrameView.bottomAnchor), // 使用 self. 来明确指定
-            shortsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor), // 使用 self. 来明确指定
-            shortsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor), // 使用 self. 来明确指定
-            shortsStackView.heightAnchor.constraint(equalToConstant: 60), // 使用 self. 来明确指定
-            
-            
-            
-        ])
-        
-        
-        if self is HomeVC {
-            NSLayoutConstraint.activate([
-                homeShortsFrameCollectionView.topAnchor.constraint(equalTo: shortsStackView.bottomAnchor),
-                homeShortsFrameCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                homeShortsFrameCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                homeShortsFrameCollectionView.heightAnchor.constraint(equalToConstant: 600),
-            ])
-            
-            
-        } else if self is SubscribeVC {
-            NSLayoutConstraint.activate([
-                
                 subscribeHoriCollectionView.topAnchor.constraint(equalTo: shortsStackView.bottomAnchor),
                 subscribeHoriCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 subscribeHoriCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                subscribeHoriCollectionView.heightAnchor.constraint(equalToConstant: 300),
-                
-                
-                
+                subscribeHoriCollectionView.heightAnchor.constraint(equalToConstant: 330)
             ])
         }
-        
     }
+
+
     
     private func calculateTotalHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
-        
-        totalHeight += 60 // buttonCollectionView 的高度
-        totalHeight += 370 // singleVideoFrameView 的高度
+        totalHeight += 60// buttonCollectionView 的高度
+        totalHeight += 300 // singleVideoFrameView 的高度
         totalHeight += 60 // shortsStackView 的高度
-        
-        if self is HomeVC {
-            totalHeight += 600 // shortsFrameCollectionView 的高度
-        } else if self is SubscribeVC {
-            totalHeight += 390 // 減去訂閱頁面的高度
+
+        if vcType == .home {
+            totalHeight += 660 // homeShortsFrameCollectionView 的高度
+        } else if vcType == .subscribe {
+            totalHeight += 90 // subscribeSecItemView 的高度
+            totalHeight += 330 // subscribeHoriCollectionView 的高度
         }
-        
-        //        totalHeight += 600 // shortsFrameCollectionView 的高度
-        totalHeight += CGFloat(4 * 370) // 其他 VideoFrameView 的高度
-        //        totalHeight += CGFloat(otherVideoFrameViews.count * 300)
-        
+
+        totalHeight += CGFloat(4 * 310) // 其他 VideoFrameView 的高度
         totalHeight += CGFloat(4 - 1) * 2 // 添加视图之间的间距
-        //        totalHeight += CGFloat(otherVideoFrameViews.count - 1) * 20
-        totalHeight += 30 // 假设 contentView 的顶部和底部边距都是 20
+//        totalHeight += 60 // 假设 contentView 的顶部和底部边距都是 20
         return totalHeight
     }
+
+
     
     @objc func didTapMenuButton() {
         delegate?.didTapMenuButton()
@@ -286,7 +265,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
             break
         }
     }
-  
+    
     func presentSearchViewController() {
         guard let viewController = findViewController() else {
             print("無法找到視圖控制器")
@@ -338,10 +317,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         viewController.navigationController?.pushViewController(notificationLogVC, animated: true)
     }
     
-    
-    
-    
-    
     private func findViewController() -> UIViewController? {
         // 從當前視圖控制器的 next 開始向上查找
         var nextResponder = self.next
@@ -357,22 +332,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return nil
     }
     
-//    func presentSearchViewController() {
-//        guard let searchViewController = storyboard?.instantiateViewController(withIdentifier: "SearchViewController") else { return }
-//        searchViewController.modalPresentationStyle = .fullScreen
-//        present(searchViewController, animated: true, completion: nil)
-//    }
-//
-//    func presentAlertController(title: String?, message: String?) {
-//        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-//        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
-//        present(alertController, animated: true, completion: nil)
-//    }
-//
-//    func navigateToNotificationLogViewController() {
-//        guard let notificationLogVC = storyboard?.instantiateViewController(withIdentifier: "NotificationLogVC") as? NotificationLogVC else { return }
-//        navigationController?.pushViewController(notificationLogVC, animated: true)
-//    }
     
     func setupOtherVideoFrameViews() -> [VideoFrameView] {
         var videoFrameViews: [VideoFrameView] = []
@@ -384,21 +343,21 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         contentView.addSubview(firstVideoFrameView)
         videoFrameViews.append(firstVideoFrameView)
         
-        if self is HomeVC {
-        // 設置第一個框架的約束
-        NSLayoutConstraint.activate([
-            firstVideoFrameView.topAnchor.constraint(equalTo: singleVideoFrameView.bottomAnchor, constant: 700), // 垂直間距為 20
-        ])
-            
-        } else if self is SubscribeVC {
+        if vcType == .home {
+            // 設置第一個框架的約束
             NSLayoutConstraint.activate([
-                firstVideoFrameView.topAnchor.constraint(equalTo: singleVideoFrameView.bottomAnchor, constant: 400), // 垂直間距為 20
+                firstVideoFrameView.topAnchor.constraint(equalTo: homeShortsFrameCollectionView.bottomAnchor, constant: 10),
+            ])
+            
+        } else if vcType == .subscribe {
+            NSLayoutConstraint.activate([
+                firstVideoFrameView.topAnchor.constraint(equalTo: subscribeHoriCollectionView.bottomAnchor, constant: 10), // 垂直間距為 20
             ])
         }
-            NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate([
             firstVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             firstVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            firstVideoFrameView.heightAnchor.constraint(equalToConstant: 350)
+            firstVideoFrameView.heightAnchor.constraint(equalToConstant: 300)
         ])
         
         var previousView: UIView = firstVideoFrameView
@@ -412,10 +371,10 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
             
             // 設置約束，將下一個框架堆疊在前一個框架的下方
             NSLayoutConstraint.activate([
-                videoFrameView.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 20),
+                videoFrameView.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10),
                 videoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 videoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                videoFrameView.heightAnchor.constraint(equalToConstant: 350)
+                videoFrameView.heightAnchor.constraint(equalToConstant: 300)
             ])
             
             // 更新 previousView 以便下一个 videoFrameView 堆叠在其下方
@@ -472,7 +431,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         return CGSize(width: width, height: height + verticalSpacing)
     }
-
+    
 }
 
 

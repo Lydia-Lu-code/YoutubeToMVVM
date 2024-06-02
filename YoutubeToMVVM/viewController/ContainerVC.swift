@@ -16,7 +16,7 @@ class ContainerVC: UIViewController {
     private var menuState: MenuState = .closed
     
     let menuVC = MenuVC()
-    let homeVC = HomeVC()
+    let homeVC = HomeVC(vcType: .home)
     var navVC: UINavigationController?
     
     
