@@ -14,25 +14,45 @@ class ContentTableViewController: UITableViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
+//    let baseViewController = BaseViewController(vcType: .content)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
         
-        setTopBarButton()
 
         tableView.register(ContentTableViewCell.self, forCellReuseIdentifier: "ContentTableViewCell")
-        // 设置 contentInset
-//        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
         tableView.sectionHeaderHeight = UITableView.automaticDimension
         tableView.estimatedSectionHeaderHeight = 0
         tableView.sectionHeaderTopPadding = 0
 
 }
 
-    
+    func resizeImage(image: UIImage?, targetSize: CGSize) -> UIImage? {
+        guard let image = image else { return nil }
+        
+        let size = image.size
+        let widthRatio = targetSize.width / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        let newSize: CGSize
+        if widthRatio > heightRatio {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+        
+        let rect = CGRect(origin: .zero, size: newSize)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+
 
     
     
@@ -69,29 +89,6 @@ class ContentTableViewController: UITableViewController {
         self.navigationItem.setRightBarButtonItems([btn4, btn3, btn2, btn1], animated: true)
     }
     
-    func resizeImage(image: UIImage?, targetSize: CGSize) -> UIImage? {
-        guard let image = image else { return nil }
-        
-        let size = image.size
-        let widthRatio = targetSize.width / size.width
-        let heightRatio = targetSize.height / size.height
-        
-        let newSize: CGSize
-        if widthRatio > heightRatio {
-            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-        } else {
-            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
-        }
-        
-        let rect = CGRect(origin: .zero, size: newSize)
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
-
     @objc func topButtonTapped(_ sender: UIBarButtonItem) {
         switch sender {
         case navigationItem.rightBarButtonItems?[0]: // buttonLeft
@@ -200,10 +197,16 @@ class ContentTableViewController: UITableViewController {
         // 設置 section 的值
         cell.section = indexPath.section
 
-        cell.setupViews()
-
+        // 配置 ConVideoFrameViews，例如堆叠16个
+        cell.configureConVideoFrameViews(count: 16)
+        
+//        cell.setViews()
+//        cell.conVideoFrameView
+        
         return cell
     }
+
+
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
@@ -220,10 +223,9 @@ class ContentTableViewController: UITableViewController {
                 contentTopView.topAnchor.constraint(equalTo: headerView.topAnchor),
                 contentTopView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
             ])
-       
+           
             return headerView
         } else {
-            
             let headerView = ContentHeaderView()
             headerView.delegate = self
             
@@ -238,15 +240,23 @@ class ContentTableViewController: UITableViewController {
                 "clock.fill",      // 已觀看時間
                 "bubble.left.fill" // 說明和意見回饋
             ]
+            print("CON sfSymbols: \(sfSymbols)")
             
             // Create attributed string with SF Symbol and text
-            func attributedTitle(title: String, symbol: String) -> NSAttributedString {
-                let imageAttachment = NSTextAttachment()
-                imageAttachment.image = UIImage(systemName: symbol)
-                let imageString = NSAttributedString(attachment: imageAttachment)
-                let titleString = NSAttributedString(string: " \(title)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
+            func attributedTitle(title: String, symbol: String?) -> NSAttributedString {
                 let completeString = NSMutableAttributedString()
-                completeString.append(imageString)
+                
+                if let symbol = symbol, let symbolImage = UIImage(systemName: symbol) {
+                    let imageAttachment = NSTextAttachment()
+                    imageAttachment.image = symbolImage.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+                    print("Symbol \(symbol) loaded successfully")
+                    let imageString = NSAttributedString(attachment: imageAttachment)
+                    completeString.append(imageString)
+                } else {
+                    print("No symbol for title: \(title)")
+                }
+                
+                let titleString = NSAttributedString(string: " \(title)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
                 completeString.append(titleString)
                 return completeString
             }
@@ -254,10 +264,10 @@ class ContentTableViewController: UITableViewController {
             // Set different button titles and symbols for each section
             switch section {
             case 1:
-                headerView.leftButton.setAttributedTitle(attributedTitle(title: "觀看歷史", symbol: sfSymbols[0]), for: .normal)
+                headerView.leftButton.setAttributedTitle(attributedTitle(title: "觀看歷史", symbol: nil), for: .normal)
                 headerView.rightButton.setTitle("查看全部", for: .normal)
             case 2:
-                headerView.leftButton.setAttributedTitle(attributedTitle(title: "播放清單", symbol: sfSymbols[1]), for: .normal)
+                headerView.leftButton.setAttributedTitle(attributedTitle(title: "播放清單", symbol: nil), for: .normal)
                 headerView.rightButton.setTitle("查看全部", for: .normal)
             case 3:
                 headerView.leftButton.setAttributedTitle(attributedTitle(title: "你的影片", symbol: sfSymbols[2]), for: .normal)
@@ -280,93 +290,18 @@ class ContentTableViewController: UITableViewController {
             default:
                 break
             }
-            
-            
-//            // Define SF Symbols for each case
-//            let sfSymbols = [
-//                3: "video.fill",
-//                4: "square.and.arrow.down.fill",
-//                5: "film.fill",
-//                6: "crown.fill",
-//                7: "clock.fill",
-//                8: "questionmark.circle.fill"
-//            ]
-//            
-//            // Get SF Symbol and title for each section
-//            let titlesAndSymbols: [(title: String, symbol: String?)] = [
-//                (title: "觀看歷史", symbol: nil),
-//                (title: "播放清單", symbol: nil),
-//                (title: "你的影片", symbol: sfSymbols[3]),
-//                (title: "已下載的內容", symbol: sfSymbols[4]),
-//                (title: "你的電影", symbol: sfSymbols[5]),
-//                (title: "Premium會員福利", symbol: sfSymbols[6]),
-//                (title: "已觀看時間", symbol: sfSymbols[7]),
-//                (title: "說明和意見回饋", symbol: sfSymbols[8])
-//            ]
-//            
-//            // Set titles and symbols
-//            if section >= 1 && section < titlesAndSymbols.count {
-//                let title = titlesAndSymbols[section - 1].title
-//                if let symbolName = titlesAndSymbols[section - 1].symbol {
-//                    let symbol = UIImage(systemName: symbolName)
-//                    let attachment = NSTextAttachment()
-//                    attachment.image = symbol
-//                    let attachmentString = NSAttributedString(attachment: attachment)
-//                    let titleString = NSAttributedString(string: " \(title)")
-//                    let fullString = NSMutableAttributedString()
-//                    fullString.append(attachmentString)
-//                    fullString.append(titleString)
-//                    headerView.leftButton.setAttributedTitle(fullString, for: .normal)
-//                } else {
-//                    headerView.leftButton.setTitle(title, for: .normal)
-//                }
-//                
-//                headerView.rightButton.setTitle("查看全部", for: .normal)
-//            }
-//            
-            
-            
-            // 根据不同的 section 设置不同的按钮标题
-//            switch section {
-//            case 1:
-//                headerView.leftButton.setTitle("觀看歷史", for: .normal)
-//                headerView.rightButton.setTitle("查看全部", for: .normal)
-//            case 2:
-//                headerView.leftButton.setTitle("﻿播放清單", for: .normal)
-//                headerView.rightButton.setTitle("﻿查看全部", for: .normal)
-//            case 3:
-//                headerView.leftButton.setTitle("﻿你的影片", for: .normal)
-//                headerView.rightButton.setTitle("﻿ ", for: .normal)
-//            case 4:
-//                headerView.leftButton.setTitle("﻿已下載的內容", for: .normal)
-//                headerView.rightButton.setTitle("﻿ ", for: .normal)
-//            case 5:
-//                headerView.leftButton.setTitle("﻿你的電影", for: .normal)
-//                headerView.rightButton.setTitle("﻿ ", for: .normal)
-//            case 6:
-//                headerView.leftButton.setTitle("﻿Premium﻿會員福利", for: .normal)
-//                headerView.rightButton.setTitle("﻿ ", for: .normal)
-//            case 7:
-//                headerView.leftButton.setTitle("﻿已觀看時間", for: .normal)
-//                headerView.rightButton.setTitle(" ", for: .normal)
-//            case 8:
-//                headerView.leftButton.setTitle("說明和意見﻿回饋", for: .normal)
-//                headerView.rightButton.setTitle(" ", for: .normal)
-//            default:
-//                break
-//            }
-            
-
             return headerView
         }
     }
+
+
     
     // 設置 header 的高度
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return 160
+            return 150
         } else {
-          return 60
+          return 45
         }
         
 
@@ -374,7 +309,7 @@ class ContentTableViewController: UITableViewController {
     
     // 設置 cell 的高度
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 180
+        return 160
     }
     
 }

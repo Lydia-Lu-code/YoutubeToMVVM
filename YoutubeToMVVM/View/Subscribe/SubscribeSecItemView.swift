@@ -11,7 +11,6 @@ class SubscribeSecItemView: UIView {
             let button = UIButton()
             button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
             button.translatesAutoresizingMaskIntoConstraints = false
-//            button.backgroundColor = .darkGray
             
             // 設置圖片的內容
             let originalImage = UIImage(named: "image2")
@@ -55,6 +54,7 @@ class SubscribeSecItemView: UIView {
         for button in buttons {
             stackView.addArrangedSubview(button)
         }
+
         return stackView
     }()
     
@@ -69,15 +69,15 @@ class SubscribeSecItemView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        setupScrollView()
-        setupRightButton()
+        setScrollView()
+        setRightBtn()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupScrollView() {
+    private func setScrollView() {
         addSubview(scrollView)
         
         // 添加 scrollView 到父視圖
@@ -94,14 +94,14 @@ class SubscribeSecItemView: UIView {
         // 添加 stackView 的尺寸約束
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -55),
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         ])
     }
     
-    private func setupRightButton() {
+    private func setRightBtn() {
         addSubview(rightButton)
         
         NSLayoutConstraint.activate([

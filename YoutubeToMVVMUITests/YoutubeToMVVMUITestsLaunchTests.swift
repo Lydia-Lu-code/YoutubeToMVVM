@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class YoutubeToMVVCUITestsLaunchTests: XCTestCase {
+final class YoutubeToMVVMUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

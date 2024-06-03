@@ -1,14 +1,14 @@
 
 import UIKit
 import Foundation
+import WebKit
 
 class VideoFrameView: UIView {
     
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        //        self.backgroundColor = .yellow
-        setupCustomVideoFrameViewLayout()
+        setCustomVideoFrameViewLayout()
     }
     
     
@@ -25,6 +25,13 @@ class VideoFrameView: UIView {
         vidView.backgroundColor = .lightGray
         vidView.contentMode = .scaleAspectFill // 將圖片的 contentMode 設置為 .scaleAspectFill，使圖片自動拉伸以填滿視圖
         vidView.clipsToBounds = true // 剪切超出視圖範圍的部分
+        return vidView
+    }()
+    
+    lazy var videoView : WKWebView = {
+        let vidView = WKWebView()
+//        vidView.translatesAutoresizingMaskIntoConstraints = false
+        vidView.contentMode = .scaleAspectFill
         return vidView
     }()
     
@@ -76,10 +83,11 @@ class VideoFrameView: UIView {
     }()
     
     
-    private func setupCustomVideoFrameViewLayout() {
+    private func setCustomVideoFrameViewLayout() {
         
         // 添加 imageView 到 VideoFrameView 中
         self.addSubview(videoImgView)
+        self.addSubview(videoView)
         self.addSubview(photoImageView)
         self.addSubview(labelMidTitle)
         self.addSubview(labelMidOther)
@@ -97,7 +105,12 @@ class VideoFrameView: UIView {
             videoImgView.leadingAnchor.constraint(equalTo: self.leadingAnchor), // 與 VideoFrameView 的 leadingAnchor 對齊
             videoImgView.topAnchor.constraint(equalTo: self.topAnchor), // 與 VideoFrameView 的 topAnchor 對齊
             videoImgView.widthAnchor.constraint(equalTo:videoImgView.heightAnchor, multiplier: 320/180), // 寬度與高度比例為 480:360
-            videoImgView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            videoImgView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            
+            videoView.leadingAnchor.constraint(equalTo: self.leadingAnchor), // 與 VideoFrameView 的 leadingAnchor 對齊
+            videoView.topAnchor.constraint(equalTo: self.topAnchor), // 與 VideoFrameView 的 topAnchor 對齊
+            videoView.widthAnchor.constraint(equalTo:videoView.heightAnchor, multiplier: 320/180), // 寬度與高度比例為 480:360
+            videoView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
         
         // 設置 imageView 的約束

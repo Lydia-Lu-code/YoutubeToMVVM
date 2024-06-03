@@ -20,7 +20,7 @@ class ButtonCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setupButton()
+        setButton()
     }
     
     required init?(coder: NSCoder) {
@@ -40,7 +40,7 @@ class ButtonCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private func setupButton() {
+    private func setButton() {
         button.layer.cornerRadius = 15 // 圆角
         button.layer.masksToBounds = true
         

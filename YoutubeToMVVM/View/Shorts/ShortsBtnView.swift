@@ -11,7 +11,7 @@ class ShortsBtnView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupAccountView()
+        setAccountView()
     }
     
     required init?(coder: NSCoder) {
@@ -92,7 +92,7 @@ class ShortsBtnView: UIView {
          return stackView
      }()
  
-    private func setupAccountView() {
+    private func setAccountView() {
         addSubview(stackView)
         
         NSLayoutConstraint.activate([

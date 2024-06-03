@@ -11,7 +11,7 @@ class ShortsTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupViews()
+        setViews()
     }
 
     required init?(coder: NSCoder) {
@@ -29,7 +29,7 @@ class ShortsTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-func setupViews() {
+func setViews() {
     contentView.addSubview(emojiBtnView)
     contentView.addSubview(shortsBtnView)
     

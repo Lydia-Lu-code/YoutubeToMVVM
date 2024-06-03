@@ -38,15 +38,15 @@ class ShortsCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupButton()
+        setButton()
     }
  
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupButton()
+        setButton()
     }
 
-    public func setupButton() {
+    public func setButton() {
         contentView.addSubview(button)
         button.addSubview(imageView)
         button.addSubview(titleLabel)

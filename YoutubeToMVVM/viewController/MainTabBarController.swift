@@ -13,11 +13,11 @@ class MainTabBarController: UITabBarController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViewControllers()
+        setViewControllers()
     }
 
 
-    private func setupViewControllers() {
+    private func setViewControllers() {
         // HomeVC
         let homeVC = HomeVC(vcType: .home)
         let homeNav = UINavigationController(rootViewController: homeVC)

@@ -52,7 +52,7 @@ class ShortsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ShortsTableViewCell", for: indexPath) as! ShortsTableViewCell
         
         cell.videoContent = videoContent
-        cell.setupViews()
+        cell.setViews()
         
         // 更新 cell 的內容
         if indexPath.row < showItems.count {
@@ -150,8 +150,8 @@ extension ShortsTableViewController {
     
     func loadDataFromYouTubeAPI() {
         
-//        let apiKey = ""
-        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY" // 替換為你的 YouTube API 金鑰
+        let apiKey = ""
+//        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY" // 替換為你的 YouTube API 金鑰
         let baseURL = "https://www.googleapis.com/youtube/v3/videos"
         
         var components = URLComponents(string: baseURL)!

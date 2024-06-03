@@ -15,14 +15,14 @@ class ShortsEmojiBtnView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupStackView()
+        setStackView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupStackView() {
+    private func setStackView() {
         
         // 创建垂直的 stackView
         let stackView = UIStackView()

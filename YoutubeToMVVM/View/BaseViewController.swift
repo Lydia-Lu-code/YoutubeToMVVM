@@ -1,5 +1,6 @@
 import UIKit
 
+
 protocol BaseVCDelegate: AnyObject {
     func didTapMenuButton()
     func didTapNotificationLogButtonMid()
@@ -8,7 +9,23 @@ protocol BaseVCDelegate: AnyObject {
 enum ViewControllerType: String {
     case home
     case subscribe
+    case content
 }
+
+enum SetBarBtnItems: String, CaseIterable {
+    case search
+    case notifications
+    case display
+    
+    var systemName: String {
+        switch self {
+        case .search: return "magnifyingglass"
+        case .notifications: return "bell"
+        case .display: return "display.2"
+        }
+    }
+}
+
 
 class BaseViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ButtonCollectionCellDelegate, UICollectionViewDelegateFlowLayout {
     
@@ -21,7 +38,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         super.init(nibName: nil, bundle: nil)
     }
     
-    
+  
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -31,13 +48,13 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        //        scrollView.translatesAutoresizingMaskIntoConstraints = false
+                scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
     lazy var contentView: UIView = {
         let view = UIView()
-        //        view.translatesAutoresizingMaskIntoConstraints = false
+                view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -69,7 +86,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // 定義一個 UILabel 用於顯示 "Shorts" 文字
     lazy var shortsLbl: UILabel = {
         let label = UILabel()
-        //        label.translatesAutoresizingMaskIntoConstraints = false
+                label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Shorts"
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 18) // 設置粗體 18PT
@@ -80,7 +97,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // 定義一個 StackView 用於將播放器符號和 "Shorts" 文字放在一起
     public lazy var shortsStackView: UIStackView = {
         let stackView = UIStackView()
-        //        stackView.translatesAutoresizingMaskIntoConstraints = false
+                stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 8 // 設置元件間距
         stackView.distribution = .fill // 將分佈設置為填充
@@ -98,38 +115,46 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     lazy var homeShortsFrameCollectionView: HomeShortsFrameCollectionView = {
         let collectionView = HomeShortsFrameCollectionView()
-        //        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
     lazy var subscribeHoriCollectionView: SubscribeHoriCollectionView = {
         let collectionView = SubscribeHoriCollectionView()
-        //        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    var totalHeight:CGFloat =  0
+    var totalHeight: CGFloat =  0
+    
+    var videoIDs: [String] = []
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         scrollView.isScrollEnabled = true
         totalHeight = calculateTotalHeight()
         
-        setupViews()
+        setViews()
         setLayout()
-        
-        setupRightBarButtonItems()
-        
+        setBarBtnItems()
+
         buttonCollectionView.register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: ButtonCollectionViewCell.identifier)
         
         // 將 scrollView 的 contentSize 設置為 contentView 的大小，確保能夠正確上下滾動
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: totalHeight)
         
         // 設置其他影片框架
-        otherVideoFrameViews = setupOtherVideoFrameViews()
+        otherVideoFrameViews = setOtherVideoFrameViews()
     }
     
-    func setupViews() {
+    func doSearchAndPlay() {
+        let keywords = ["txt videos"]
+        doSearch(withKeywords: keywords)
+    }
+    
+    func setViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(buttonCollectionView)
@@ -148,6 +173,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         subscribeSecItemView.translatesAutoresizingMaskIntoConstraints = false
+        
         buttonCollectionView.translatesAutoresizingMaskIntoConstraints = false
         singleVideoFrameView.translatesAutoresizingMaskIntoConstraints = false
         shortsStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -214,25 +240,16 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
 
-    
-    private func calculateTotalHeight() -> CGFloat {
-        var totalHeight: CGFloat = 0
-        totalHeight += 60// buttonCollectionView 的高度
-        totalHeight += 300 // singleVideoFrameView 的高度
-        totalHeight += 60 // shortsStackView 的高度
-
-        if vcType == .home {
-            totalHeight += 660 // homeShortsFrameCollectionView 的高度
-        } else if vcType == .subscribe {
-            totalHeight += 90 // subscribeSecItemView 的高度
-            totalHeight += 330 // subscribeHoriCollectionView 的高度
-        }
-
-        totalHeight += CGFloat(4 * 310) // 其他 VideoFrameView 的高度
-        totalHeight += CGFloat(4 - 1) * 2 // 添加视图之间的间距
-//        totalHeight += 60 // 假设 contentView 的顶部和底部边距都是 20
-        return totalHeight
-    }
+    func calculateTotalHeight() -> CGFloat {
+         switch vcType {
+         case .home:
+             return 1020
+         case .subscribe:
+             return 780
+         default:
+             return 0
+         }
+     }
 
 
     
@@ -241,31 +258,32 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         delegate?.didTapNotificationLogButtonMid()
     }
     
-    func setupRightBarButtonItems() {
-        let btn1 = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(topButtonTapped))
-        let btn2 = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: self, action: #selector(topButtonTapped))
-        let btn3 = UIBarButtonItem(image: UIImage(systemName: "display.2"), style: .plain, target: self, action: #selector(topButtonTapped))
-        
-        self.navigationItem.setRightBarButtonItems([btn1, btn2, btn3], animated: true)
-    }
     
-    @objc func buttonTapped(_ sender: UIButton) {
-        // 實現按鈕點擊的相應邏輯
+    func setBarBtnItems() {
+        var barButtonItems: [UIBarButtonItem] = []
+        for (index, item) in SetBarBtnItems.allCases.enumerated() {
+            let barButtonItem = UIBarButtonItem(image: UIImage(systemName: item.systemName),
+                                                style: .plain,
+                                                target: self,
+                                                action: #selector(topButtonTapped(_:)))
+            barButtonItem.tag = index
+            barButtonItems.append(barButtonItem)
+        }
+        self.navigationItem.setRightBarButtonItems(barButtonItems, animated: true)
     }
-    
+
     @objc func topButtonTapped(_ sender: UIBarButtonItem) {
-        switch sender {
-        case navigationItem.rightBarButtonItems?[2]:
-            presentAlertController(title: "選取裝置", message: nil)
-        case navigationItem.rightBarButtonItems?[1]:
-            navigateToNotificationLogViewController()
-        case navigationItem.rightBarButtonItems?[0]:
+        guard let itemType = SetBarBtnItems.allCases[safe: sender.tag] else { return }
+        switch itemType {
+        case .search:
             presentSearchViewController()
-        default:
-            break
+        case .notifications:
+            navigateToNotificationLogViewController()
+        case .display:
+            presentAlertController(title: "選取裝置", message: nil)
         }
     }
-    
+
     func presentSearchViewController() {
         guard let viewController = findViewController() else {
             print("無法找到視圖控制器")
@@ -276,7 +294,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         searchVC.title = navigationItem.searchController?.searchBar.text ?? "" // 使用搜索框的文本作为标题
         viewController.navigationController?.pushViewController(searchVC, animated: true)
     }
-    
+
     private func presentAlertController(title: String, message: String?) {
         guard let viewController = findViewController() else {
             print("無法找到視圖控制器")
@@ -306,6 +324,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         viewController.present(alertController, animated: true, completion: nil)
     }
+
     private func navigateToNotificationLogViewController() {
         guard let viewController = findViewController() else {
             print("無法找到視圖控制器")
@@ -316,7 +335,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         notificationLogVC.title = "通知"
         viewController.navigationController?.pushViewController(notificationLogVC, animated: true)
     }
-    
+
     private func findViewController() -> UIViewController? {
         // 從當前視圖控制器的 next 開始向上查找
         var nextResponder = self.next
@@ -331,9 +350,12 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         // 如果沒有找到 UIViewController 實例，返回 nil
         return nil
     }
+
+    @objc func buttonTapped(_ sender: UIButton) {
+        // 實現按鈕點擊的相應邏輯
+    }
     
-    
-    func setupOtherVideoFrameViews() -> [VideoFrameView] {
+    func setOtherVideoFrameViews() -> [VideoFrameView] {
         var videoFrameViews: [VideoFrameView] = []
         
         // 先保留第一個框架的 reference
@@ -537,8 +559,8 @@ extension BaseViewController {
     
     func searchYouTube(query: String, maxResults: Int, completion: @escaping (Welcome?) -> Void) {
         
-        //        let apiKey = ""
-        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
+        let apiKey = ""
+//        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
         let baseURL = "https://www.googleapis.com/youtube/v3/search"
         
         var components = URLComponents(string: baseURL)!
@@ -594,6 +616,10 @@ extension BaseViewController {
                                                viewCount: "987654321",
                                                daysSinceUpload: calculateTimeSinceUpload(from: item.snippet.publishedAt),
                                                atIndex: i)
+  
+                        let videoID = item.id.videoID
+                        videoIDs.append(videoID)
+                        print("BAS videoIDs == \(videoIDs)")
                     }
                 } else {
                     print("Failed to fetch results for keyword: \(keyword)")
@@ -662,7 +688,11 @@ extension BaseViewController {
     
 }
 
-
+extension Collection {
+    subscript(safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
 
 
 

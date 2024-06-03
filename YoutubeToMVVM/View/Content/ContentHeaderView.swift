@@ -44,17 +44,17 @@ class ContentHeaderView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
+        setViews()
         // 在這裡設置 header view 的背景色
 //        backgroundColor = UIColor.gray // 自定義顏色
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupViews()
+        setViews()
     }
     
-    private func setupViews() {
+    private func setViews() {
         addSubview(leftButton)
         addSubview(rightButton)
         

@@ -7,22 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B7C7C0C2C0D7D32005AE8C6 /* SetBarBtnItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C7C0B2C0D7D32005AE8C6 /* SetBarBtnItems.swift */; };
+		5B7C7C0E2C0D8353005AE8C6 /* SetBarBtnItems where Self.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C7C0D2C0D8353005AE8C6 /* SetBarBtnItems where Self.swift */; };
+		5B7C7C102C0D9F44005AE8C6 /* ConVideoFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */; };
 		5BDAA45B2C0B1908007DD2ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */; };
 		5BDAA45D2C0B1908007DD2ED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA45C2C0B1908007DD2ED /* SceneDelegate.swift */; };
 		5BDAA45F2C0B1908007DD2ED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA45E2C0B1908007DD2ED /* ViewController.swift */; };
 		5BDAA4622C0B1908007DD2ED /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 5BDAA4612C0B1908007DD2ED /* Base */; };
 		5BDAA4642C0B1909007DD2ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BDAA4632C0B1909007DD2ED /* Assets.xcassets */; };
 		5BDAA4672C0B1909007DD2ED /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 5BDAA4662C0B1909007DD2ED /* Base */; };
-		5BDAA4722C0B1909007DD2ED /* YoutubeToMVVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4712C0B1909007DD2ED /* YoutubeToMVVCTests.swift */; };
-		5BDAA47C2C0B1909007DD2ED /* YoutubeToMVVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA47B2C0B1909007DD2ED /* YoutubeToMVVCUITests.swift */; };
-		5BDAA47E2C0B1909007DD2ED /* YoutubeToMVVCUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA47D2C0B1909007DD2ED /* YoutubeToMVVCUITestsLaunchTests.swift */; };
+		5BDAA4722C0B1909007DD2ED /* YoutubeToMVVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4712C0B1909007DD2ED /* YoutubeToMVVMTests.swift */; };
+		5BDAA47C2C0B1909007DD2ED /* YoutubeToMVVMUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA47B2C0B1909007DD2ED /* YoutubeToMVVMUITests.swift */; };
+		5BDAA47E2C0B1909007DD2ED /* YoutubeToMVVMUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA47D2C0B1909007DD2ED /* YoutubeToMVVMUITestsLaunchTests.swift */; };
 		5BDAA4B82C0B198D007DD2ED /* STVWelcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA48B2C0B198D007DD2ED /* STVWelcome.swift */; };
 		5BDAA4B92C0B198D007DD2ED /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA48C2C0B198D007DD2ED /* Welcome.swift */; };
 		5BDAA4BA2C0B198D007DD2ED /* ContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA48E2C0B198D007DD2ED /* ContainerVC.swift */; };
 		5BDAA4BC2C0B198D007DD2ED /* UIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4912C0B198D007DD2ED /* UIViewController+Additions.swift */; };
 		5BDAA4BD2C0B198D007DD2ED /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4932C0B198D007DD2ED /* Observable.swift */; };
 		5BDAA4BE2C0B198D007DD2ED /* SlideInTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4942C0B198D007DD2ED /* SlideInTransition.swift */; };
-		5BDAA4BF2C0B198D007DD2ED /* AddCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4962C0B198D007DD2ED /* AddCollectionView.swift */; };
 		5BDAA4C02C0B198D007DD2ED /* ContentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4982C0B198D007DD2ED /* ContentHeaderView.swift */; };
 		5BDAA4C12C0B198D007DD2ED /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4992C0B198D007DD2ED /* ContentTableViewCell.swift */; };
 		5BDAA4C22C0B198D007DD2ED /* ContentTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA49A2C0B198D007DD2ED /* ContentTopView.swift */; };
@@ -68,6 +70,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B7C7C0B2C0D7D32005AE8C6 /* SetBarBtnItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetBarBtnItems.swift; sourceTree = "<group>"; };
+		5B7C7C0D2C0D8353005AE8C6 /* SetBarBtnItems where Self.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SetBarBtnItems where Self.swift"; sourceTree = "<group>"; };
+		5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConVideoFrameView.swift; sourceTree = "<group>"; };
 		5BDAA4572C0B1908007DD2ED /* YoutubeToMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoutubeToMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BDAA45C2C0B1908007DD2ED /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,17 +82,16 @@
 		5BDAA4662C0B1909007DD2ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5BDAA4682C0B1909007DD2ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BDAA46D2C0B1909007DD2ED /* YoutubeToMVVMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoutubeToMVVMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BDAA4712C0B1909007DD2ED /* YoutubeToMVVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVCTests.swift; sourceTree = "<group>"; };
+		5BDAA4712C0B1909007DD2ED /* YoutubeToMVVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVMTests.swift; sourceTree = "<group>"; };
 		5BDAA4772C0B1909007DD2ED /* YoutubeToMVVMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoutubeToMVVMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BDAA47B2C0B1909007DD2ED /* YoutubeToMVVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVCUITests.swift; sourceTree = "<group>"; };
-		5BDAA47D2C0B1909007DD2ED /* YoutubeToMVVCUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVCUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5BDAA47B2C0B1909007DD2ED /* YoutubeToMVVMUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVMUITests.swift; sourceTree = "<group>"; };
+		5BDAA47D2C0B1909007DD2ED /* YoutubeToMVVMUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVMUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5BDAA48B2C0B198D007DD2ED /* STVWelcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STVWelcome.swift; sourceTree = "<group>"; };
 		5BDAA48C2C0B198D007DD2ED /* Welcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
 		5BDAA48E2C0B198D007DD2ED /* ContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerVC.swift; sourceTree = "<group>"; };
 		5BDAA4912C0B198D007DD2ED /* UIViewController+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Additions.swift"; sourceTree = "<group>"; };
 		5BDAA4932C0B198D007DD2ED /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		5BDAA4942C0B198D007DD2ED /* SlideInTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInTransition.swift; sourceTree = "<group>"; };
-		5BDAA4962C0B198D007DD2ED /* AddCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCollectionView.swift; sourceTree = "<group>"; };
 		5BDAA4982C0B198D007DD2ED /* ContentHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentHeaderView.swift; sourceTree = "<group>"; };
 		5BDAA4992C0B198D007DD2ED /* ContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
 		5BDAA49A2C0B198D007DD2ED /* ContentTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentTopView.swift; sourceTree = "<group>"; };
@@ -140,6 +144,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B7C7C052C0C2774005AE8C6 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				5BDAA49E2C0B198D007DD2ED /* NotificationCustomView.swift */,
+				5BDAA49F2C0B198D007DD2ED /* NotificationLogVC.swift */,
+				5BDAA4A02C0B198D007DD2ED /* NotificationTableViewCell.swift */,
+				5BDAA4A12C0B198D007DD2ED /* NotificationTopButtonCollectionCell.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		5B7C7C062C0C27B6005AE8C6 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				5BDAA4AD2C0B198D007DD2ED /* ButtonCollectionViewCell.swift */,
+				5BDAA4B22C0B198D007DD2ED /* ShortsCollectionViewCell.swift */,
+				5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */,
+				5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */,
+				5B7C7C0B2C0D7D32005AE8C6 /* SetBarBtnItems.swift */,
+				5B7C7C0D2C0D8353005AE8C6 /* SetBarBtnItems where Self.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
 		5BDAA44E2C0B1908007DD2ED = {
 			isa = PBXGroup;
 			children = (
@@ -181,7 +209,7 @@
 		5BDAA4702C0B1909007DD2ED /* YoutubeToMVVMTests */ = {
 			isa = PBXGroup;
 			children = (
-				5BDAA4712C0B1909007DD2ED /* YoutubeToMVVCTests.swift */,
+				5BDAA4712C0B1909007DD2ED /* YoutubeToMVVMTests.swift */,
 			);
 			path = YoutubeToMVVMTests;
 			sourceTree = "<group>";
@@ -189,8 +217,8 @@
 		5BDAA47A2C0B1909007DD2ED /* YoutubeToMVVMUITests */ = {
 			isa = PBXGroup;
 			children = (
-				5BDAA47B2C0B1909007DD2ED /* YoutubeToMVVCUITests.swift */,
-				5BDAA47D2C0B1909007DD2ED /* YoutubeToMVVCUITestsLaunchTests.swift */,
+				5BDAA47B2C0B1909007DD2ED /* YoutubeToMVVMUITests.swift */,
+				5BDAA47D2C0B1909007DD2ED /* YoutubeToMVVMUITestsLaunchTests.swift */,
 			);
 			path = YoutubeToMVVMUITests;
 			sourceTree = "<group>";
@@ -207,6 +235,7 @@
 		5BDAA4902C0B198D007DD2ED /* viewController */ = {
 			isa = PBXGroup;
 			children = (
+				5BDAA4B02C0B198D007DD2ED /* MainTabBarController.swift */,
 				5BDAA48E2C0B198D007DD2ED /* ContainerVC.swift */,
 			);
 			path = viewController;
@@ -233,7 +262,7 @@
 		5BDAA4972C0B198D007DD2ED /* Add */ = {
 			isa = PBXGroup;
 			children = (
-				5BDAA4962C0B198D007DD2ED /* AddCollectionView.swift */,
+				5BDAA4AB2C0B198D007DD2ED /* AddVC.swift */,
 			);
 			path = Add;
 			sourceTree = "<group>";
@@ -244,6 +273,7 @@
 				5BDAA4982C0B198D007DD2ED /* ContentHeaderView.swift */,
 				5BDAA4992C0B198D007DD2ED /* ContentTableViewCell.swift */,
 				5BDAA49A2C0B198D007DD2ED /* ContentTopView.swift */,
+				5BDAA4AE2C0B198D007DD2ED /* ContentTableViewController.swift */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -251,13 +281,11 @@
 		5BDAA4A32C0B198D007DD2ED /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				5B7C7C052C0C2774005AE8C6 /* Notification */,
 				5BDAA49C2C0B198D007DD2ED /* HomeShortsFrameCollectionView.swift */,
 				5BDAA49D2C0B198D007DD2ED /* MenuVC.swift */,
-				5BDAA49E2C0B198D007DD2ED /* NotificationCustomView.swift */,
-				5BDAA49F2C0B198D007DD2ED /* NotificationLogVC.swift */,
-				5BDAA4A02C0B198D007DD2ED /* NotificationTableViewCell.swift */,
-				5BDAA4A12C0B198D007DD2ED /* NotificationTopButtonCollectionCell.swift */,
 				5BDAA4A22C0B198D007DD2ED /* SearchVC.swift */,
+				5BDAA4AF2C0B198D007DD2ED /* HomeVC.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -277,6 +305,8 @@
 			children = (
 				5BDAA4A82C0B198D007DD2ED /* SubscribeHoriCollectionView.swift */,
 				5BDAA4A92C0B198D007DD2ED /* SubscribeSecItemView.swift */,
+				5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */,
+				5BDAA4B42C0B198D007DD2ED /* SubscribeVC.swift */,
 			);
 			path = Subscribe;
 			sourceTree = "<group>";
@@ -289,15 +319,7 @@
 				5BDAA4A32C0B198D007DD2ED /* Home */,
 				5BDAA4A72C0B198D007DD2ED /* Shorts */,
 				5BDAA4AA2C0B198D007DD2ED /* Subscribe */,
-				5BDAA4AB2C0B198D007DD2ED /* AddVC.swift */,
-				5BDAA4AD2C0B198D007DD2ED /* ButtonCollectionViewCell.swift */,
-				5BDAA4AE2C0B198D007DD2ED /* ContentTableViewController.swift */,
-				5BDAA4AF2C0B198D007DD2ED /* HomeVC.swift */,
-				5BDAA4B02C0B198D007DD2ED /* MainTabBarController.swift */,
-				5BDAA4B22C0B198D007DD2ED /* ShortsCollectionViewCell.swift */,
-				5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */,
-				5BDAA4B42C0B198D007DD2ED /* SubscribeVC.swift */,
-				5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */,
+				5B7C7C062C0C27B6005AE8C6 /* Other */,
 				5BDAA4AC2C0B198D007DD2ED /* BaseViewController.swift */,
 			);
 			path = View;
@@ -436,6 +458,7 @@
 			files = (
 				5BDAA4CA2C0B198D007DD2ED /* ShortsBtnView.swift in Sources */,
 				5BDAA4D42C0B198D007DD2ED /* MainTabBarController.swift in Sources */,
+				5B7C7C0E2C0D8353005AE8C6 /* SetBarBtnItems where Self.swift in Sources */,
 				5BDAA4C62C0B198D007DD2ED /* NotificationLogVC.swift in Sources */,
 				5BDAA4D82C0B198D007DD2ED /* SubscribeVC.swift in Sources */,
 				5BDAA4BA2C0B198D007DD2ED /* ContainerVC.swift in Sources */,
@@ -452,8 +475,10 @@
 				5BDAA4C52C0B198D007DD2ED /* NotificationCustomView.swift in Sources */,
 				5BDAA4C82C0B198D007DD2ED /* NotificationTopButtonCollectionCell.swift in Sources */,
 				5BDAA4D92C0B198D007DD2ED /* VideoFrameView.swift in Sources */,
+				5B7C7C0C2C0D7D32005AE8C6 /* SetBarBtnItems.swift in Sources */,
 				5BDAA4BC2C0B198D007DD2ED /* UIViewController+Additions.swift in Sources */,
 				5BDAA4C92C0B198D007DD2ED /* SearchVC.swift in Sources */,
+				5B7C7C102C0D9F44005AE8C6 /* ConVideoFrameView.swift in Sources */,
 				5BDAA4BE2C0B198D007DD2ED /* SlideInTransition.swift in Sources */,
 				5BDAA4BD2C0B198D007DD2ED /* Observable.swift in Sources */,
 				5BDAA4D62C0B198D007DD2ED /* ShortsCollectionViewCell.swift in Sources */,
@@ -463,7 +488,6 @@
 				5BDAA4C72C0B198D007DD2ED /* NotificationTableViewCell.swift in Sources */,
 				5BDAA4D72C0B198D007DD2ED /* ShortsTableViewController.swift in Sources */,
 				5BDAA4C12C0B198D007DD2ED /* ContentTableViewCell.swift in Sources */,
-				5BDAA4BF2C0B198D007DD2ED /* AddCollectionView.swift in Sources */,
 				5BDAA4CD2C0B198D007DD2ED /* SubscribeHoriCollectionView.swift in Sources */,
 				5BDAA4CC2C0B198D007DD2ED /* ShortsTableViewCell.swift in Sources */,
 				5BDAA45D2C0B1908007DD2ED /* SceneDelegate.swift in Sources */,
@@ -476,7 +500,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BDAA4722C0B1909007DD2ED /* YoutubeToMVVCTests.swift in Sources */,
+				5BDAA4722C0B1909007DD2ED /* YoutubeToMVVMTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,8 +508,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BDAA47C2C0B1909007DD2ED /* YoutubeToMVVCUITests.swift in Sources */,
-				5BDAA47E2C0B1909007DD2ED /* YoutubeToMVVCUITestsLaunchTests.swift in Sources */,
+				5BDAA47C2C0B1909007DD2ED /* YoutubeToMVVMUITests.swift in Sources */,
+				5BDAA47E2C0B1909007DD2ED /* YoutubeToMVVMUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

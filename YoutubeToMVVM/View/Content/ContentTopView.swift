@@ -22,7 +22,7 @@ class ContentTopView: UIView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 40
+        imageView.layer.cornerRadius = 35
         imageView.clipsToBounds = true
         imageView.image = UIImage(named: "image1")
 //        imageView.backgroundColor = .lightGray // 設定圖片背景色
@@ -154,14 +154,14 @@ class ContentTopView: UIView {
             // imageView 的約束
             imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16), // 調整偏移量以適應 UI
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16), // 調整偏移量以適應 UI
-            imageView.widthAnchor.constraint(equalToConstant: 80),
-            imageView.heightAnchor.constraint(equalToConstant: 80),
+            imageView.widthAnchor.constraint(equalToConstant: 70),
+            imageView.heightAnchor.constraint(equalToConstant: 70),
 
             // stackView 的約束
             stackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 8),
             stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
             stackView.topAnchor.constraint(equalTo: imageView.topAnchor),
-            stackView.heightAnchor.constraint(equalToConstant: 80),
+            stackView.heightAnchor.constraint(equalToConstant: 70),
          
 
             // bottomStackView 的約束

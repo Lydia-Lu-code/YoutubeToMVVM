@@ -51,7 +51,7 @@ class NotificationCustomView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
+        setViews()
         
     }
     
@@ -59,7 +59,7 @@ class NotificationCustomView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupViews() {
+    private func setViews() {
         addSubview(leftImageView)
         addSubview(label1)
         addSubview(label2)
