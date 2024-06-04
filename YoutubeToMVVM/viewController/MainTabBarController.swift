@@ -43,6 +43,7 @@ class MainTabBarController: UITabBarController {
         let contentNav = UINavigationController(rootViewController: contentTableViewController)
         contentNav.tabBarItem = UITabBarItem(title: "Content", image: nil, tag: 4)
         
+        
         // 设置标签栏控制器的所有子视图控制器
         self.viewControllers = [homeNav, shortsNav, addNav, subscribeNav, contentNav]
 

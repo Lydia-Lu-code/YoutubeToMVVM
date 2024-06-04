@@ -1,6 +1,7 @@
 import UIKit
 
 
+
 protocol BaseVCDelegate: AnyObject {
     func didTapMenuButton()
     func didTapNotificationLogButtonMid()
@@ -147,11 +148,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         // 設置其他影片框架
         otherVideoFrameViews = setOtherVideoFrameViews()
-    }
-    
-    func doSearchAndPlay() {
-        let keywords = ["txt videos"]
-        doSearch(withKeywords: keywords)
+
     }
     
     func setViews() {
@@ -258,7 +255,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         delegate?.didTapNotificationLogButtonMid()
     }
     
-    
     func setBarBtnItems() {
         var barButtonItems: [UIBarButtonItem] = []
         for (index, item) in SetBarBtnItems.allCases.enumerated() {
@@ -271,7 +267,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
         self.navigationItem.setRightBarButtonItems(barButtonItems, animated: true)
     }
-
+    
     @objc func topButtonTapped(_ sender: UIBarButtonItem) {
         guard let itemType = SetBarBtnItems.allCases[safe: sender.tag] else { return }
         switch itemType {
@@ -286,7 +282,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func presentSearchViewController() {
         guard let viewController = findViewController() else {
-            print("無法找到視圖控制器")
             return
         }
         
@@ -295,9 +290,8 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         viewController.navigationController?.pushViewController(searchVC, animated: true)
     }
 
-    private func presentAlertController(title: String, message: String?) {
+    internal func presentAlertController(title: String, message: String?) {
         guard let viewController = findViewController() else {
-            print("無法找到視圖控制器")
             return
         }
         
@@ -325,9 +319,8 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         viewController.present(alertController, animated: true, completion: nil)
     }
 
-    private func navigateToNotificationLogViewController() {
+    internal func navigateToNotificationLogViewController() {
         guard let viewController = findViewController() else {
-            print("無法找到視圖控制器")
             return
         }
         
@@ -336,7 +329,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         viewController.navigationController?.pushViewController(notificationLogVC, animated: true)
     }
 
-    private func findViewController() -> UIViewController? {
+    internal func findViewController() -> UIViewController? {
         // 從當前視圖控制器的 next 開始向上查找
         var nextResponder = self.next
         while let responder = nextResponder {
@@ -506,7 +499,6 @@ extension BaseViewController {
         
         // 根據 index 獲取 videoFrameView
         guard let videoFrameView = getVideoFrameView(at: index) else {
-            print("Index out of range or videoFrameView is nil.")
             return
         }
         
@@ -537,17 +529,14 @@ extension BaseViewController {
     
     func setImage(from urlString: String, to imageView: UIImageView) {
         guard let url = URL(string: urlString) else {
-            print("Invalid URL string: \(urlString)")
             return
         }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
-                print("Error fetching image: \(error)")
                 return
             }
             guard let data = data, let image = UIImage(data: data) else {
-                print("Failed to extract image from data.")
                 return
             }
             DispatchQueue.main.async {
@@ -594,7 +583,6 @@ extension BaseViewController {
                 let searchResponse = try decoder.decode(Welcome.self, from: data)
                 completion(searchResponse)
             } catch {
-                print("Failed to decode JSON: \(error)")
                 completion(nil)
             }
         }
@@ -605,7 +593,6 @@ extension BaseViewController {
         for keyword in keywords {
             searchYouTube(query: keyword, maxResults: maxResults) { [self] response in
                 if let response = response {
-                    print("Results for '\(keyword)':")
                     for (i, item) in response.items.enumerated() {
                         showItems.append(keyword)
                         
@@ -619,7 +606,6 @@ extension BaseViewController {
   
                         let videoID = item.id.videoID
                         videoIDs.append(videoID)
-                        print("BAS videoIDs == \(videoIDs)")
                     }
                 } else {
                     print("Failed to fetch results for keyword: \(keyword)")

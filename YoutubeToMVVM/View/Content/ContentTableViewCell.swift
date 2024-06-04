@@ -59,7 +59,7 @@ class ContentTableViewCell: UITableViewCell {
             stackView.widthAnchor.constraint(equalToConstant: calculateStackViewWidth()) // 设置 stackView 的宽度
         ])
     }
-    
+
     func configureConVideoFrameViews(count: Int) {
         // 清空之前的子视图
         stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
@@ -82,18 +82,5 @@ class ContentTableViewCell: UITableViewCell {
         layoutIfNeeded()
     }
 
-//    func setViews() {
-//        // 根據 cell 所在的部分設置背景色
-//        switch section {
-//        case 0:
-//            contentView.backgroundColor = .clear
-//        case 1:
-//            contentView.backgroundColor = .red // 第一部分的背景色為紅色
-//        case 2:
-//            contentView.backgroundColor = .green // 第二部分的背景色為綠色
-//        default:
-//            contentView.backgroundColor = .white // 其他部分的背景色為白色
-//        }
-//    }
 }
 

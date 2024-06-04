@@ -7,12 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B7C7C0C2C0D7D32005AE8C6 /* SetBarBtnItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C7C0B2C0D7D32005AE8C6 /* SetBarBtnItems.swift */; };
-		5B7C7C0E2C0D8353005AE8C6 /* SetBarBtnItems where Self.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C7C0D2C0D8353005AE8C6 /* SetBarBtnItems where Self.swift */; };
 		5B7C7C102C0D9F44005AE8C6 /* ConVideoFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */; };
 		5BDAA45B2C0B1908007DD2ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */; };
 		5BDAA45D2C0B1908007DD2ED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA45C2C0B1908007DD2ED /* SceneDelegate.swift */; };
-		5BDAA45F2C0B1908007DD2ED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA45E2C0B1908007DD2ED /* ViewController.swift */; };
 		5BDAA4622C0B1908007DD2ED /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 5BDAA4612C0B1908007DD2ED /* Base */; };
 		5BDAA4642C0B1909007DD2ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BDAA4632C0B1909007DD2ED /* Assets.xcassets */; };
 		5BDAA4672C0B1909007DD2ED /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 5BDAA4662C0B1909007DD2ED /* Base */; };
@@ -70,13 +67,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5B7C7C0B2C0D7D32005AE8C6 /* SetBarBtnItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetBarBtnItems.swift; sourceTree = "<group>"; };
-		5B7C7C0D2C0D8353005AE8C6 /* SetBarBtnItems where Self.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SetBarBtnItems where Self.swift"; sourceTree = "<group>"; };
 		5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConVideoFrameView.swift; sourceTree = "<group>"; };
 		5BDAA4572C0B1908007DD2ED /* YoutubeToMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoutubeToMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BDAA45C2C0B1908007DD2ED /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5BDAA45E2C0B1908007DD2ED /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5BDAA4612C0B1908007DD2ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5BDAA4632C0B1909007DD2ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BDAA4662C0B1909007DD2ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -162,8 +156,6 @@
 				5BDAA4B22C0B198D007DD2ED /* ShortsCollectionViewCell.swift */,
 				5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */,
 				5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */,
-				5B7C7C0B2C0D7D32005AE8C6 /* SetBarBtnItems.swift */,
-				5B7C7C0D2C0D8353005AE8C6 /* SetBarBtnItems where Self.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -197,7 +189,6 @@
 				5BDAA4902C0B198D007DD2ED /* viewController */,
 				5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */,
 				5BDAA45C2C0B1908007DD2ED /* SceneDelegate.swift */,
-				5BDAA45E2C0B1908007DD2ED /* ViewController.swift */,
 				5BDAA4602C0B1908007DD2ED /* Main.storyboard */,
 				5BDAA4632C0B1909007DD2ED /* Assets.xcassets */,
 				5BDAA4652C0B1909007DD2ED /* LaunchScreen.storyboard */,
@@ -270,9 +261,9 @@
 		5BDAA49B2C0B198D007DD2ED /* Content */ = {
 			isa = PBXGroup;
 			children = (
+				5BDAA49A2C0B198D007DD2ED /* ContentTopView.swift */,
 				5BDAA4982C0B198D007DD2ED /* ContentHeaderView.swift */,
 				5BDAA4992C0B198D007DD2ED /* ContentTableViewCell.swift */,
-				5BDAA49A2C0B198D007DD2ED /* ContentTopView.swift */,
 				5BDAA4AE2C0B198D007DD2ED /* ContentTableViewController.swift */,
 			);
 			path = Content;
@@ -296,6 +287,7 @@
 				5BDAA4A42C0B198D007DD2ED /* ShortsBtnView.swift */,
 				5BDAA4A52C0B198D007DD2ED /* ShortsEmojiBtnView.swift */,
 				5BDAA4A62C0B198D007DD2ED /* ShortsTableViewCell.swift */,
+				5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */,
 			);
 			path = Shorts;
 			sourceTree = "<group>";
@@ -305,7 +297,6 @@
 			children = (
 				5BDAA4A82C0B198D007DD2ED /* SubscribeHoriCollectionView.swift */,
 				5BDAA4A92C0B198D007DD2ED /* SubscribeSecItemView.swift */,
-				5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */,
 				5BDAA4B42C0B198D007DD2ED /* SubscribeVC.swift */,
 			);
 			path = Subscribe;
@@ -458,11 +449,9 @@
 			files = (
 				5BDAA4CA2C0B198D007DD2ED /* ShortsBtnView.swift in Sources */,
 				5BDAA4D42C0B198D007DD2ED /* MainTabBarController.swift in Sources */,
-				5B7C7C0E2C0D8353005AE8C6 /* SetBarBtnItems where Self.swift in Sources */,
 				5BDAA4C62C0B198D007DD2ED /* NotificationLogVC.swift in Sources */,
 				5BDAA4D82C0B198D007DD2ED /* SubscribeVC.swift in Sources */,
 				5BDAA4BA2C0B198D007DD2ED /* ContainerVC.swift in Sources */,
-				5BDAA45F2C0B1908007DD2ED /* ViewController.swift in Sources */,
 				5BDAA4D22C0B198D007DD2ED /* ContentTableViewController.swift in Sources */,
 				5BDAA4C42C0B198D007DD2ED /* MenuVC.swift in Sources */,
 				5BDAA4C02C0B198D007DD2ED /* ContentHeaderView.swift in Sources */,
@@ -475,7 +464,6 @@
 				5BDAA4C52C0B198D007DD2ED /* NotificationCustomView.swift in Sources */,
 				5BDAA4C82C0B198D007DD2ED /* NotificationTopButtonCollectionCell.swift in Sources */,
 				5BDAA4D92C0B198D007DD2ED /* VideoFrameView.swift in Sources */,
-				5B7C7C0C2C0D7D32005AE8C6 /* SetBarBtnItems.swift in Sources */,
 				5BDAA4BC2C0B198D007DD2ED /* UIViewController+Additions.swift in Sources */,
 				5BDAA4C92C0B198D007DD2ED /* SearchVC.swift in Sources */,
 				5B7C7C102C0D9F44005AE8C6 /* ConVideoFrameView.swift in Sources */,

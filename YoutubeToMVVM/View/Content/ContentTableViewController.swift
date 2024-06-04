@@ -7,7 +7,20 @@
 
 import UIKit
 
+//// 協議定義，確保所有方法都在這裡
+//protocol ContentTVCDelegate: AnyObject {
+//    func setBarBtnItems()
+//    func presentSearchViewController()
+//    func topButtonTapped(_ sender: UIBarButtonItem)
+//    func presentAlertController(title: String, message: String?)
+//    func navigateToNotificationLogViewController()
+//    func findViewController() -> UIViewController?
+//}
+
+
 class ContentTableViewController: UITableViewController {
+    
+//        weak var delegate: ContentTVCDelegate?
     
     lazy var contentTopView: ContentTopView = {
         let view = ContentTopView()
@@ -15,21 +28,28 @@ class ContentTableViewController: UITableViewController {
         return view
     }()
     
-//    let baseViewController = BaseViewController(vcType: .content)
+    var conVideoFrameView = ConVideoFrameView()
+    
+    //    let baseViewController = BaseViewController(vcType: .content)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .systemBackground
         
-
+        //        view.backgroundColor = .systemBackground
         tableView.register(ContentTableViewCell.self, forCellReuseIdentifier: "ContentTableViewCell")
         tableView.sectionHeaderHeight = UITableView.automaticDimension
         tableView.estimatedSectionHeaderHeight = 0
         tableView.sectionHeaderTopPadding = 0
-
-}
-
+        
+//        setBarBtnItems()
+        setTopBarButton()
+        
+//        delegate = parent as? ContentTVCDelegate
+//        delegate?.setBarBtnItems()
+        
+    }
+    
+    
     func resizeImage(image: UIImage?, targetSize: CGSize) -> UIImage? {
         guard let image = image else { return nil }
         
@@ -52,62 +72,35 @@ class ContentTableViewController: UITableViewController {
         
         return newImage
     }
-
-
     
-    
-    func setTopBarButton(){
- 
-//        let width: CGFloat = 5.0
-        
+    func setTopBarButton() {
         let btn1 = UIBarButtonItem(image: UIImage(systemName: "display.2"), style: .plain, target: self, action: #selector(topButtonTapped))
-//        btn1.width = width
-        
         let btn2 = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: self, action: #selector(topButtonTapped))
-//        btn2.width = width
-        
         let btn3 = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(topButtonTapped))
-//        btn3.width = width
+        let btn4 = UIBarButtonItem(image: UIImage(named: "image2"), style: .plain, target: self, action: #selector(topButtonTapped))
         
-//        let btn4 = UIBarButtonItem(image: UIImage(named: "image2"), style: .plain, target: self, action: #selector(topButtonTapped))
-        
-        // 调整图像大小
-        let image = UIImage(named: "image3")?.withRenderingMode(.alwaysOriginal)
-        let resizedImage = resizeImage(image: image, targetSize: CGSize(width: 55, height: 30)) // 调整图像大小为 20x20
-        
-        let btn4 = UIBarButtonItem(image: resizedImage, style: .plain, target: self, action: #selector(topButtonTapped))
-//        btn4.width = width
-        
-        // 设置圆角
-        if let buttonView = btn4.customView {
-            buttonView.layer.cornerRadius = 10
-            buttonView.layer.masksToBounds = true
-        }
-        
-        
-        // 将按钮添加到导航栏上
-        self.navigationItem.setRightBarButtonItems([btn4, btn3, btn2, btn1], animated: true)
+        // 將按鈕添加到導航欄上
+        self.navigationItem.rightBarButtonItems = [btn4, btn3, btn2, btn1]
     }
-    
+
     @objc func topButtonTapped(_ sender: UIBarButtonItem) {
         switch sender {
         case navigationItem.rightBarButtonItems?[0]: // buttonLeft
             print("Content 4 button tapped")
             
         case navigationItem.rightBarButtonItems?[3]: // buttonLeft
-            print("Content Left button tapped")
             presentAlertController(title: "﻿選取裝置", message: nil)
+            
         case navigationItem.rightBarButtonItems?[2]: // buttonMid
-            print("Content Middle button tapped")
             navigateToNotificationLogViewController()
-        case navigationItem.rightBarButtonItems?[1]: // buttonRight
-            print("Content Right button tapped")
+            
+        case navigationItem.rightBarButtonItems?[1]:
             presentSearchViewController()
+            
         default:
             break
         }
     }
-    
     func presentSearchViewController() {
         guard let viewController = findViewController() else {
             print("無法找到視圖控制器")
@@ -118,7 +111,6 @@ class ContentTableViewController: UITableViewController {
         searchVC.title = navigationItem.searchController?.searchBar.text ?? "" // 使用搜索框的文本作为标题
         viewController.navigationController?.pushViewController(searchVC, animated: true)
     }
-    
     private func presentAlertController(title: String, message: String?) {
         guard let viewController = findViewController() else {
             print("無法找到視圖控制器")
@@ -148,7 +140,6 @@ class ContentTableViewController: UITableViewController {
 
         viewController.present(alertController, animated: true, completion: nil)
     }
-
     private func navigateToNotificationLogViewController() {
         guard let viewController = findViewController() else {
             print("無法找到視圖控制器")
@@ -159,7 +150,6 @@ class ContentTableViewController: UITableViewController {
         notificationLogVC.title = "通知"
         viewController.navigationController?.pushViewController(notificationLogVC, animated: true)
     }
-
     private func findViewController() -> UIViewController? {
         if let viewController = self.next as? UIViewController {
             return viewController
@@ -175,12 +165,14 @@ class ContentTableViewController: UITableViewController {
         return nil
     }
 
+    
+    
     // MARK: - Table view data source
-        
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 9 // 5個部分
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 0
@@ -191,22 +183,20 @@ class ContentTableViewController: UITableViewController {
         }
     }
 
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContentTableViewCell", for: indexPath) as! ContentTableViewCell
         
         // 設置 section 的值
         cell.section = indexPath.section
-
+        
         // 配置 ConVideoFrameViews，例如堆叠16个
         cell.configureConVideoFrameViews(count: 16)
         
-//        cell.setViews()
-//        cell.conVideoFrameView
+        
         
         return cell
     }
-
-
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
@@ -223,7 +213,7 @@ class ContentTableViewController: UITableViewController {
                 contentTopView.topAnchor.constraint(equalTo: headerView.topAnchor),
                 contentTopView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
             ])
-           
+            
             return headerView
         } else {
             let headerView = ContentHeaderView()
@@ -240,7 +230,6 @@ class ContentTableViewController: UITableViewController {
                 "clock.fill",      // 已觀看時間
                 "bubble.left.fill" // 說明和意見回饋
             ]
-            print("CON sfSymbols: \(sfSymbols)")
             
             // Create attributed string with SF Symbol and text
             func attributedTitle(title: String, symbol: String?) -> NSAttributedString {
@@ -249,14 +238,14 @@ class ContentTableViewController: UITableViewController {
                 if let symbol = symbol, let symbolImage = UIImage(systemName: symbol) {
                     let imageAttachment = NSTextAttachment()
                     imageAttachment.image = symbolImage.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
-                    print("Symbol \(symbol) loaded successfully")
+
                     let imageString = NSAttributedString(attachment: imageAttachment)
                     completeString.append(imageString)
                 } else {
                     print("No symbol for title: \(title)")
                 }
                 
-                let titleString = NSAttributedString(string: " \(title)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
+                let titleString = NSAttributedString(string: " \(title)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)])
                 completeString.append(titleString)
                 return completeString
             }
@@ -293,18 +282,16 @@ class ContentTableViewController: UITableViewController {
             return headerView
         }
     }
-
-
     
     // 設置 header 的高度
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
             return 150
         } else {
-          return 45
+            return 45
         }
         
-
+        
     }
     
     // 設置 cell 的高度
@@ -319,6 +306,5 @@ extension ContentTableViewController:ContentHeaderViewDelegate {
     func doSegueAction() {
         print("成功")
     }
-    
     
 }

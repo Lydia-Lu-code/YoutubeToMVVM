@@ -109,13 +109,10 @@ class NotificationLogVC: UIViewController {
     }
     
     @objc func searchButtonTapped() {
-        print("實現搜索按鈕的功能")
         presentSearchViewController()
     }
 
     @objc func playerButtonTapped() {
-        print("實現添加按鈕的功能")
-        
         presentAlertController(title: "﻿選取裝置", message: nil)
     }
     

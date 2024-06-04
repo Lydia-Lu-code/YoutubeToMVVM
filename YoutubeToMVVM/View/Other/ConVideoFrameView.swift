@@ -25,20 +25,20 @@ class ConVideoFrameView: UIView {
         vidView.backgroundColor = .lightGray
         vidView.contentMode = .scaleAspectFill // 將圖片的 contentMode 設置為 .scaleAspectFill，使圖片自動拉伸以填滿視圖
         vidView.clipsToBounds = true // 剪切超出視圖範圍的部分
+        vidView.layer.cornerRadius = 15 // 设置圆角
         return vidView
     }()
 
     var titleLbl : UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints  = false
-        //        lbl.backgroundColor = .orange
         lbl.text = "Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ " // 這裡設定了一個範例文字
         lbl.font = UIFont.systemFont(ofSize: 14)
         lbl.numberOfLines = 2 // 兩行文字
         return lbl
     }()
     
-    var contentLbl : UILabel = {
+    var channelId : UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints  = false
         lbl.font = UIFont.systemFont(ofSize: 10)
@@ -64,7 +64,7 @@ class ConVideoFrameView: UIView {
         vidFrameView.translatesAutoresizingMaskIntoConstraints = false
         vidFrameView.addSubview(conVideoImgView)
         vidFrameView.addSubview(titleLbl)
-        vidFrameView.addSubview(contentLbl)
+        vidFrameView.addSubview(channelId)
         vidFrameView.addSubview(buttonRight)
         return vidFrameView
     }()
@@ -76,43 +76,33 @@ class ConVideoFrameView: UIView {
         
         // 設置 videoView 的約束
         NSLayoutConstraint.activate([
-            // 设置 conVideoFrameView 的高度和宽度为 160
             conVideoFrameView.heightAnchor.constraint(equalToConstant: 150),
-            conVideoFrameView.widthAnchor.constraint(equalToConstant: 130),
-            
-            // 将 conVideoFrameView 垂直和水平居中于父视图
+            conVideoFrameView.widthAnchor.constraint(equalToConstant: 120),
             conVideoFrameView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             conVideoFrameView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
             buttonRight.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            buttonRight.topAnchor.constraint(equalTo: conVideoImgView.bottomAnchor, constant: 8), // buttonRight 的 topAnchor 設置為 videoView 的 bottomAnchor，間距為 8 個點
-            
-            buttonRight.heightAnchor.constraint(equalToConstant: 40), // imageView 的高度設置為 60
-            buttonRight.widthAnchor.constraint(equalToConstant: 40) // imageView 的寬度設置為 60
+            buttonRight.topAnchor.constraint(equalTo: conVideoImgView.bottomAnchor),
+            buttonRight.heightAnchor.constraint(equalToConstant: 25),
+            buttonRight.widthAnchor.constraint(equalToConstant: 25)
         ])
         
-        // 添加其他子视图的约束，例如 conVideoImgView、titleLbl、contentLbl、buttonRight 的约束
         NSLayoutConstraint.activate([
-            // labelMidTitle 的约束
-            
-            
             conVideoImgView.topAnchor.constraint(equalTo: conVideoFrameView.topAnchor),
             conVideoImgView.leadingAnchor.constraint(equalTo: conVideoFrameView.leadingAnchor),
             conVideoImgView.trailingAnchor.constraint(equalTo: conVideoFrameView.trailingAnchor),
-            conVideoImgView.heightAnchor.constraint(equalToConstant: 75),
-            
+            conVideoImgView.heightAnchor.constraint(equalToConstant: 70), // 確認高度適合
+
             titleLbl.topAnchor.constraint(equalTo: conVideoImgView.bottomAnchor),
             titleLbl.leadingAnchor.constraint(equalTo: conVideoImgView.leadingAnchor),
-            titleLbl.trailingAnchor.constraint(equalTo: conVideoImgView.trailingAnchor),
+            titleLbl.trailingAnchor.constraint(equalTo: buttonRight.leadingAnchor), // 移除 -20，與 leadingAnchor 對齊
             titleLbl.heightAnchor.constraint(equalToConstant: 50),
-            
-            contentLbl.topAnchor.constraint(equalTo: titleLbl.bottomAnchor),
-            contentLbl.leadingAnchor.constraint(equalTo: conVideoImgView.leadingAnchor),
-            contentLbl.trailingAnchor.constraint(equalTo: conVideoImgView.trailingAnchor),
-            contentLbl.bottomAnchor.constraint(equalTo: conVideoFrameView.bottomAnchor)
-            
-        ])
-    }
 
-    
+            channelId.topAnchor.constraint(equalTo: titleLbl.bottomAnchor),
+            channelId.leadingAnchor.constraint(equalTo: conVideoImgView.leadingAnchor),
+            channelId.trailingAnchor.constraint(equalTo: buttonRight.leadingAnchor), // 移除 -20，與 leadingAnchor 對齊
+            channelId.bottomAnchor.constraint(equalTo: conVideoFrameView.bottomAnchor)
+        ])
+        
+    }
 }

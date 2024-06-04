@@ -93,11 +93,9 @@ class ShortsCollectionViewCell: UICollectionViewCell {
     public func setImage(from url: URL) {
         URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
-                print("Error fetching image: \(error)")
                 return
             }
             guard let data = data, let image = UIImage(data: data) else {
-                print("Failed to extract image from data.")
                 return
             }
             

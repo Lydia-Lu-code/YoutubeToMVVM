@@ -60,17 +60,14 @@ class ShortsTableViewController: UITableViewController {
             
             // 加載縮略圖
             guard let url = URL(string: item.snippet.thumbnails.standard.url) else {
-                print("STV無效的 URL 字符串: \(item.snippet.thumbnails.standard.url)")
                 return cell
             }
             
             URLSession.shared.dataTask(with: url) { data, _, error in
                 if let error = error {
-                    print("STV加載圖片時出錯: \(error)")
                     return
                 }
                 guard let data = data, let image = UIImage(data: data) else {
-                    print("STV無法從數據中提取圖片。")
                     return
                 }
                 
@@ -132,7 +129,6 @@ class ShortsTableViewController: UITableViewController {
         
         // 確保表格視圖中有行數
         guard numberOfRows > 0 else {
-            print("STV 錯誤: 表格視圖中沒有行。")
             return
         }
         
@@ -167,17 +163,13 @@ extension ShortsTableViewController {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             
             guard let data = data, error == nil else {
-                print("Error: \(String(describing: error))")
                 return
             }
-            
-            print("API request successful.")
             
             do {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let searchResponse = try decoder.decode(STVWelcome.self, from: data)
-                print("JSON decoding successful.")
                 
                 self.showItems = searchResponse.items // 將從 API 返回的項目存儲到 showItems 陣列中
                 self.itemCount = self.showItems.count // 更新項目數量
