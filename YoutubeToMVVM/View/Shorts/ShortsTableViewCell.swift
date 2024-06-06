@@ -7,7 +7,7 @@ class ShortsTableViewCell: UITableViewCell {
     let shortsBtnView = ShortsBtnView()
     
     var videoContent: String? // 新增一個用於存儲視頻內容的屬性
-
+    var videoContents: [VideoContent] = []
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

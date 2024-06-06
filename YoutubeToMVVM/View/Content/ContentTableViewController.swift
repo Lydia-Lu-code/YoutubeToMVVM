@@ -7,20 +7,28 @@
 
 import UIKit
 
-//// 協議定義，確保所有方法都在這裡
-//protocol ContentTVCDelegate: AnyObject {
-//    func setBarBtnItems()
-//    func presentSearchViewController()
-//    func topButtonTapped(_ sender: UIBarButtonItem)
-//    func presentAlertController(title: String, message: String?)
-//    func navigateToNotificationLogViewController()
-//    func findViewController() -> UIViewController?
-//}
-
-
-class ContentTableViewController: UITableViewController {
+class ContentTableViewController: UITableViewController, BarButtonItemsDelegate {
+    func setBarBtnItems() {
+        barButtonItemsModel.setBarBtnItems()
+    }
     
-//        weak var delegate: ContentTVCDelegate?
+    func topButtonTapped(_ sender: UIBarButtonItem) {
+        barButtonItemsModel.topButtonTapped(sender)
+    }
+    
+    func presentSearchViewController() {
+        barButtonItemsModel.presentSearchViewController()
+    }
+    
+    func presentAlertController(title: String, message: String?) {
+        barButtonItemsModel.presentAlertController(title: title, message: message)
+    }
+    
+    func navigateToNotificationLogViewController() {
+        barButtonItemsModel.navigateToNotificationLogViewController()
+    }
+        
+    var barButtonItemsModel: BarButtonItemsModel!
     
     lazy var contentTopView: ContentTopView = {
         let view = ContentTopView()
@@ -32,6 +40,8 @@ class ContentTableViewController: UITableViewController {
     
     //    let baseViewController = BaseViewController(vcType: .content)
     
+    var showItems: [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,11 +51,9 @@ class ContentTableViewController: UITableViewController {
         tableView.estimatedSectionHeaderHeight = 0
         tableView.sectionHeaderTopPadding = 0
         
-//        setBarBtnItems()
-        setTopBarButton()
-        
-//        delegate = parent as? ContentTVCDelegate
-//        delegate?.setBarBtnItems()
+        // 初始化 barButtonItemsModel 並設置代理
+        barButtonItemsModel = BarButtonItemsModel(viewController: self)
+        barButtonItemsModel.setBarBtnItems()
         
     }
     
@@ -73,100 +81,6 @@ class ContentTableViewController: UITableViewController {
         return newImage
     }
     
-    func setTopBarButton() {
-        let btn1 = UIBarButtonItem(image: UIImage(systemName: "display.2"), style: .plain, target: self, action: #selector(topButtonTapped))
-        let btn2 = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: self, action: #selector(topButtonTapped))
-        let btn3 = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(topButtonTapped))
-        let btn4 = UIBarButtonItem(image: UIImage(named: "image2"), style: .plain, target: self, action: #selector(topButtonTapped))
-        
-        // 將按鈕添加到導航欄上
-        self.navigationItem.rightBarButtonItems = [btn4, btn3, btn2, btn1]
-    }
-
-    @objc func topButtonTapped(_ sender: UIBarButtonItem) {
-        switch sender {
-        case navigationItem.rightBarButtonItems?[0]: // buttonLeft
-            print("Content 4 button tapped")
-            
-        case navigationItem.rightBarButtonItems?[3]: // buttonLeft
-            presentAlertController(title: "﻿選取裝置", message: nil)
-            
-        case navigationItem.rightBarButtonItems?[2]: // buttonMid
-            navigateToNotificationLogViewController()
-            
-        case navigationItem.rightBarButtonItems?[1]:
-            presentSearchViewController()
-            
-        default:
-            break
-        }
-    }
-    func presentSearchViewController() {
-        guard let viewController = findViewController() else {
-            print("無法找到視圖控制器")
-            return
-        }
-        
-        let searchVC = SearchVC() // 假設 SearchViewController 是您的搜索視圖控制器類
-        searchVC.title = navigationItem.searchController?.searchBar.text ?? "" // 使用搜索框的文本作为标题
-        viewController.navigationController?.pushViewController(searchVC, animated: true)
-    }
-    private func presentAlertController(title: String, message: String?) {
-        guard let viewController = findViewController() else {
-            print("無法找到視圖控制器")
-            return
-        }
-
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-
-        // 設置標題文字左對齊
-        let titleParagraphStyle = NSMutableParagraphStyle()
-        titleParagraphStyle.alignment = NSTextAlignment.left
-        let titleAttributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.paragraphStyle: titleParagraphStyle])
-        alertController.setValue(titleAttributedString, forKey: "attributedTitle")
-
-        alertController.addAction(UIAlertAction(title: "透過電視代碼連結", style: .default, handler: { (_) in
-            // buttonLeft 的處理代碼
-        }))
-
-        alertController.addAction(UIAlertAction(title: "了解詳情", style: .default, handler: { (_) in
-            // buttonMid 的處理代碼
-        }))
-
-        // 設置選項文字靠左對齊
-        for action in alertController.actions {
-            action.setValue(NSTextAlignment.left.rawValue, forKey: "titleTextAlignment")
-        }
-
-        viewController.present(alertController, animated: true, completion: nil)
-    }
-    private func navigateToNotificationLogViewController() {
-        guard let viewController = findViewController() else {
-            print("無法找到視圖控制器")
-            return
-        }
-        
-        let notificationLogVC = NotificationLogVC()
-        notificationLogVC.title = "通知"
-        viewController.navigationController?.pushViewController(notificationLogVC, animated: true)
-    }
-    private func findViewController() -> UIViewController? {
-        if let viewController = self.next as? UIViewController {
-            return viewController
-        } else {
-            var nextResponder = self.next
-            while let responder = nextResponder {
-                if let viewController = responder as? UIViewController {
-                    return viewController
-                }
-                nextResponder = responder.next
-            }
-        }
-        return nil
-    }
-
-    
-    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -182,7 +96,7 @@ class ContentTableViewController: UITableViewController {
             return 0
         }
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContentTableViewCell", for: indexPath) as! ContentTableViewCell
@@ -193,7 +107,9 @@ class ContentTableViewController: UITableViewController {
         // 配置 ConVideoFrameViews，例如堆叠16个
         cell.configureConVideoFrameViews(count: 16)
         
-        
+//        // 執行 YouTube 搜索
+//            let keywords = ["Kpop"] // 你的搜索關鍵字
+//            cell.doSearch(withKeywords: keywords, maxResults: 16)
         
         return cell
     }
@@ -238,7 +154,7 @@ class ContentTableViewController: UITableViewController {
                 if let symbol = symbol, let symbolImage = UIImage(systemName: symbol) {
                     let imageAttachment = NSTextAttachment()
                     imageAttachment.image = symbolImage.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
-
+                    
                     let imageString = NSAttributedString(attachment: imageAttachment)
                     completeString.append(imageString)
                 } else {
@@ -308,3 +224,5 @@ extension ContentTableViewController:ContentHeaderViewDelegate {
     }
     
 }
+
+

@@ -1,36 +1,38 @@
 import UIKit
 
-
-
-protocol BaseVCDelegate: AnyObject {
-    func didTapMenuButton()
-    func didTapNotificationLogButtonMid()
-}
-
 enum ViewControllerType: String {
     case home
     case subscribe
     case content
 }
 
-enum SetBarBtnItems: String, CaseIterable {
-    case search
-    case notifications
-    case display
-    
-    var systemName: String {
-        switch self {
-        case .search: return "magnifyingglass"
-        case .notifications: return "bell"
-        case .display: return "display.2"
-        }
+
+class BaseViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ButtonCollectionCellDelegate, UICollectionViewDelegateFlowLayout, BarButtonItemsDelegate {
+    // 實現 BarButtonItemsDelegate 的方法，這些方法將調用 barButtonItemsModel 的對應方法
+    func setBarBtnItems() {
+        barButtonItemsModel.setBarBtnItems()
     }
-}
-
-
-class BaseViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ButtonCollectionCellDelegate, UICollectionViewDelegateFlowLayout {
     
-    weak var delegate: BaseVCDelegate?
+    func topButtonTapped(_ sender: UIBarButtonItem) {
+        barButtonItemsModel.topButtonTapped(sender)
+    }
+    
+    func presentSearchViewController() {
+        barButtonItemsModel.presentSearchViewController()
+    }
+    
+    func presentAlertController(title: String, message: String?) {
+        barButtonItemsModel.presentAlertController(title: title, message: message)
+    }
+    
+    func navigateToNotificationLogViewController() {
+        barButtonItemsModel.navigateToNotificationLogViewController()
+    }
+    
+    var barButtonItemsModel: BarButtonItemsModel!
+    
+    
+    //    weak var delegate: BaseVCDelegate?
     
     var vcType: ViewControllerType?
     
@@ -39,7 +41,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         super.init(nibName: nil, bundle: nil)
     }
     
-  
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -49,13 +51,13 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-                scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
     lazy var contentView: UIView = {
         let view = UIView()
-                view.translatesAutoresizingMaskIntoConstraints = false
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -87,7 +89,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // 定義一個 UILabel 用於顯示 "Shorts" 文字
     lazy var shortsLbl: UILabel = {
         let label = UILabel()
-                label.translatesAutoresizingMaskIntoConstraints = false
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Shorts"
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 18) // 設置粗體 18PT
@@ -98,7 +100,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // 定義一個 StackView 用於將播放器符號和 "Shorts" 文字放在一起
     public lazy var shortsStackView: UIStackView = {
         let stackView = UIStackView()
-                stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 8 // 設置元件間距
         stackView.distribution = .fill // 將分佈設置為填充
@@ -139,8 +141,10 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         setViews()
         setLayout()
-        setBarBtnItems()
-
+//        setBarBtnItems()
+        barButtonItemsModel = BarButtonItemsModel(viewController: self)
+        barButtonItemsModel.setBarBtnItems()
+        
         buttonCollectionView.register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: ButtonCollectionViewCell.identifier)
         
         // 將 scrollView 的 contentSize 設置為 contentView 的大小，確保能夠正確上下滾動
@@ -148,7 +152,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         // 設置其他影片框架
         otherVideoFrameViews = setOtherVideoFrameViews()
-
+        
     }
     
     func setViews() {
@@ -176,33 +180,33 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         shortsStackView.translatesAutoresizingMaskIntoConstraints = false
         homeShortsFrameCollectionView.translatesAutoresizingMaskIntoConstraints = false
         subscribeHoriCollectionView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-
+            
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.heightAnchor.constraint(equalToConstant: totalHeight)
         ])
-
+        
         NSLayoutConstraint.activate([
             
-
+            
             singleVideoFrameView.topAnchor.constraint(equalTo: buttonCollectionView.bottomAnchor),
             singleVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             singleVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             singleVideoFrameView.heightAnchor.constraint(equalToConstant: 300),
-
+            
             shortsStackView.topAnchor.constraint(equalTo: singleVideoFrameView.bottomAnchor),
             shortsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             shortsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             shortsStackView.heightAnchor.constraint(equalToConstant: 60)
         ])
-
+        
         if vcType == .home {
             NSLayoutConstraint.activate([
                 
@@ -222,12 +226,12 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 subscribeSecItemView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 subscribeSecItemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 subscribeSecItemView.heightAnchor.constraint(equalToConstant: 90),
-
+                
                 buttonCollectionView.topAnchor.constraint(equalTo: subscribeSecItemView.bottomAnchor),
                 buttonCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 buttonCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 buttonCollectionView.heightAnchor.constraint(equalToConstant: 60),
-
+                
                 subscribeHoriCollectionView.topAnchor.constraint(equalTo: shortsStackView.bottomAnchor),
                 subscribeHoriCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 subscribeHoriCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -235,115 +239,20 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
             ])
         }
     }
-
-
+    
+    
     func calculateTotalHeight() -> CGFloat {
-         switch vcType {
-         case .home:
-             return 1020
-         case .subscribe:
-             return 780
-         default:
-             return 0
-         }
-     }
-
-
-    
-    @objc func didTapMenuButton() {
-        delegate?.didTapMenuButton()
-        delegate?.didTapNotificationLogButtonMid()
+        switch vcType {
+        case .home:
+            return 1020
+        case .subscribe:
+            return 780
+        default:
+            return 0
+        }
     }
     
-    func setBarBtnItems() {
-        var barButtonItems: [UIBarButtonItem] = []
-        for (index, item) in SetBarBtnItems.allCases.enumerated() {
-            let barButtonItem = UIBarButtonItem(image: UIImage(systemName: item.systemName),
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(topButtonTapped(_:)))
-            barButtonItem.tag = index
-            barButtonItems.append(barButtonItem)
-        }
-        self.navigationItem.setRightBarButtonItems(barButtonItems, animated: true)
-    }
     
-    @objc func topButtonTapped(_ sender: UIBarButtonItem) {
-        guard let itemType = SetBarBtnItems.allCases[safe: sender.tag] else { return }
-        switch itemType {
-        case .search:
-            presentSearchViewController()
-        case .notifications:
-            navigateToNotificationLogViewController()
-        case .display:
-            presentAlertController(title: "選取裝置", message: nil)
-        }
-    }
-
-    func presentSearchViewController() {
-        guard let viewController = findViewController() else {
-            return
-        }
-        
-        let searchVC = SearchVC() // 假設 SearchViewController 是您的搜索視圖控制器類
-        searchVC.title = navigationItem.searchController?.searchBar.text ?? "" // 使用搜索框的文本作为标题
-        viewController.navigationController?.pushViewController(searchVC, animated: true)
-    }
-
-    internal func presentAlertController(title: String, message: String?) {
-        guard let viewController = findViewController() else {
-            return
-        }
-        
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        
-        // 設置標題文字左對齊
-        let titleParagraphStyle = NSMutableParagraphStyle()
-        titleParagraphStyle.alignment = NSTextAlignment.left
-        let titleAttributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.paragraphStyle: titleParagraphStyle])
-        alertController.setValue(titleAttributedString, forKey: "attributedTitle")
-        
-        alertController.addAction(UIAlertAction(title: "透過電視代碼連結", style: .default, handler: { (_) in
-            // buttonLeft 的處理代碼
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "了解詳情", style: .default, handler: { (_) in
-            // buttonMid 的處理代碼
-        }))
-        
-        // 設置選項文字靠左對齊
-        for action in alertController.actions {
-            action.setValue(NSTextAlignment.left.rawValue, forKey: "titleTextAlignment")
-        }
-        
-        viewController.present(alertController, animated: true, completion: nil)
-    }
-
-    internal func navigateToNotificationLogViewController() {
-        guard let viewController = findViewController() else {
-            return
-        }
-        
-        let notificationLogVC = NotificationLogVC()
-        notificationLogVC.title = "通知"
-        viewController.navigationController?.pushViewController(notificationLogVC, animated: true)
-    }
-
-    internal func findViewController() -> UIViewController? {
-        // 從當前視圖控制器的 next 開始向上查找
-        var nextResponder = self.next
-        while let responder = nextResponder {
-            // 如果找到 UIViewController 實例，返回它
-            if let viewController = responder as? UIViewController {
-                return viewController
-            }
-            // 否則，繼續遍歷下一個響應者
-            nextResponder = responder.next
-        }
-        // 如果沒有找到 UIViewController 實例，返回 nil
-        return nil
-    }
-
     @objc func buttonTapped(_ sender: UIButton) {
         // 實現按鈕點擊的相應邏輯
     }
@@ -449,8 +358,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
 }
 
-
-
 extension BaseViewController {
     
     // 將觀看次數轉換為人性化的格式
@@ -549,7 +456,7 @@ extension BaseViewController {
     func searchYouTube(query: String, maxResults: Int, completion: @escaping (Welcome?) -> Void) {
         
         let apiKey = ""
-//        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
+        //        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
         let baseURL = "https://www.googleapis.com/youtube/v3/search"
         
         var components = URLComponents(string: baseURL)!
@@ -603,7 +510,7 @@ extension BaseViewController {
                                                viewCount: "987654321",
                                                daysSinceUpload: calculateTimeSinceUpload(from: item.snippet.publishedAt),
                                                atIndex: i)
-  
+                        
                         let videoID = item.id.videoID
                         videoIDs.append(videoID)
                     }

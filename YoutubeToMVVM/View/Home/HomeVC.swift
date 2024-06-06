@@ -9,7 +9,6 @@ class HomeVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         doSearch(withKeywords: keywords)
-        setBarBtnItems() // 調用新的方法來設置右側的 UIBarButtonItem
         searchAndLoadHomeShortsCollectionView(withQueries: queries)
     }
     

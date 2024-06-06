@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B0783AA2C11622E00A9E08A /* BarBtnItemsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0783A92C11622E00A9E08A /* BarBtnItemsModel.swift */; };
 		5B7C7C102C0D9F44005AE8C6 /* ConVideoFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */; };
 		5BDAA45B2C0B1908007DD2ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */; };
 		5BDAA45D2C0B1908007DD2ED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA45C2C0B1908007DD2ED /* SceneDelegate.swift */; };
@@ -67,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B0783A92C11622E00A9E08A /* BarBtnItemsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarBtnItemsModel.swift; sourceTree = "<group>"; };
 		5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConVideoFrameView.swift; sourceTree = "<group>"; };
 		5BDAA4572C0B1908007DD2ED /* YoutubeToMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoutubeToMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				5BDAA4B22C0B198D007DD2ED /* ShortsCollectionViewCell.swift */,
 				5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */,
 				5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */,
+				5B0783A92C11622E00A9E08A /* BarBtnItemsModel.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -468,6 +471,7 @@
 				5BDAA4C92C0B198D007DD2ED /* SearchVC.swift in Sources */,
 				5B7C7C102C0D9F44005AE8C6 /* ConVideoFrameView.swift in Sources */,
 				5BDAA4BE2C0B198D007DD2ED /* SlideInTransition.swift in Sources */,
+				5B0783AA2C11622E00A9E08A /* BarBtnItemsModel.swift in Sources */,
 				5BDAA4BD2C0B198D007DD2ED /* Observable.swift in Sources */,
 				5BDAA4D62C0B198D007DD2ED /* ShortsCollectionViewCell.swift in Sources */,
 				5BDAA45B2C0B1908007DD2ED /* AppDelegate.swift in Sources */,
