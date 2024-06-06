@@ -81,7 +81,7 @@ class ConVideoFrameView: UIView {
             conVideoFrameView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             conVideoFrameView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
-            buttonRight.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            buttonRight.trailingAnchor.constraint(equalTo: conVideoImgView.trailingAnchor),
             buttonRight.topAnchor.constraint(equalTo: conVideoImgView.bottomAnchor),
             buttonRight.heightAnchor.constraint(equalToConstant: 25),
             buttonRight.widthAnchor.constraint(equalToConstant: 25)

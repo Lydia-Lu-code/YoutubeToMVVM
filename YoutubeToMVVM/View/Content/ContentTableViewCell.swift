@@ -21,7 +21,7 @@ class ContentTableViewCell: UITableViewCell {
     private func calculateStackViewWidth() -> CGFloat {
         // 计算 stackView 的宽度
         let totalConVideoFrameViewWidth = 130 * 16 // 16 个 ConVideoFrameView 的总宽度
-        let totalSpacingWidth = 10 * (16 - 1) // 16 个 ConVideoFrameView 之间的间距
+        let totalSpacingWidth = 5 * (16 - 1) // 16 个 ConVideoFrameView 之间的间距
         let totalPaddingWidth = 10 * 2 // 前后的间距
         let stackViewWidth = totalConVideoFrameViewWidth + totalSpacingWidth + totalPaddingWidth
         return CGFloat(stackViewWidth)
@@ -83,4 +83,3 @@ class ContentTableViewCell: UITableViewCell {
     }
 
 }
-

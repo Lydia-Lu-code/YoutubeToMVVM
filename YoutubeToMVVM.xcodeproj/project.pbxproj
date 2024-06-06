@@ -48,6 +48,7 @@
 		5BDAA4D72C0B198D007DD2ED /* ShortsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */; };
 		5BDAA4D82C0B198D007DD2ED /* SubscribeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B42C0B198D007DD2ED /* SubscribeVC.swift */; };
 		5BDAA4D92C0B198D007DD2ED /* VideoFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */; };
+		5BEA70942C1221F500F4155F /* ContentTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70932C1221F500F4155F /* ContentTableViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,7 @@
 		5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortsTableViewController.swift; sourceTree = "<group>"; };
 		5BDAA4B42C0B198D007DD2ED /* SubscribeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscribeVC.swift; sourceTree = "<group>"; };
 		5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFrameView.swift; sourceTree = "<group>"; };
+		5BEA70932C1221F500F4155F /* ContentTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +224,7 @@
 			children = (
 				5BDAA48B2C0B198D007DD2ED /* STVWelcome.swift */,
 				5BDAA48C2C0B198D007DD2ED /* Welcome.swift */,
+				5BEA70932C1221F500F4155F /* ContentTableViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				5BDAA4C62C0B198D007DD2ED /* NotificationLogVC.swift in Sources */,
 				5BDAA4D82C0B198D007DD2ED /* SubscribeVC.swift in Sources */,
 				5BDAA4BA2C0B198D007DD2ED /* ContainerVC.swift in Sources */,
+				5BEA70942C1221F500F4155F /* ContentTableViewModel.swift in Sources */,
 				5BDAA4D22C0B198D007DD2ED /* ContentTableViewController.swift in Sources */,
 				5BDAA4C42C0B198D007DD2ED /* MenuVC.swift in Sources */,
 				5BDAA4C02C0B198D007DD2ED /* ContentHeaderView.swift in Sources */,

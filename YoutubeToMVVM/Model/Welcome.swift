@@ -36,7 +36,8 @@ struct Snippet: Codable {
     let publishedAt: String
     let channelID, title, description: String
     let thumbnails: Thumbnails
-    let channelTitle, liveBroadcastContent: String
+    let channelTitle: String
+    let liveBroadcastContent: String
     let publishTime: String
 //    let publishTime: Date
 
