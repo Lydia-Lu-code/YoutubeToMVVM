@@ -1,32 +1,22 @@
-//
-//  Observable.swift
-//  YoutubeViewController
-//
-//  Created by Lydia Lu on 2024/6/1.
-//
+// Observable.swift
 
 import Foundation
 
-// 原生觀察者綁定
-
-
-class Observable <T> {
-    
-    typealias Helper =  (T) -> Void
-    var helper:Helper?
-    
-    var value:T {
+class Observable<T> {
+    var value: T {
         didSet {
-            helper?(value)
+            listener?(value)
         }
     }
-    
+
+    private var listener: ((T) -> Void)?
+
     init(_ value: T) {
         self.value = value
     }
-    
-    // 更改畫面值時,呼叫的方法
-    func bind (completion: @escaping Helper) {
-        self.helper = completion
+
+    func bind(_ listener: @escaping (T) -> Void) {
+        self.listener = listener
+        listener(value)
     }
 }

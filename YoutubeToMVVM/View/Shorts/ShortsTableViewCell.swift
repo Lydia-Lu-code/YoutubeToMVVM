@@ -46,12 +46,7 @@ func setViews() {
         shortsBtnView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -150),
         shortsBtnView.widthAnchor.constraint(equalToConstant: 320), // 固定寬度為200
     ])
-
 }
-
-
-    
-
 }
 
 
