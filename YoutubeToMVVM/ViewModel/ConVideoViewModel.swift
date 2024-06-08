@@ -20,8 +20,7 @@ class ConVideoViewModel {
     }
 
     func searchYouTubeToContent(query: String, maxResults: Int, completion: @escaping (Welcome?) -> Void) {
-//        let apiKey = ""
-        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
+        let apiKey = ""
         let baseURL = "https://www.googleapis.com/youtube/v3/search"
         
         var components = URLComponents(string: baseURL)!
@@ -94,7 +93,7 @@ class ConVideoViewModel {
 
 class ConVideoFrameViewModel {
     let title: String
-    let thumbnailURL: String?
+    let thumbnailURL: String
     let channelTitle: String
     let videoID: String
     

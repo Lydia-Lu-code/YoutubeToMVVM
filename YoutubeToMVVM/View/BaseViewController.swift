@@ -456,7 +456,6 @@ extension BaseViewController {
     func searchYouTube(query: String, maxResults: Int, completion: @escaping (Welcome?) -> Void) {
         
         let apiKey = ""
-        //        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
         let baseURL = "https://www.googleapis.com/youtube/v3/search"
         
         var components = URLComponents(string: baseURL)!

@@ -147,7 +147,6 @@ extension ShortsTableViewController {
     func loadDataFromYouTubeAPI() {
         
         let apiKey = ""
-//        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY" // 替換為你的 YouTube API 金鑰
         let baseURL = "https://www.googleapis.com/youtube/v3/videos"
         
         var components = URLComponents(string: baseURL)!
