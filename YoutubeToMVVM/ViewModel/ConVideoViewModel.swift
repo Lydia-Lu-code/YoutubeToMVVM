@@ -1,10 +1,9 @@
-
-// VideoViewModel.swift
+// ConVideoViewModel.swift
 
 import Foundation
 
-class VideoViewModel {
-    var data: Observable<[VideoFrameViewModel]> = Observable([])
+class ConVideoViewModel {
+    var data: Observable<[ConVideoFrameViewModel]> = Observable([])
     var showItems: [String] = []
     var videoIDs: [String] = []
 
@@ -20,11 +19,9 @@ class VideoViewModel {
         cancelSearch()
     }
 
-    
     func searchYouTubeToContent(query: String, maxResults: Int, completion: @escaping (Welcome?) -> Void) {
-        
-        let apiKey = ""
-//        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
+//        let apiKey = ""
+        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
         let baseURL = "https://www.googleapis.com/youtube/v3/search"
         
         var components = URLComponents(string: baseURL)!
@@ -37,7 +34,7 @@ class VideoViewModel {
         ]
         
         let url = components.url!
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
                 print("Error: \(String(describing: error))")
                 completion(nil)
@@ -51,49 +48,53 @@ class VideoViewModel {
                 completion(nil)
             }
         }
-        task.resume()
+        dataTask?.resume()
     }
 
     func doSearch(withKeywords keywords: [String], maxResults: Int) {
         var currentIndex = 0
+        var allVideoFrameViewModels: [ConVideoFrameViewModel] = []
 
+        let dispatchGroup = DispatchGroup()
+        
         for keyword in keywords {
+            dispatchGroup.enter()
             print("VideoVM.keyword == \(keyword)")
             searchYouTubeToContent(query: keyword, maxResults: maxResults) { [weak self] response in
+                defer { dispatchGroup.leave() }
                 guard let self = self else { return }
                 if let response = response {
-                    var videoFrameViewModels: [VideoFrameViewModel] = []
-                    for (_, item) in response.items.enumerated() {
+                    for item in response.items {
                         if currentIndex < maxResults {
                             self.showItems.append(keyword)
-                            let videoFrameViewModel = VideoFrameViewModel(
+                            let videoFrameViewModel = ConVideoFrameViewModel(
                                 title: item.snippet.title,
                                 thumbnailURL: item.snippet.thumbnails.high.url,
                                 channelTitle: item.snippet.channelTitle,
                                 videoID: item.id.videoID
                             )
-                            print("VideoVM.videoIDs == \(videoIDs)")
-                            videoFrameViewModels.append(videoFrameViewModel)
+                            allVideoFrameViewModels.append(videoFrameViewModel)
                             self.videoIDs.append(item.id.videoID)
                             currentIndex += 1
                         } else {
                             break
                         }
                     }
-                    DispatchQueue.main.async {
-                        self.data.value = videoFrameViewModels
-                    }
                 } else {
                     print("Failed to fetch results for keyword: \(keyword)")
                 }
             }
         }
+
+        dispatchGroup.notify(queue: .main) {
+            self.data.value = allVideoFrameViewModels
+        }
     }
 }
 
-class VideoFrameViewModel {
+class ConVideoFrameViewModel {
     let title: String
-    let thumbnailURL: String
+    let thumbnailURL: String?
     let channelTitle: String
     let videoID: String
     

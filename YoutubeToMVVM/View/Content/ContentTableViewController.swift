@@ -11,12 +11,11 @@ import UIKit
 class ContentTableViewController: UITableViewController, BarButtonItemsDelegate {
     
     var barButtonItemsModel: BarButtonItemsModel!
-    var videoFrameViews: [ConVideoFrameView] = [] // 用來存放所有的 ConVideoFrameView
-    var showItems: [String] = []
-    var videoIDs: [String] = []
-    //    let conViewModel = ConViewModel()
-    let conViewModel = VideoViewModel()
-    var conVideoFrameViews: [ConVideoFrameView] = [] // 根據需要初始化
+//    var videoFrameViews: [ConVideoFrameView] = []
+//    var showItems: [String] = []
+//    var videoIDs: [String] = []
+    let conViewModel = ConVideoViewModel()
+//    var conVideoFrameViews: [ConVideoFrameView] = []
     
     lazy var contentTopView: ContentTopView = {
         let view = ContentTopView()
@@ -65,78 +64,78 @@ class ContentTableViewController: UITableViewController, BarButtonItemsDelegate 
     }
     
     
-    func resizeImage(image: UIImage?, targetSize: CGSize) -> UIImage? {
-        guard let image = image else { return nil }
-        
-        let size = image.size
-        let widthRatio = targetSize.width / size.width
-        let heightRatio = targetSize.height / size.height
-        
-        let newSize: CGSize
-        if widthRatio > heightRatio {
-            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-        } else {
-            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
-        }
-        
-        let rect = CGRect(origin: .zero, size: newSize)
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
+//    func resizeImage(image: UIImage?, targetSize: CGSize) -> UIImage? {
+//        guard let image = image else { return nil }
+//        
+//        let size = image.size
+//        let widthRatio = targetSize.width / size.width
+//        let heightRatio = targetSize.height / size.height
+//        
+//        let newSize: CGSize
+//        if widthRatio > heightRatio {
+//            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+//        } else {
+//            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+//        }
+//        
+//        let rect = CGRect(origin: .zero, size: newSize)
+//        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+//        image.draw(in: rect)
+//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        
+//        return newImage
+//    }
     
     func bindViewModel() {
         conViewModel.data.bind { [weak self] _ in
             self?.tableView.reloadData()
         }
     }
+//    
+//    private func getVideoFrameView(at index: Int) -> ConVideoFrameView? {
+//        if index >= 0 && index < videoFrameViews.count {
+//            return videoFrameViews[index]
+//        }
+//        return nil
+//    }
+//    
+//    func setImage(from urlString: String, to imageView: UIImageView) {
+//        guard let url = URL(string: urlString) else {
+//            return
+//        }
+//        
+//        URLSession.shared.dataTask(with: url) { data, _, error in
+//            if error != nil {
+//                return
+//            }
+//            guard let data = data, let image = UIImage(data: data) else {
+//                return
+//            }
+//            DispatchQueue.main.async {
+//                imageView.image = image
+//            }
+//        }.resume()
+//    }
     
-    private func getVideoFrameView(at index: Int) -> ConVideoFrameView? {
-        if index >= 0 && index < videoFrameViews.count {
-            return videoFrameViews[index]
-        }
-        return nil
-    }
-    
-    func setImage(from urlString: String, to imageView: UIImageView) {
-        guard let url = URL(string: urlString) else {
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            if error != nil {
-                return
-            }
-            guard let data = data, let image = UIImage(data: data) else {
-                return
-            }
-            DispatchQueue.main.async {
-                imageView.image = image
-            }
-        }.resume()
-    }
-    
-    func loadDataVideoFrameView(with item: VideoFrameViewModel, index: Int) {
-        
-        print("CON Item data before loading: \(item)")
-        
-        guard let videoFrameView = getVideoFrameView(at: index) else {
-            return
-        }
-        
-        
-        DispatchQueue.main.async {
-            videoFrameView.titleLbl.text = item.title
-            videoFrameView.channelId.text = item.channelTitle
-            self.setImage(from: item.thumbnailURL, to: videoFrameView.conVideoImgView)
-            
-        }
-        
-        print("CON Item data after loading: \(item)")
-    }
+//    func loadDataVideoFrameView(with item: ConVideoFrameViewModel, index: Int) {
+//        
+//        print("CON Item data before loading: \(item)")
+//        
+//        guard let videoFrameView = getVideoFrameView(at: index) else {
+//            return
+//        }
+//        
+//        
+//        DispatchQueue.main.async {
+//            videoFrameView.titleLbl.text = item.title
+//            videoFrameView.channelId.text = item.channelTitle
+//            self.setImage(from: item.thumbnailURL, to: videoFrameView.conVideoImgView)
+//            
+//        }
+//        
+//        print("CON Item data after loading: \(item)")
+//    }
     
     // MARK: - Table view data source
     
@@ -158,22 +157,29 @@ class ContentTableViewController: UITableViewController, BarButtonItemsDelegate 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ContentTableViewCell", for: indexPath) as? ContentTableViewCell else {
             return UITableViewCell()
         }
-
         if indexPath.row < conViewModel.data.value.count {
             let item = conViewModel.data.value[indexPath.row]
-            
-            // 準備資料
-            let viewModels: [VideoFrameViewModel] = [item] // 根據需要調整資料數量
-
-            // 設置 section 的值
-            cell.section = indexPath.section
-
-            cell.createConVideoFrameViews(count: 16)
-//             傳遞資料給 configureConVideoFrameViews 函數
-//            cell.configureConVideoFrameViews(with: viewModels)
+            cell.loadData(with: item)
         }
         return cell
     }
+    
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ContentTableViewCell", for: indexPath) as? ContentTableViewCell else {
+//            return UITableViewCell()
+//        }
+//
+//        if indexPath.row < conViewModel.data.value.count {
+//            let item = conViewModel.data.value[indexPath.row]
+//            
+//            // 準備資料
+//            let viewModels: [ConVideoFrameViewModel] = [item]
+//            cell.section = indexPath.section
+//            cell.configureConVideoFrameViews(with: viewModels)
+//            
+//        }
+//        return cell
+//    }
 
         
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -268,17 +274,13 @@ class ContentTableViewController: UITableViewController, BarButtonItemsDelegate 
             } else {
                 return 45
             }
-            
-            
         }
         
         // 設置 cell 的高度
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             return 160
         }
-        
     }
-    
 
 extension ContentTableViewController:ContentHeaderViewDelegate {
     func doSegueAction() {

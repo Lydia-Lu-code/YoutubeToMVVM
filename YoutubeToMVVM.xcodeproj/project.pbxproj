@@ -47,9 +47,10 @@
 		5BDAA4D72C0B198D007DD2ED /* ShortsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */; };
 		5BDAA4D82C0B198D007DD2ED /* SubscribeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B42C0B198D007DD2ED /* SubscribeVC.swift */; };
 		5BDAA4D92C0B198D007DD2ED /* VideoFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */; };
-		5BEA70962C12AB2100F4155F /* ConViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70952C12AB2100F4155F /* ConViewModel.swift */; };
+		5BEA70962C12AB2100F4155F /* ConVideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70952C12AB2100F4155F /* ConVideoViewModel.swift */; };
 		5BEA70982C12AC2B00F4155F /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70972C12AC2B00F4155F /* Observable.swift */; };
 		5BEA709B2C12CCA900F4155F /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA709A2C12CCA900F4155F /* ImageLoader.swift */; };
+		5BEA70E32C1428B100F4155F /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70E22C1428B100F4155F /* TableHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,9 +115,10 @@
 		5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortsTableViewController.swift; sourceTree = "<group>"; };
 		5BDAA4B42C0B198D007DD2ED /* SubscribeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscribeVC.swift; sourceTree = "<group>"; };
 		5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFrameView.swift; sourceTree = "<group>"; };
-		5BEA70952C12AB2100F4155F /* ConViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConViewModel.swift; sourceTree = "<group>"; };
+		5BEA70952C12AB2100F4155F /* ConVideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConVideoViewModel.swift; sourceTree = "<group>"; };
 		5BEA70972C12AC2B00F4155F /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		5BEA709A2C12CCA900F4155F /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		5BEA70E22C1428B100F4155F /* TableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +172,7 @@
 		5BDAA44E2C0B1908007DD2ED = {
 			isa = PBXGroup;
 			children = (
+				5BEA70E22C1428B100F4155F /* TableHeaderView.swift */,
 				5BEA709A2C12CCA900F4155F /* ImageLoader.swift */,
 				5BDAA4592C0B1908007DD2ED /* YoutubeToMVVM */,
 				5BDAA4702C0B1909007DD2ED /* YoutubeToMVVMTests */,
@@ -328,7 +331,7 @@
 		5BEA70992C12C03F00F4155F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				5BEA70952C12AB2100F4155F /* ConViewModel.swift */,
+				5BEA70952C12AB2100F4155F /* ConVideoViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -488,8 +491,9 @@
 				5BDAA4BE2C0B198D007DD2ED /* SlideInTransition.swift in Sources */,
 				5B0783AA2C11622E00A9E08A /* BarBtnItemsModel.swift in Sources */,
 				5BDAA4D62C0B198D007DD2ED /* ShortsCollectionViewCell.swift in Sources */,
+				5BEA70E32C1428B100F4155F /* TableHeaderView.swift in Sources */,
 				5BDAA45B2C0B1908007DD2ED /* AppDelegate.swift in Sources */,
-				5BEA70962C12AB2100F4155F /* ConViewModel.swift in Sources */,
+				5BEA70962C12AB2100F4155F /* ConVideoViewModel.swift in Sources */,
 				5BEA709B2C12CCA900F4155F /* ImageLoader.swift in Sources */,
 				5BDAA4B92C0B198D007DD2ED /* Welcome.swift in Sources */,
 				5BDAA4C32C0B198D007DD2ED /* HomeShortsFrameCollectionView.swift in Sources */,
