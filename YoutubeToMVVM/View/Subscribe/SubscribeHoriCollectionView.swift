@@ -1,10 +1,5 @@
 import UIKit
 
-struct SubVideoContent {
-    let title: String
-    let thumbnailURL: String
-}
-
 class SubscribeHoriCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     var subVideoContents: [SubVideoContent] = []

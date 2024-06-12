@@ -25,7 +25,7 @@
 		5BDAA4C02C0B198D007DD2ED /* ContentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4982C0B198D007DD2ED /* ContentHeaderView.swift */; };
 		5BDAA4C12C0B198D007DD2ED /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4992C0B198D007DD2ED /* ContentTableViewCell.swift */; };
 		5BDAA4C22C0B198D007DD2ED /* ContentTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA49A2C0B198D007DD2ED /* ContentTopView.swift */; };
-		5BDAA4C32C0B198D007DD2ED /* HomeShortsFrameCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA49C2C0B198D007DD2ED /* HomeShortsFrameCollectionView.swift */; };
+		5BDAA4C32C0B198D007DD2ED /* ShortsFrameCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA49C2C0B198D007DD2ED /* ShortsFrameCollectionView.swift */; };
 		5BDAA4C42C0B198D007DD2ED /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA49D2C0B198D007DD2ED /* MenuVC.swift */; };
 		5BDAA4C52C0B198D007DD2ED /* NotificationCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA49E2C0B198D007DD2ED /* NotificationCustomView.swift */; };
 		5BDAA4C62C0B198D007DD2ED /* NotificationLogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA49F2C0B198D007DD2ED /* NotificationLogVC.swift */; };
@@ -41,14 +41,15 @@
 		5BDAA4D02C0B198D007DD2ED /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4AC2C0B198D007DD2ED /* BaseViewController.swift */; };
 		5BDAA4D12C0B198D007DD2ED /* ButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4AD2C0B198D007DD2ED /* ButtonCollectionViewCell.swift */; };
 		5BDAA4D22C0B198D007DD2ED /* ContentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4AE2C0B198D007DD2ED /* ContentTableViewController.swift */; };
-		5BDAA4D32C0B198D007DD2ED /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4AF2C0B198D007DD2ED /* HomeVC.swift */; };
+		5BDAA4D32C0B198D007DD2ED /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4AF2C0B198D007DD2ED /* HomeViewController.swift */; };
 		5BDAA4D42C0B198D007DD2ED /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B02C0B198D007DD2ED /* MainTabBarController.swift */; };
 		5BDAA4D62C0B198D007DD2ED /* ShortsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B22C0B198D007DD2ED /* ShortsCollectionViewCell.swift */; };
 		5BDAA4D72C0B198D007DD2ED /* ShortsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */; };
-		5BDAA4D82C0B198D007DD2ED /* SubscribeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B42C0B198D007DD2ED /* SubscribeVC.swift */; };
+		5BDAA4D82C0B198D007DD2ED /* SubscribeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B42C0B198D007DD2ED /* SubscribeViewController.swift */; };
 		5BDAA4D92C0B198D007DD2ED /* VideoFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */; };
-		5BEA70962C12AB2100F4155F /* ConVideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70952C12AB2100F4155F /* ConVideoViewModel.swift */; };
+		5BEA70962C12AB2100F4155F /* VideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70952C12AB2100F4155F /* VideoViewModel.swift */; };
 		5BEA70982C12AC2B00F4155F /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70972C12AC2B00F4155F /* Observable.swift */; };
+		5BEA71922C15587800F4155F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA71912C15587800F4155F /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,16 +72,16 @@
 /* Begin PBXFileReference section */
 		5B0783A92C11622E00A9E08A /* BarBtnItemsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarBtnItemsModel.swift; sourceTree = "<group>"; };
 		5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConVideoFrameView.swift; sourceTree = "<group>"; };
-		5BDAA4572C0B1908007DD2ED /* YoutubeToMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoutubeToMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BDAA4572C0B1908007DD2ED /* YoutubeToMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = YoutubeToMVVM.app; path = "/Users/lydia.o3o/Desktop/YoutubeToMVVM/build/Debug-iphoneos/YoutubeToMVVM.app"; sourceTree = "<absolute>"; };
 		5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BDAA45C2C0B1908007DD2ED /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5BDAA4612C0B1908007DD2ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5BDAA4632C0B1909007DD2ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BDAA4662C0B1909007DD2ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5BDAA4682C0B1909007DD2ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5BDAA46D2C0B1909007DD2ED /* YoutubeToMVVMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoutubeToMVVMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BDAA46D2C0B1909007DD2ED /* YoutubeToMVVMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = YoutubeToMVVMTests.xctest; path = "/Users/lydia.o3o/Desktop/YoutubeToMVVM/build/Debug-iphoneos/YoutubeToMVVM.app/PlugIns/YoutubeToMVVMTests.xctest"; sourceTree = "<absolute>"; };
 		5BDAA4712C0B1909007DD2ED /* YoutubeToMVVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVMTests.swift; sourceTree = "<group>"; };
-		5BDAA4772C0B1909007DD2ED /* YoutubeToMVVMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoutubeToMVVMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BDAA4772C0B1909007DD2ED /* YoutubeToMVVMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = YoutubeToMVVMUITests.xctest; path = "/Users/lydia.o3o/Desktop/YoutubeToMVVM/build/Debug-iphoneos/YoutubeToMVVMUITests-Runner.app/PlugIns/YoutubeToMVVMUITests.xctest"; sourceTree = "<absolute>"; };
 		5BDAA47B2C0B1909007DD2ED /* YoutubeToMVVMUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVMUITests.swift; sourceTree = "<group>"; };
 		5BDAA47D2C0B1909007DD2ED /* YoutubeToMVVMUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeToMVVMUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5BDAA48B2C0B198D007DD2ED /* STVWelcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STVWelcome.swift; sourceTree = "<group>"; };
@@ -91,7 +92,7 @@
 		5BDAA4982C0B198D007DD2ED /* ContentHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentHeaderView.swift; sourceTree = "<group>"; };
 		5BDAA4992C0B198D007DD2ED /* ContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
 		5BDAA49A2C0B198D007DD2ED /* ContentTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentTopView.swift; sourceTree = "<group>"; };
-		5BDAA49C2C0B198D007DD2ED /* HomeShortsFrameCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeShortsFrameCollectionView.swift; sourceTree = "<group>"; };
+		5BDAA49C2C0B198D007DD2ED /* ShortsFrameCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortsFrameCollectionView.swift; sourceTree = "<group>"; };
 		5BDAA49D2C0B198D007DD2ED /* MenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		5BDAA49E2C0B198D007DD2ED /* NotificationCustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCustomView.swift; sourceTree = "<group>"; };
 		5BDAA49F2C0B198D007DD2ED /* NotificationLogVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationLogVC.swift; sourceTree = "<group>"; };
@@ -107,14 +108,16 @@
 		5BDAA4AC2C0B198D007DD2ED /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		5BDAA4AD2C0B198D007DD2ED /* ButtonCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		5BDAA4AE2C0B198D007DD2ED /* ContentTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentTableViewController.swift; sourceTree = "<group>"; };
-		5BDAA4AF2C0B198D007DD2ED /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		5BDAA4AF2C0B198D007DD2ED /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		5BDAA4B02C0B198D007DD2ED /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		5BDAA4B22C0B198D007DD2ED /* ShortsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortsCollectionViewCell.swift; sourceTree = "<group>"; };
 		5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortsTableViewController.swift; sourceTree = "<group>"; };
-		5BDAA4B42C0B198D007DD2ED /* SubscribeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscribeVC.swift; sourceTree = "<group>"; };
+		5BDAA4B42C0B198D007DD2ED /* SubscribeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscribeViewController.swift; sourceTree = "<group>"; };
 		5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFrameView.swift; sourceTree = "<group>"; };
-		5BEA70952C12AB2100F4155F /* ConVideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConVideoViewModel.swift; sourceTree = "<group>"; };
+		5BEA70952C12AB2100F4155F /* VideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewModel.swift; sourceTree = "<group>"; };
 		5BEA70972C12AC2B00F4155F /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		5BEA71912C15587800F4155F /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		5BEA71932C194ED200F4155F /* YoutubeToMVVM-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YoutubeToMVVM-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,18 +174,8 @@
 				5BDAA4592C0B1908007DD2ED /* YoutubeToMVVM */,
 				5BDAA4702C0B1909007DD2ED /* YoutubeToMVVMTests */,
 				5BDAA47A2C0B1909007DD2ED /* YoutubeToMVVMUITests */,
-				5BDAA4582C0B1908007DD2ED /* Products */,
+				5BEA71932C194ED200F4155F /* YoutubeToMVVM-Bridging-Header.h */,
 			);
-			sourceTree = "<group>";
-		};
-		5BDAA4582C0B1908007DD2ED /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5BDAA4572C0B1908007DD2ED /* YoutubeToMVVM.app */,
-				5BDAA46D2C0B1909007DD2ED /* YoutubeToMVVMTests.xctest */,
-				5BDAA4772C0B1909007DD2ED /* YoutubeToMVVMUITests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		5BDAA4592C0B1908007DD2ED /* YoutubeToMVVM */ = {
@@ -225,6 +218,7 @@
 			children = (
 				5BDAA48B2C0B198D007DD2ED /* STVWelcome.swift */,
 				5BDAA48C2C0B198D007DD2ED /* Welcome.swift */,
+				5BEA71912C15587800F4155F /* Model.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -279,10 +273,10 @@
 			isa = PBXGroup;
 			children = (
 				5B7C7C052C0C2774005AE8C6 /* Notification */,
-				5BDAA49C2C0B198D007DD2ED /* HomeShortsFrameCollectionView.swift */,
+				5BDAA49C2C0B198D007DD2ED /* ShortsFrameCollectionView.swift */,
 				5BDAA49D2C0B198D007DD2ED /* MenuVC.swift */,
 				5BDAA4A22C0B198D007DD2ED /* SearchVC.swift */,
-				5BDAA4AF2C0B198D007DD2ED /* HomeVC.swift */,
+				5BDAA4AF2C0B198D007DD2ED /* HomeViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -303,7 +297,7 @@
 			children = (
 				5BDAA4A82C0B198D007DD2ED /* SubscribeHoriCollectionView.swift */,
 				5BDAA4A92C0B198D007DD2ED /* SubscribeSecItemView.swift */,
-				5BDAA4B42C0B198D007DD2ED /* SubscribeVC.swift */,
+				5BDAA4B42C0B198D007DD2ED /* SubscribeViewController.swift */,
 			);
 			path = Subscribe;
 			sourceTree = "<group>";
@@ -325,7 +319,7 @@
 		5BEA70992C12C03F00F4155F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				5BEA70952C12AB2100F4155F /* ConVideoViewModel.swift */,
+				5BEA70952C12AB2100F4155F /* VideoViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -398,6 +392,7 @@
 				TargetAttributes = {
 					5BDAA4562C0B1908007DD2ED = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1540;
 					};
 					5BDAA46C2C0B1909007DD2ED = {
 						CreatedOnToolsVersion = 15.4;
@@ -418,7 +413,7 @@
 				Base,
 			);
 			mainGroup = 5BDAA44E2C0B1908007DD2ED;
-			productRefGroup = 5BDAA4582C0B1908007DD2ED /* Products */;
+			productRefGroup = 5BDAA44E2C0B1908007DD2ED;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -465,13 +460,14 @@
 				5BDAA4CA2C0B198D007DD2ED /* ShortsBtnView.swift in Sources */,
 				5BDAA4D42C0B198D007DD2ED /* MainTabBarController.swift in Sources */,
 				5BDAA4C62C0B198D007DD2ED /* NotificationLogVC.swift in Sources */,
-				5BDAA4D82C0B198D007DD2ED /* SubscribeVC.swift in Sources */,
+				5BDAA4D82C0B198D007DD2ED /* SubscribeViewController.swift in Sources */,
 				5BDAA4BA2C0B198D007DD2ED /* ContainerVC.swift in Sources */,
 				5BDAA4D22C0B198D007DD2ED /* ContentTableViewController.swift in Sources */,
 				5BDAA4C42C0B198D007DD2ED /* MenuVC.swift in Sources */,
 				5BDAA4C02C0B198D007DD2ED /* ContentHeaderView.swift in Sources */,
-				5BDAA4D32C0B198D007DD2ED /* HomeVC.swift in Sources */,
+				5BDAA4D32C0B198D007DD2ED /* HomeViewController.swift in Sources */,
 				5BDAA4CE2C0B198D007DD2ED /* SubscribeSecItemView.swift in Sources */,
+				5BEA71922C15587800F4155F /* Model.swift in Sources */,
 				5BDAA4C22C0B198D007DD2ED /* ContentTopView.swift in Sources */,
 				5BDAA4CB2C0B198D007DD2ED /* ShortsEmojiBtnView.swift in Sources */,
 				5BDAA4B82C0B198D007DD2ED /* STVWelcome.swift in Sources */,
@@ -486,9 +482,9 @@
 				5B0783AA2C11622E00A9E08A /* BarBtnItemsModel.swift in Sources */,
 				5BDAA4D62C0B198D007DD2ED /* ShortsCollectionViewCell.swift in Sources */,
 				5BDAA45B2C0B1908007DD2ED /* AppDelegate.swift in Sources */,
-				5BEA70962C12AB2100F4155F /* ConVideoViewModel.swift in Sources */,
+				5BEA70962C12AB2100F4155F /* VideoViewModel.swift in Sources */,
 				5BDAA4B92C0B198D007DD2ED /* Welcome.swift in Sources */,
-				5BDAA4C32C0B198D007DD2ED /* HomeShortsFrameCollectionView.swift in Sources */,
+				5BDAA4C32C0B198D007DD2ED /* ShortsFrameCollectionView.swift in Sources */,
 				5BDAA4C72C0B198D007DD2ED /* NotificationTableViewCell.swift in Sources */,
 				5BDAA4D72C0B198D007DD2ED /* ShortsTableViewController.swift in Sources */,
 				5BDAA4C12C0B198D007DD2ED /* ContentTableViewCell.swift in Sources */,
@@ -676,6 +672,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M2MF9LH58A;
@@ -694,6 +691,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Lydia.YoutubeToMVVM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "YoutubeToMVVM-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -704,6 +703,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M2MF9LH58A;
@@ -722,6 +722,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Lydia.YoutubeToMVVM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "YoutubeToMVVM-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

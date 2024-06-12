@@ -1,19 +1,19 @@
 import UIKit
 import WebKit
 
-class HomeVC: BaseViewController {
+class HomeViewController: BaseViewController {
     
-    let keywords = ["todo EP"]
-    let queries = ["txt Dance shorts"]
-    let viewModel = VideoViewModel()
-    let homeShortsFrameCollectionView = HomeShortsFrameCollectionView()
+//    let keywords = ["todo EP"]
+//    let queries = ["txt Dance shorts"]
+//    let viewModel = VideoViewModel()
+//    let shortsFrameCollectionView = ShortsFrameCollectionView()
 
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        viewModel.searchAndLoad(withQueries: ["query1", "query2"], for: .home)
+//        
+//        viewModel.searchAndLoad(withQueries: ["todo EP", "txt Dance shorts"], for: .home)
 
         
 //        doSearch(withKeywords: keywords)

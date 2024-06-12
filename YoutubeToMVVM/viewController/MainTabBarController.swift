@@ -19,7 +19,7 @@ class MainTabBarController: UITabBarController {
 
     private func setViewControllers() {
         // HomeVC
-        let homeVC = HomeVC(vcType: .home)
+        let homeVC = HomeViewController(vcType: .home)
         let homeNav = UINavigationController(rootViewController: homeVC)
         homeNav.tabBarItem = UITabBarItem(title: "Home", image: nil, tag: 0)
         
@@ -34,7 +34,7 @@ class MainTabBarController: UITabBarController {
         addNav.tabBarItem = UITabBarItem(title: "Add", image: nil, tag: 2)
         
         // SubscribeVC
-        let subscribeVC = SubscribeVC(vcType: .subscribe)
+        let subscribeVC = SubscribeViewController(vcType: .subscribe)
         let subscribeNav = UINavigationController(rootViewController: subscribeVC)
         subscribeNav.tabBarItem = UITabBarItem(title: "Subscribe", image: nil, tag: 3)
         

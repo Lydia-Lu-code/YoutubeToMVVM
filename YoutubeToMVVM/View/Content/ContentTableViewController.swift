@@ -11,8 +11,8 @@ import UIKit
 class ContentTableViewController: UITableViewController, BarButtonItemsDelegate {
     
     var barButtonItemsModel: BarButtonItemsModel!
-    var conViewModel1 = ConVideoViewModel()
-    var conViewModel2 = ConVideoViewModel()
+    var conViewModel1 = VideoViewModel()
+    var conViewModel2 = VideoViewModel()
     
     lazy var contentTopView: ContentTopView = {
         let view = ContentTopView()
@@ -30,8 +30,13 @@ class ContentTableViewController: UITableViewController, BarButtonItemsDelegate 
         tableView.sectionHeaderTopPadding = 0
         
         bindViewModel()
-        conViewModel1.doSearch(withKeywords: ["2024 韓 團綜"], maxResults: 16)
-        conViewModel2.doSearch(withKeywords: ["2023 年末舞台"], maxResults: 16)
+        conViewModel1.searchAndLoad(withQueries: ["2024 韓 團綜",], for: .content)
+        
+        
+        conViewModel1.searchAndLoad(withQueries: ["2023 年末舞台",], for: .content)
+        
+//        conViewModel1.doSearchForContent(withKeywords: ["2024 韓 團綜"], maxResults: 16)
+//        conViewModel2.doSearchForContent(withKeywords: ["2023 年末舞台"], maxResults: 16)
         
         // 初始化 barButtonItemsModel 並設置代理
         barButtonItemsModel = BarButtonItemsModel(viewController: self)

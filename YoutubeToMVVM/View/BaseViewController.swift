@@ -1,12 +1,5 @@
 import UIKit
 
-enum ViewControllerType: String {
-    case home
-    case subscribe
-    case content
-}
-
-
 class BaseViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ButtonCollectionCellDelegate, UICollectionViewDelegateFlowLayout, BarButtonItemsDelegate {
     // 實現 BarButtonItemsDelegate 的方法，這些方法將調用 barButtonItemsModel 的對應方法
     func setBarBtnItems() {
@@ -116,8 +109,8 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var viewCount = ""
     var subscribeSecItemView = SubscribeSecItemView()
     
-    lazy var homeShortsFrameCollectionView: HomeShortsFrameCollectionView = {
-        let collectionView = HomeShortsFrameCollectionView()
+    lazy var shortsFrameCollectionView: ShortsFrameCollectionView = {
+        let collectionView = ShortsFrameCollectionView()
         return collectionView
     }()
     
@@ -129,8 +122,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var totalHeight: CGFloat =  0
     
     var videoIDs: [String] = []
-    
-    
+    var videoViewModel: VideoViewModel!
     
     
     override func viewDidLoad() {
@@ -147,12 +139,62 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         buttonCollectionView.register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: ButtonCollectionViewCell.identifier)
         
+        // Update contentSize
+        updateContentSize()
+        
         // 將 scrollView 的 contentSize 設置為 contentView 的大小，確保能夠正確上下滾動
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: totalHeight)
         
         // 設置其他影片框架
         otherVideoFrameViews = setOtherVideoFrameViews()
         
+        // 初始化 VideoViewModel 并加载数据
+        videoViewModel = VideoViewModel()
+        videoViewModel.viewController = self
+        videoViewModel.shortsFrameCollectionView = shortsFrameCollectionView
+        videoViewModel.subscribeHoriCollectionView = subscribeHoriCollectionView
+        
+        // 根据视图控制器类型加载不同的数据
+        if let vcType = vcType {
+            loadData(for: vcType)
+        }
+
+        // 設置 VideoViewModel 的回調
+        
+        videoViewModel.dataLoadedCallback = { [weak self] videoModels in
+            guard let self = self else { return }
+            for (index, videoModel) in videoModels.enumerated() {
+                let title = videoModel.title
+                let thumbnailURL = videoModel.thumbnailURL
+                let channelTitle = videoModel.channelTitle
+                let videoID = videoModel.videoID
+                let viewCount = "12345" // 假設的觀看次數，可以從其他資料源獲取
+                let daysSinceUpload = "5天前" // 假設的上傳時間，可以從其他資料源獲取
+                self.loadDataVideoFrameView(withTitle: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, accountImageURL: "", viewCount: viewCount, daysSinceUpload: daysSinceUpload, atIndex: index)
+            }
+            self.updateContentSize() // Update contentSize after data load
+        }
+        // Load the five videos
+        videoViewModel.loadFiveVideos(for: vcType ?? .home)
+    }
+    
+    func updateContentSize() {
+        contentView.layoutIfNeeded()
+        scrollView.contentSize = contentView.frame.size
+    }
+    
+    func loadData(for vcType: ViewControllerType) {
+        switch vcType {
+        case .home:
+            videoViewModel.searchAndLoad(withQueries: ["txt Dance shorts"], for: .home)
+//            videoViewModel.searchAndLoad(withQueries: ["todo EP", "txt Dance shorts"], for: .home)
+        case .subscribe:
+            videoViewModel.searchAndLoad(withQueries: ["2024 Dance shorts"], for: .subscribe)
+
+//            videoViewModel.searchAndLoad(withQueries: ["2023 K-pop 一位安可舞台", "2024 Dance shorts"], for: .subscribe)
+        default:
+            break
+        }
     }
     
     func setViews() {
@@ -163,7 +205,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         contentView.addSubview(shortsStackView)
         
         if vcType == .home {
-            contentView.addSubview(homeShortsFrameCollectionView)
+            contentView.addSubview(shortsFrameCollectionView)
         } else if vcType == .subscribe {
             contentView.addSubview(subscribeSecItemView)
             contentView.addSubview(subscribeHoriCollectionView)
@@ -178,7 +220,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         buttonCollectionView.translatesAutoresizingMaskIntoConstraints = false
         singleVideoFrameView.translatesAutoresizingMaskIntoConstraints = false
         shortsStackView.translatesAutoresizingMaskIntoConstraints = false
-        homeShortsFrameCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        shortsFrameCollectionView.translatesAutoresizingMaskIntoConstraints = false
         subscribeHoriCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -215,10 +257,13 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 buttonCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 buttonCollectionView.heightAnchor.constraint(equalToConstant: 60),
                 
-                homeShortsFrameCollectionView.topAnchor.constraint(equalTo: shortsStackView.bottomAnchor),
-                homeShortsFrameCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                homeShortsFrameCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                homeShortsFrameCollectionView.heightAnchor.constraint(equalToConstant: 660)
+                shortsFrameCollectionView.topAnchor.constraint(equalTo: shortsStackView.bottomAnchor),
+                shortsFrameCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                shortsFrameCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                shortsFrameCollectionView.heightAnchor.constraint(equalToConstant: 660),
+                
+                // Other video frame views constraints
+                shortsFrameCollectionView.bottomAnchor.constraint(equalTo: otherVideoFrameViews.last?.bottomAnchor ?? contentView.bottomAnchor)
             ])
         } else if vcType == .subscribe {
             NSLayoutConstraint.activate([
@@ -235,7 +280,11 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 subscribeHoriCollectionView.topAnchor.constraint(equalTo: shortsStackView.bottomAnchor),
                 subscribeHoriCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 subscribeHoriCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                subscribeHoriCollectionView.heightAnchor.constraint(equalToConstant: 330)
+                subscribeHoriCollectionView.heightAnchor.constraint(equalToConstant: 330),
+                
+                // Other video frame views constraints
+                subscribeHoriCollectionView.bottomAnchor.constraint(equalTo: otherVideoFrameViews.last?.bottomAnchor ?? contentView.bottomAnchor)
+
             ])
         }
     }
@@ -270,7 +319,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         if vcType == .home {
             // 設置第一個框架的約束
             NSLayoutConstraint.activate([
-                firstVideoFrameView.topAnchor.constraint(equalTo: homeShortsFrameCollectionView.bottomAnchor, constant: 10),
+                firstVideoFrameView.topAnchor.constraint(equalTo: shortsFrameCollectionView.bottomAnchor, constant: 10),
             ])
             
         } else if vcType == .subscribe {
@@ -401,6 +450,18 @@ extension BaseViewController {
         return ""
     }
     
+    private func getVideoFrameView(at index: Int) -> VideoFrameView? {
+        if index == 0 {
+            return singleVideoFrameView
+        } else if index >= 1 && index <= 4 {
+            let adjustedIndex = index - 1
+            if adjustedIndex < otherVideoFrameViews.count {
+                return otherVideoFrameViews[adjustedIndex]
+            }
+        }
+        return nil
+    }
+    
     func loadDataVideoFrameView(withTitle title: String, thumbnailURL: String, channelTitle: String, accountImageURL: String, viewCount: String, daysSinceUpload: String, atIndex index: Int) {
         print(title)
         
@@ -422,18 +483,6 @@ extension BaseViewController {
         }
     }
     
-    private func getVideoFrameView(at index: Int) -> VideoFrameView? {
-        if index == 0 {
-            return singleVideoFrameView
-        } else if index >= 1 && index <= 4 {
-            let adjustedIndex = index - 1
-            if adjustedIndex < otherVideoFrameViews.count {
-                return otherVideoFrameViews[adjustedIndex]
-            }
-        }
-        return nil
-    }
-    
     func setImage(from urlString: String, to imageView: UIImageView) {
         guard let url = URL(string: urlString) else {
             return
@@ -452,133 +501,7 @@ extension BaseViewController {
         }.resume()
     }
     
-    
-    func searchYouTube(query: String, maxResults: Int, completion: @escaping (Welcome?) -> Void) {
-        
-        let apiKey = ""
-        let baseURL = "https://www.googleapis.com/youtube/v3/search"
-        
-        var components = URLComponents(string: baseURL)!
-        components.queryItems = [
-            URLQueryItem(name: "part", value: "snippet"),
-            URLQueryItem(name: "q", value: query),
-            URLQueryItem(name: "type", value: "video"),
-            URLQueryItem(name: "maxResults", value: "\(maxResults)"),
-            URLQueryItem(name: "key", value: apiKey)
-        ]
-        
-        let url = components.url!
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Error: \(String(describing: error))")
-                completion(nil)
-                return
-            }
-            
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                    print(json)
-                }
-            } catch let error as NSError {
-                print("Failed to load: \(error.localizedDescription)")
-            }
-            
-            let decoder = JSONDecoder()
-            
-            do {
-                let searchResponse = try decoder.decode(Welcome.self, from: data)
-                completion(searchResponse)
-            } catch {
-                completion(nil)
-            }
-        }
-        task.resume()
-    }
-    
-    func doSearch(withKeywords keywords: [String], maxResults: Int = 5) {
-        for keyword in keywords {
-            searchYouTube(query: keyword, maxResults: maxResults) { [self] response in
-                if let response = response {
-                    for (i, item) in response.items.enumerated() {
-                        showItems.append(keyword)
-                        
-                        loadDataVideoFrameView(withTitle: item.snippet.title,
-                                               thumbnailURL: item.snippet.thumbnails.high.url,
-                                               channelTitle: item.snippet.channelTitle,
-                                               accountImageURL: item.snippet.thumbnails.high.url,
-                                               viewCount: "987654321",
-                                               daysSinceUpload: calculateTimeSinceUpload(from: item.snippet.publishedAt),
-                                               atIndex: i)
-                        
-                        let videoID = item.id.videoID
-                        videoIDs.append(videoID)
-                    }
-                } else {
-                    print("Failed to fetch results for keyword: \(keyword)")
-                }
-            }
-        }
-    }
-    
-    func searchAndLoadHomeShortsCollectionView(withQueries queries: [String]) {
-        for query in queries {
-            searchYouTube(query: query, maxResults: 4) { [weak self] response in
-                guard let self = self else { return }
-                
-                if let welcomeResponse = response {
-                    DispatchQueue.main.async {
-                        self.homeShortsFrameCollectionView.videoContents.removeAll()
-                        self.homeShortsFrameCollectionView.welcome = welcomeResponse
-                        
-                        for item in welcomeResponse.items {
-                            let title = item.snippet.title
-                            let image = item.snippet.thumbnails.high.url
-                            let videoContent = VideoContent(title: title, thumbnailURL: image)
-                            self.homeShortsFrameCollectionView.videoContents.append(videoContent)
-                        }
-                        
-                        self.homeShortsFrameCollectionView.reloadData()
-                    }
-                } else {
-                    print("STV無法為查詢 \(query) 檢索到結果")
-                }
-                
-                // 印出當前處理的查詢
-                print("正在處理查詢: \(query)")
-            }
-        }
-    }
-    
-    func searchAndLoadSubShortsCollectionView(withQueries queries: [String]) {
-        for query in queries {
-            searchYouTube(query: query, maxResults: 18) { [weak self] response in
-                guard let self = self else { return }
-                
-                if let welcomeResponse = response {
-                    DispatchQueue.main.async {
-                        self.subscribeHoriCollectionView.subVideoContents.removeAll()
-                        self.subscribeHoriCollectionView.welcome = welcomeResponse
-                        
-                        for item in welcomeResponse.items {
-                            let title = item.snippet.title
-                            let image = item.snippet.thumbnails.high.url
-                            let videoContent = SubVideoContent(title: title, thumbnailURL: image)
-                            self.subscribeHoriCollectionView.subVideoContents.append(videoContent)
-                        }
-                        
-                        self.subscribeHoriCollectionView.reloadData()
-                    }
-                } else {
-                    print("STV無法為查詢 \(query) 檢索到結果")
-                }
-                
-                // 印出當前處理的查詢
-                print("正在處理查詢: \(query)")
-            }
-        }
-    }
-    
-}
+ }
 
 extension Collection {
     subscript(safe index: Index) -> Element? {

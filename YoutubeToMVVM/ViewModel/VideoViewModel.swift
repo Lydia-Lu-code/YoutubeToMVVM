@@ -1,14 +1,52 @@
-// ConVideoViewModel.swift
-
 import Foundation
-import UIKit
 
-class VideoViewModel {
+enum ViewControllerType: String {
+    case home
+    case subscribe
+    case content
+}
+
+protocol SearchAndLoadProtocol {
+    func searchAndLoad(withQueries queries: [String], for viewControllerType: ViewControllerType)
+}
+
+struct VideoContent {
+    let title: String
+    let thumbnailURL: String
+}
+
+struct SubVideoContent {
+    let title: String
+    let thumbnailURL: String
+}
+
+class ConVideoFrameViewModel {
+    let title: String
+    let thumbnailURL: String
+    let channelTitle: String
+    let videoID: String
+    
+    init(title: String, thumbnailURL: String, channelTitle: String, videoID: String) {
+        self.title = title
+        self.thumbnailURL = thumbnailURL
+        self.channelTitle = channelTitle
+        self.videoID = videoID
+    }
+}
+
+class VideoViewModel: SearchAndLoadProtocol {
     var data: Observable<[ConVideoFrameViewModel]> = Observable([])
     var showItems: [String] = []
     var videoIDs: [String] = []
 
+    var shortsFrameCollectionView: ShortsFrameCollectionView?
+    var subscribeHoriCollectionView: SubscribeHoriCollectionView?
+
+    var dataLoadedCallback: (([ConVideoFrameViewModel]) -> Void)?
+    
     private var dataTask: URLSessionDataTask?
+    
+    weak var viewController: BaseViewController?
     
     // 提供取消任務的方法
     func cancelSearch() {
@@ -50,183 +88,102 @@ class VideoViewModel {
         }
         dataTask?.resume()
     }
-
-    func doSearchForContent(withKeywords keywords: [String], maxResults: Int) {
-        var currentIndex = 0
-        var allVideoFrameViewModels: [ConVideoFrameViewModel] = []
-
-        let dispatchGroup = DispatchGroup()
+    
+    func searchAndLoad(withQueries queries: [String], for viewControllerType: ViewControllerType) {
+        let maxResults = viewControllerType == .home ? 4 : 18
         
-        for keyword in keywords {
-            dispatchGroup.enter()
-            print("VideoVM.keyword == \(keyword)")
-            searchYouTube(query: keyword, maxResults: maxResults) { [weak self] response in
-                defer { dispatchGroup.leave() }
+        for query in queries {
+            searchYouTube(query: query, maxResults: maxResults) { [weak self] response in
                 guard let self = self else { return }
-                if let response = response {
-                    for item in response.items {
-                        if currentIndex < maxResults {
-                            self.showItems.append(keyword)
-                            let videoFrameViewModel = ConVideoFrameViewModel(
-                                title: item.snippet.title,
-                                thumbnailURL: item.snippet.thumbnails.high.url,
-                                channelTitle: item.snippet.channelTitle,
-                                videoID: item.id.videoID
-                            )
-                            allVideoFrameViewModels.append(videoFrameViewModel)
-                            self.videoIDs.append(item.id.videoID)
-                            currentIndex += 1
-                        } else {
+                
+                if let welcomeResponse = response {
+                    DispatchQueue.main.async {
+                        switch viewControllerType {
+                        case .home:
+                            self.handleHomeSearchResult(welcomeResponse)
+                        case .subscribe:
+                            self.handleSubscribeSearchResult(welcomeResponse, collectionView: self.subscribeHoriCollectionView)
+                        case .content:
+                            // contentVC 的處理方式略有不同，所以不在這裡實現
+                            print("VideoViewModel == .content")
                             break
                         }
                     }
                 } else {
-                    print("Failed to fetch results for keyword: \(keyword)")
-                }
-            }
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            self.data.value = allVideoFrameViewModels
-        }
-    }
-    
-    func loadDataVideoFrameView(withTitle title: String, thumbnailURL: String, channelTitle: String, accountImageURL: String, viewCount: String, daysSinceUpload: String, atIndex index: Int) {
-        print(title)
-        
-        // 根據 index 獲取 videoFrameView
-        guard let videoFrameView = getVideoFrameView(at: index) else {
-            return
-        }
-        
-        DispatchQueue.main.async {
-            // 設置標題和其他信息
-            videoFrameView.labelMidTitle.text = title
-            videoFrameView.labelMidOther.text = "\(channelTitle)．觀看次數： \(self.convertViewCount(viewCount))次．\(daysSinceUpload)"
-            
-            // 設置影片縮圖
-            self.setImage(from: thumbnailURL, to: videoFrameView.videoImgView)
-            
-            // 設置帳號圖片
-            self.setImage(from: accountImageURL, to: videoFrameView.photoImageView)
-        }
-    }
-    
-    func setImage(from urlString: String, to imageView: UIImageView) {
-        guard let url = URL(string: urlString) else {
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            if let error = error {
-                return
-            }
-            guard let data = data, let image = UIImage(data: data) else {
-                return
-            }
-            DispatchQueue.main.async {
-                imageView.image = image
-            }
-        }.resume()
-    }
-    
-    func doSearch(withKeywords keywords: [String], maxResults: Int = 5) {
-        for keyword in keywords {
-            searchYouTube(query: keyword, maxResults: maxResults) { [self] response in
-                if let response = response {
-                    for (i, item) in response.items.enumerated() {
-                        showItems.append(keyword)
-                        
-                        loadDataVideoFrameView(withTitle: item.snippet.title,
-                                               thumbnailURL: item.snippet.thumbnails.high.url,
-                                               channelTitle: item.snippet.channelTitle,
-                                               accountImageURL: item.snippet.thumbnails.high.url,
-                                               viewCount: "987654321",
-                                               daysSinceUpload: calculateTimeSinceUpload(from: item.snippet.publishedAt),
-                                               atIndex: i)
-                        
-                        let videoID = item.id.videoID
-                        videoIDs.append(videoID)
-                    }
-                } else {
-                    print("Failed to fetch results for keyword: \(keyword)")
-                }
-            }
-        }
-    }
-    
-    func searchAndLoadHomeShortsCollectionView(withQueries queries: [String]) {
-        for query in queries {
-            searchYouTube(query: query, maxResults: 4) { [weak self] response in
-                guard let self = self else { return }
-                
-                if let welcomeResponse = response {
-                    DispatchQueue.main.async {
-                        self.homeShortsFrameCollectionView.videoContents.removeAll()
-                        self.homeShortsFrameCollectionView.welcome = welcomeResponse
-                        
-                        for item in welcomeResponse.items {
-                            let title = item.snippet.title
-                            let image = item.snippet.thumbnails.high.url
-                            let videoContent = VideoContent(title: title, thumbnailURL: image)
-                            self.homeShortsFrameCollectionView.videoContents.append(videoContent)
-                        }
-                        
-                        self.homeShortsFrameCollectionView.reloadData()
-                    }
-                } else {
-                    print("STV無法為查詢 \(query) 檢索到結果")
+                    print("無法為查詢 \(query) 檢索到結果")
                 }
                 
-                // 印出當前處理的查詢
                 print("正在處理查詢: \(query)")
             }
         }
     }
     
-    func searchAndLoadSubShortsCollectionView(withQueries queries: [String]) {
-        for query in queries {
-            searchYouTube(query: query, maxResults: 18) { [weak self] response in
-                guard let self = self else { return }
-                
-                if let welcomeResponse = response {
-                    DispatchQueue.main.async {
-                        self.subscribeHoriCollectionView.subVideoContents.removeAll()
-                        self.subscribeHoriCollectionView.welcome = welcomeResponse
-                        
-                        for item in welcomeResponse.items {
-                            let title = item.snippet.title
-                            let image = item.snippet.thumbnails.high.url
-                            let videoContent = SubVideoContent(title: title, thumbnailURL: image)
-                            self.subscribeHoriCollectionView.subVideoContents.append(videoContent)
-                        }
-                        
-                        self.subscribeHoriCollectionView.reloadData()
-                    }
-                } else {
-                    print("STV無法為查詢 \(query) 檢索到結果")
+    private func handleHomeSearchResult(_ response: Welcome) {
+        guard let collectionView = shortsFrameCollectionView else { return }
+        collectionView.videoContents.removeAll()
+        collectionView.welcome = response
+        
+        for item in response.items {
+            let title = item.snippet.title
+            let image = item.snippet.thumbnails.high.url
+            let videoContent = VideoContent(title: title, thumbnailURL: image)
+            collectionView.videoContents.append(videoContent)
+
+        }
+        
+        collectionView.reloadData()
+    }
+    
+    private func handleSubscribeSearchResult(_ response: Welcome, collectionView: SubscribeHoriCollectionView?) {
+        guard let collectionView = collectionView else { return }
+        collectionView.subVideoContents.removeAll()
+        collectionView.welcome = response
+        
+        for item in response.items {
+            let title = item.snippet.title
+            let image = item.snippet.thumbnails.high.url
+            let videoContent = SubVideoContent(title: title, thumbnailURL: image)
+            collectionView.subVideoContents.append(videoContent)
+        }
+        
+        collectionView.reloadData()
+    }
+}
+
+extension VideoViewModel {
+    func loadFiveVideos(for viewControllerType: ViewControllerType) {
+        let query = "New Jeans" // Define your search query here
+        let maxResults = 5
+        
+        searchYouTube(query: query, maxResults: maxResults) { [weak self] response in
+            guard let self = self else { return }
+            
+            if let welcomeResponse = response {
+                DispatchQueue.main.async {
+                    self.handleFiveVideoResult(welcomeResponse, for: viewControllerType)
                 }
-                
-                // 印出當前處理的查詢
-                print("正在處理查詢: \(query)")
+            } else {
+                print("Failed to retrieve results for query \(query)")
             }
         }
     }
     
-    
-}
-
-class ConVideoFrameViewModel {
-    let title: String
-    let thumbnailURL: String
-    let channelTitle: String
-    let videoID: String
-    
-    init(title: String, thumbnailURL: String, channelTitle: String, videoID: String) {
-        self.title = title
-        self.thumbnailURL = thumbnailURL
-        self.channelTitle = channelTitle
-        self.videoID = videoID
+    private func handleFiveVideoResult(_ response: Welcome, for viewControllerType: ViewControllerType) {
+        guard let viewController = self.viewController else { return }
+        
+        var videoModels: [ConVideoFrameViewModel] = []
+        
+        for item in response.items.prefix(5) { // Get only the first five items
+            let title = item.snippet.title
+            let thumbnailURL = item.snippet.thumbnails.high.url
+            let channelTitle = item.snippet.channelTitle
+            let videoID = item.id.videoID
+            
+            let videoModel = ConVideoFrameViewModel(title: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, videoID: videoID)
+            videoModels.append(videoModel)
+        }
+        
+        viewController.videoViewModel.data.value = videoModels
+        viewController.videoViewModel.dataLoadedCallback?(videoModels)
     }
 }
-

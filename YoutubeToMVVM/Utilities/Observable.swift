@@ -1,22 +1,20 @@
-// Observable.swift
-
-import Foundation
-
 class Observable<T> {
     var value: T {
         didSet {
-            listener?(value)
+            for observer in observers {
+                observer(value)
+            }
         }
     }
-
-    private var listener: ((T) -> Void)?
-
+    
+    private var observers: [(T) -> Void] = []
+    
     init(_ value: T) {
         self.value = value
     }
-
-    func bind(_ listener: @escaping (T) -> Void) {
-        self.listener = listener
-        listener(value)
+    
+    func bind(_ observer: @escaping (T) -> Void) {
+        observers.append(observer)
+        observer(value)
     }
 }

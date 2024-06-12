@@ -4,7 +4,7 @@ class ShortsFrameCollectionView: UICollectionView, UICollectionViewDelegate, UIC
 
     var videoContents: [VideoContent] = []
     var welcome: Welcome?
-    static let identifier = "HomeShortsFrameCollectionView"
+    static let identifier = "ShortsFrameCollectionView"
       
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         let layout = UICollectionViewFlowLayout()
