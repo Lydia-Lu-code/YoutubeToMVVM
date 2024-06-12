@@ -59,7 +59,7 @@ class VideoViewModel: SearchAndLoadProtocol {
     }
 
     func searchYouTube(query: String, maxResults: Int, completion: @escaping (Welcome?) -> Void) {
-        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
+        let apiKey = ""
         let baseURL = "https://www.googleapis.com/youtube/v3/search"
         
         var components = URLComponents(string: baseURL)!
@@ -152,7 +152,7 @@ class VideoViewModel: SearchAndLoadProtocol {
 
 extension VideoViewModel {
     func loadFiveVideos(for viewControllerType: ViewControllerType) {
-        let query = "New Jeans" // Define your search query here
+        let query = "todo EP" // Define your search query here
         let maxResults = 5
         
         searchYouTube(query: query, maxResults: maxResults) { [weak self] response in
@@ -187,3 +187,5 @@ extension VideoViewModel {
         viewController.videoViewModel.dataLoadedCallback?(videoModels)
     }
 }
+
+

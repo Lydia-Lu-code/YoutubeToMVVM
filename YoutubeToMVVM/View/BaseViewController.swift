@@ -1,6 +1,7 @@
 import UIKit
 
 class BaseViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ButtonCollectionCellDelegate, UICollectionViewDelegateFlowLayout, BarButtonItemsDelegate {
+  
     // 實現 BarButtonItemsDelegate 的方法，這些方法將調用 barButtonItemsModel 的對應方法
     func setBarBtnItems() {
         barButtonItemsModel.setBarBtnItems()
@@ -140,11 +141,11 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         buttonCollectionView.register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: ButtonCollectionViewCell.identifier)
         
         // Update contentSize
-        updateContentSize()
+//        updateContentSize()
         
         // 將 scrollView 的 contentSize 設置為 contentView 的大小，確保能夠正確上下滾動
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: totalHeight)
-        
+        print("totalHeight == \(totalHeight)")
         // 設置其他影片框架
         otherVideoFrameViews = setOtherVideoFrameViews()
         
@@ -172,7 +173,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 let daysSinceUpload = "5天前" // 假設的上傳時間，可以從其他資料源獲取
                 self.loadDataVideoFrameView(withTitle: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, accountImageURL: "", viewCount: viewCount, daysSinceUpload: daysSinceUpload, atIndex: index)
             }
-            self.updateContentSize() // Update contentSize after data load
+//            self.updateContentSize() // Update contentSize after data load
         }
         // Load the five videos
         videoViewModel.loadFiveVideos(for: vcType ?? .home)
@@ -212,17 +213,76 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
+    @objc func buttonTapped(_ sender: UIButton) {
+        // 實現按鈕點擊的相應邏輯
+    }
+    
+    func setOtherVideoFrameViews() -> [VideoFrameView] {
+        var videoFrameViews: [VideoFrameView] = []
+
+        let firstVideoFrameView = VideoFrameView()
+        firstVideoFrameView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(firstVideoFrameView)
+        videoFrameViews.append(firstVideoFrameView)
+
+        if vcType == .home {
+            NSLayoutConstraint.activate([
+                firstVideoFrameView.topAnchor.constraint(equalTo: shortsFrameCollectionView.bottomAnchor, constant: 10),
+            ])
+        } else if vcType == .subscribe {
+            NSLayoutConstraint.activate([
+                firstVideoFrameView.topAnchor.constraint(equalTo: subscribeHoriCollectionView.bottomAnchor, constant: 10),
+            ])
+        }
+        NSLayoutConstraint.activate([
+            firstVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            firstVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            firstVideoFrameView.heightAnchor.constraint(equalToConstant: 300)
+        ])
+
+        var previousView: UIView = firstVideoFrameView
+
+        for _ in 1..<4 {
+            let videoFrameView = VideoFrameView()
+            videoFrameView.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview(videoFrameView)
+            videoFrameViews.append(videoFrameView)
+
+            NSLayoutConstraint.activate([
+                videoFrameView.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10),
+                videoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                videoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                videoFrameView.heightAnchor.constraint(equalToConstant: 300)
+            ])
+
+            previousView = videoFrameView
+        }
+
+        return videoFrameViews
+    }
+
+    func calculateTotalHeight() -> CGFloat {
+        switch vcType {
+        case .home:
+            return 1080 + 300 * 4 + 40 // home类型时增加4个视频框架和间距的高度
+        case .subscribe:
+            return 840 + 300 * 4 + 40 // subscribe类型时增加4个视频框架和间距的高度
+        default:
+            return 0
+        }
+    }
+
     func setLayout() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         subscribeSecItemView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         buttonCollectionView.translatesAutoresizingMaskIntoConstraints = false
         singleVideoFrameView.translatesAutoresizingMaskIntoConstraints = false
         shortsStackView.translatesAutoresizingMaskIntoConstraints = false
         shortsFrameCollectionView.translatesAutoresizingMaskIntoConstraints = false
         subscribeHoriCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -234,36 +294,28 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.heightAnchor.constraint(equalToConstant: totalHeight)
         ])
-        
-        NSLayoutConstraint.activate([
-            
-            
-            singleVideoFrameView.topAnchor.constraint(equalTo: buttonCollectionView.bottomAnchor),
-            singleVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            singleVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            singleVideoFrameView.heightAnchor.constraint(equalToConstant: 300),
-            
-            shortsStackView.topAnchor.constraint(equalTo: singleVideoFrameView.bottomAnchor),
-            shortsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            shortsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            shortsStackView.heightAnchor.constraint(equalToConstant: 60)
-        ])
-        
+
         if vcType == .home {
             NSLayoutConstraint.activate([
-                
                 buttonCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
                 buttonCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 buttonCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 buttonCollectionView.heightAnchor.constraint(equalToConstant: 60),
-                
+
+                singleVideoFrameView.topAnchor.constraint(equalTo: buttonCollectionView.bottomAnchor),
+                singleVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                singleVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                singleVideoFrameView.heightAnchor.constraint(equalToConstant: 300),
+
+                shortsStackView.topAnchor.constraint(equalTo: singleVideoFrameView.bottomAnchor),
+                shortsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                shortsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                shortsStackView.heightAnchor.constraint(equalToConstant: 60),
+
                 shortsFrameCollectionView.topAnchor.constraint(equalTo: shortsStackView.bottomAnchor),
                 shortsFrameCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 shortsFrameCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 shortsFrameCollectionView.heightAnchor.constraint(equalToConstant: 660),
-                
-                // Other video frame views constraints
-                shortsFrameCollectionView.bottomAnchor.constraint(equalTo: otherVideoFrameViews.last?.bottomAnchor ?? contentView.bottomAnchor)
             ])
         } else if vcType == .subscribe {
             NSLayoutConstraint.activate([
@@ -271,92 +323,33 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 subscribeSecItemView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 subscribeSecItemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 subscribeSecItemView.heightAnchor.constraint(equalToConstant: 90),
-                
+
                 buttonCollectionView.topAnchor.constraint(equalTo: subscribeSecItemView.bottomAnchor),
                 buttonCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 buttonCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 buttonCollectionView.heightAnchor.constraint(equalToConstant: 60),
-                
+
+                singleVideoFrameView.topAnchor.constraint(equalTo: buttonCollectionView.bottomAnchor),
+                singleVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                singleVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                singleVideoFrameView.heightAnchor.constraint(equalToConstant: 300),
+
+                shortsStackView.topAnchor.constraint(equalTo: singleVideoFrameView.bottomAnchor),
+                shortsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                shortsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                shortsStackView.heightAnchor.constraint(equalToConstant: 60),
+
                 subscribeHoriCollectionView.topAnchor.constraint(equalTo: shortsStackView.bottomAnchor),
                 subscribeHoriCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 subscribeHoriCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 subscribeHoriCollectionView.heightAnchor.constraint(equalToConstant: 330),
-                
-                // Other video frame views constraints
-                subscribeHoriCollectionView.bottomAnchor.constraint(equalTo: otherVideoFrameViews.last?.bottomAnchor ?? contentView.bottomAnchor)
+            ])
+        }
 
-            ])
-        }
+        // 通过 setOtherVideoFrameViews 添加其他 video frame views
+        otherVideoFrameViews = setOtherVideoFrameViews()
     }
-    
-    
-    func calculateTotalHeight() -> CGFloat {
-        switch vcType {
-        case .home:
-            return 1020
-        case .subscribe:
-            return 780
-        default:
-            return 0
-        }
-    }
-    
-    
-    @objc func buttonTapped(_ sender: UIButton) {
-        // 實現按鈕點擊的相應邏輯
-    }
-    
-    func setOtherVideoFrameViews() -> [VideoFrameView] {
-        var videoFrameViews: [VideoFrameView] = []
-        
-        // 先保留第一個框架的 reference
-        
-        let firstVideoFrameView = VideoFrameView()
-        firstVideoFrameView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(firstVideoFrameView)
-        videoFrameViews.append(firstVideoFrameView)
-        
-        if vcType == .home {
-            // 設置第一個框架的約束
-            NSLayoutConstraint.activate([
-                firstVideoFrameView.topAnchor.constraint(equalTo: shortsFrameCollectionView.bottomAnchor, constant: 10),
-            ])
-            
-        } else if vcType == .subscribe {
-            NSLayoutConstraint.activate([
-                firstVideoFrameView.topAnchor.constraint(equalTo: subscribeHoriCollectionView.bottomAnchor, constant: 10), // 垂直間距為 20
-            ])
-        }
-        NSLayoutConstraint.activate([
-            firstVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            firstVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            firstVideoFrameView.heightAnchor.constraint(equalToConstant: 300)
-        ])
-        
-        var previousView: UIView = firstVideoFrameView
-        
-        // 建立並設置其他框架
-        for _ in 1..<4 {
-            let videoFrameView = VideoFrameView()
-            videoFrameView.translatesAutoresizingMaskIntoConstraints = false
-            contentView.addSubview(videoFrameView)
-            videoFrameViews.append(videoFrameView)
-            
-            // 設置約束，將下一個框架堆疊在前一個框架的下方
-            NSLayoutConstraint.activate([
-                videoFrameView.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10),
-                videoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                videoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                videoFrameView.heightAnchor.constraint(equalToConstant: 300)
-            ])
-            
-            // 更新 previousView 以便下一个 videoFrameView 堆叠在其下方
-            previousView = videoFrameView
-        }
-        
-        return videoFrameViews
-    }
-    
+
     // UICollectionViewDataSource 方法
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return buttonTitles.count
@@ -508,6 +501,4 @@ extension Collection {
         return indices.contains(index) ? self[index] : nil
     }
 }
-
-
 

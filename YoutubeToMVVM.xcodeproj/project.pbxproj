@@ -50,6 +50,7 @@
 		5BEA70962C12AB2100F4155F /* VideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70952C12AB2100F4155F /* VideoViewModel.swift */; };
 		5BEA70982C12AC2B00F4155F /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70972C12AC2B00F4155F /* Observable.swift */; };
 		5BEA71922C15587800F4155F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA71912C15587800F4155F /* Model.swift */; };
+		5BEA71982C194FBB00F4155F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA71972C194FBB00F4155F /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,7 @@
 		5BEA70972C12AC2B00F4155F /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		5BEA71912C15587800F4155F /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		5BEA71932C194ED200F4155F /* YoutubeToMVVM-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YoutubeToMVVM-Bridging-Header.h"; sourceTree = "<group>"; };
+		5BEA71972C194FBB00F4155F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 				5BDAA4B62C0B198D007DD2ED /* View */,
 				5BDAA4902C0B198D007DD2ED /* viewController */,
 				5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */,
+				5BEA71972C194FBB00F4155F /* ContentView.swift */,
 				5BDAA45C2C0B1908007DD2ED /* SceneDelegate.swift */,
 				5BDAA4602C0B1908007DD2ED /* Main.storyboard */,
 				5BDAA4632C0B1909007DD2ED /* Assets.xcassets */,
@@ -464,6 +467,7 @@
 				5BDAA4BA2C0B198D007DD2ED /* ContainerVC.swift in Sources */,
 				5BDAA4D22C0B198D007DD2ED /* ContentTableViewController.swift in Sources */,
 				5BDAA4C42C0B198D007DD2ED /* MenuVC.swift in Sources */,
+				5BEA71982C194FBB00F4155F /* ContentView.swift in Sources */,
 				5BDAA4C02C0B198D007DD2ED /* ContentHeaderView.swift in Sources */,
 				5BDAA4D32C0B198D007DD2ED /* HomeViewController.swift in Sources */,
 				5BDAA4CE2C0B198D007DD2ED /* SubscribeSecItemView.swift in Sources */,
