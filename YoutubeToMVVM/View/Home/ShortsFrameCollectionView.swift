@@ -1,11 +1,6 @@
 import UIKit
 
-struct VideoContent {
-    let title: String
-    let thumbnailURL: String
-}
-
-class HomeShortsFrameCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class ShortsFrameCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     var videoContents: [VideoContent] = []
     var welcome: Welcome?
@@ -26,7 +21,7 @@ class HomeShortsFrameCollectionView: UICollectionView, UICollectionViewDelegate,
         self.isScrollEnabled = false
         self.delegate = self
         self.dataSource = self
-        self.register(ShortsCollectionViewCell.self, forCellWithReuseIdentifier: HomeShortsFrameCollectionView.identifier)
+        self.register(ShortsCollectionViewCell.self, forCellWithReuseIdentifier: ShortsFrameCollectionView.identifier)
     }
 
     // MARK: - UICollectionViewDataSource
@@ -35,25 +30,17 @@ class HomeShortsFrameCollectionView: UICollectionView, UICollectionViewDelegate,
         return welcome?.items.count ?? videoContents.count
     }
     
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeShortsFrameCollectionView.identifier, for: indexPath) as! ShortsCollectionViewCell
-    
-            if let welcome = welcome {
-                let item = welcome.items[indexPath.item]
-                cell.titleLabel.text = item.snippet.title
-                if let url = URL(string: item.snippet.thumbnails.high.url) {
-                    cell.setImage(from: url)
-                }
-            } else {
-                let videoContent = videoContents[indexPath.item]
-                cell.titleLabel.text = videoContent.title
-                if let url = URL(string: videoContent.thumbnailURL) {
-                    cell.setImage(from: url)
-                }
-            }
-    
-            return cell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShortsFrameCollectionView.identifier, for: indexPath) as! ShortsCollectionViewCell
+        
+        let videoContent = videoContents[indexPath.item]
+        cell.titleLabel.text = videoContent.title
+        if let url = URL(string: videoContent.thumbnailURL) {
+            cell.setImage(from: url)
         }
+        
+        return cell
+    }
 
     // MARK: - UICollectionViewDelegateFlowLayout
 
