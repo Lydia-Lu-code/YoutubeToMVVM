@@ -29,28 +29,22 @@ class ContentTableViewController: UITableViewController, BarButtonItemsDelegate 
         tableView.estimatedSectionHeaderHeight = 0
         tableView.sectionHeaderTopPadding = 0
         
-        bindViewModel()
+        // 設置 dataLoadedCallback
+        conViewModel1.dataLoadedCallback = { [weak self] _ in
+            self?.tableView.reloadData()
+        }
+        
+        conViewModel2.dataLoadedCallback = { [weak self] _ in
+            self?.tableView.reloadData()
+        }
+        
         conViewModel1.searchAndLoad(withQueries: ["2024 韓 團綜",], for: .content)
-        
-        
-        conViewModel1.searchAndLoad(withQueries: ["2023 年末舞台",], for: .content)
-        
-//        conViewModel1.doSearchForContent(withKeywords: ["2024 韓 團綜"], maxResults: 16)
-//        conViewModel2.doSearchForContent(withKeywords: ["2023 年末舞台"], maxResults: 16)
+        conViewModel2.searchAndLoad(withQueries: ["2023 年末舞台",], for: .content)
         
         // 初始化 barButtonItemsModel 並設置代理
         barButtonItemsModel = BarButtonItemsModel(viewController: self)
         barButtonItemsModel.setBarBtnItems()
         
-    }
-    
-    private func bindViewModel() {
-        conViewModel1.data.bind { [weak self] _ in
-            self?.tableView.reloadData()
-        }
-        conViewModel2.data.bind { [weak self] _ in
-            self?.tableView.reloadData()
-        }
     }
     
     
@@ -94,11 +88,14 @@ class ContentTableViewController: UITableViewController, BarButtonItemsDelegate 
             if conViewModel1.data.value.count > 0 {
                 let items = Array(conViewModel1.data.value.prefix(16))
                 cell.configure(with: items)
+                print("CTVC indexPath.section == 1")
+                
             }
         } else if indexPath.section == 2 {
             if conViewModel2.data.value.count > 0 {
                 let items = Array(conViewModel2.data.value.prefix(16))
                 cell.configure(with: items)
+                print("CTVC indexPath.section == 2")
             }
         }
         return cell

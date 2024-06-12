@@ -26,8 +26,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var barButtonItemsModel: BarButtonItemsModel!
     
     
-    //    weak var delegate: BaseVCDelegate?
-    
     var vcType: ViewControllerType?
     
     init(vcType: ViewControllerType) {
@@ -120,9 +118,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return collectionView
     }()
     
-    var totalHeight: CGFloat =  0
-    
-    var videoIDs: [String] = []
+    var totalHeight: CGFloat = 0
     var videoViewModel: VideoViewModel!
     
     
@@ -134,18 +130,14 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         setViews()
         setLayout()
-//        setBarBtnItems()
         barButtonItemsModel = BarButtonItemsModel(viewController: self)
         barButtonItemsModel.setBarBtnItems()
         
         buttonCollectionView.register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: ButtonCollectionViewCell.identifier)
         
-        // Update contentSize
-//        updateContentSize()
-        
         // 將 scrollView 的 contentSize 設置為 contentView 的大小，確保能夠正確上下滾動
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: totalHeight)
-        print("totalHeight == \(totalHeight)")
+        
         // 設置其他影片框架
         otherVideoFrameViews = setOtherVideoFrameViews()
         
@@ -173,7 +165,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 let daysSinceUpload = "5天前" // 假設的上傳時間，可以從其他資料源獲取
                 self.loadDataVideoFrameView(withTitle: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, accountImageURL: "", viewCount: viewCount, daysSinceUpload: daysSinceUpload, atIndex: index)
             }
-//            self.updateContentSize() // Update contentSize after data load
         }
         // Load the five videos
         videoViewModel.loadFiveVideos(for: vcType ?? .home)
@@ -188,11 +179,10 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         switch vcType {
         case .home:
             videoViewModel.searchAndLoad(withQueries: ["txt Dance shorts"], for: .home)
-//            videoViewModel.searchAndLoad(withQueries: ["todo EP", "txt Dance shorts"], for: .home)
-        case .subscribe:
-            videoViewModel.searchAndLoad(withQueries: ["2024 Dance shorts"], for: .subscribe)
 
-//            videoViewModel.searchAndLoad(withQueries: ["2023 K-pop 一位安可舞台", "2024 Dance shorts"], for: .subscribe)
+        case .subscribe:
+            videoViewModel.searchAndLoad(withQueries: ["newJeans Dance shorts"], for: .subscribe)
+            
         default:
             break
         }
@@ -359,7 +349,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCollectionViewCell.identifier, for: indexPath) as! ButtonCollectionViewCell
         let title = buttonTitles[indexPath.item]
-        //        cell.delegate = self // 设置代理
         cell.button.setTitle(title, for: .normal)
         cell.button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         

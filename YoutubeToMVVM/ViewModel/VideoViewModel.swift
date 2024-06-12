@@ -59,7 +59,7 @@ class VideoViewModel: SearchAndLoadProtocol {
     }
 
     func searchYouTube(query: String, maxResults: Int, completion: @escaping (Welcome?) -> Void) {
-        let apiKey = ""
+        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
         let baseURL = "https://www.googleapis.com/youtube/v3/search"
         
         var components = URLComponents(string: baseURL)!
@@ -104,9 +104,10 @@ class VideoViewModel: SearchAndLoadProtocol {
                         case .subscribe:
                             self.handleSubscribeSearchResult(welcomeResponse, collectionView: self.subscribeHoriCollectionView)
                         case .content:
-                            // contentVC 的處理方式略有不同，所以不在這裡實現
-                            print("VideoViewModel == .content")
-                            break
+                            // Added the correct call for content view type
+                            self.handleContentSearchResult(welcomeResponse, viewModel: self)
+//                            self.handleContentSearchResult(welcomeResponse)
+//                            break
                         }
                     }
                 } else {
@@ -148,6 +149,25 @@ class VideoViewModel: SearchAndLoadProtocol {
         
         collectionView.reloadData()
     }
+    
+    private func handleContentSearchResult(_ response: Welcome, viewModel: VideoViewModel) {
+        
+        var videoModels: [ConVideoFrameViewModel] = []
+        
+        for item in response.items {
+            let title = item.snippet.title
+            let thumbnailURL = item.snippet.thumbnails.high.url
+            let channelTitle = item.snippet.channelTitle
+            let videoID = item.id.videoID
+            
+            let videoModel = ConVideoFrameViewModel(title: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, videoID: videoID)
+            videoModels.append(videoModel)
+        }
+        
+        viewModel.data.value = videoModels
+        viewModel.dataLoadedCallback?(videoModels)
+    }
+    
 }
 
 extension VideoViewModel {
