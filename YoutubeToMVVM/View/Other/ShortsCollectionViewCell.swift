@@ -84,7 +84,7 @@ class ShortsCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func buttonTapped() {
-        print("Button tapped with keywords: \(keywords)")
+        print("SCVC Button tapped with keywords: \(keywords)")
     }
     
 

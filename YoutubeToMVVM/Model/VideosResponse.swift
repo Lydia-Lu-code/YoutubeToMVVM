@@ -2,32 +2,32 @@ import Foundation
 import UIKit
 
 // MARK: - Welcome
-struct STVWelcome: Codable {
+struct VideosResponse: Codable {
     let kind, etag: String
-    let items: [STVItem]
+    let items: [VideosItem]
     let nextPageToken: String?
-    let pageInfo: STVPageInfo
+    let pageInfo: VideosPageInfo
 }
 
 // MARK: - Item
-struct STVItem: Codable {
+struct VideosItem: Codable {
     let kind, etag, id: String
-    let snippet: STVSnippet
-    let contentDetails: ContentDetails?
+    let snippet: VideosSnippet
+    let contentDetails: VideosDetails?
     let statistics: Statistics?
 }
 
 // MARK: - ContentDetails
-struct ContentDetails: Codable {
+struct VideosDetails: Codable {
     let duration, dimension, definition, caption: String
     let licensedContent: Bool
-    let contentRating: ContentRating
+    let contentRating: VideosRating
     let projection: String
     let regionRestriction: RegionRestriction?
 }
 
 // MARK: - ContentRating
-struct ContentRating: Codable {
+struct VideosRating: Codable {
 }
 
 // MARK: - RegionRestriction
@@ -38,11 +38,12 @@ struct RegionRestriction: Codable {
 
 
 // MARK: - Snippet
-struct STVSnippet: Codable {
-    let publishedAt: Date
+struct VideosSnippet: Codable {
+//    let publishedAt: Date
+    let publishedAt: String
     let channelID, title: String
     let description: String?
-    let thumbnails: STVThumbnails
+    let thumbnails: VideosThumbnails
     let channelTitle: String
     let tags: [String]?
     let categoryID, liveBroadcastContent: String
@@ -66,9 +67,10 @@ struct Localized: Codable {
 }
 
 // MARK: - Thumbnails
-struct STVThumbnails: Codable {
-    let thumbnailsDefault, medium, high, standard: STVDefault
-    let maxres: STVDefault?
+struct VideosThumbnails: Codable {
+    let thumbnailsDefault, medium, high: VideosDefault
+    let standard: VideosDefault?
+    let maxres: VideosDefault?
 
     enum CodingKeys: String, CodingKey {
         case thumbnailsDefault = "default"
@@ -77,7 +79,7 @@ struct STVThumbnails: Codable {
 }
 
 // MARK: - Default
-struct STVDefault: Codable {
+struct VideosDefault: Codable {
     let url: String
     let width, height: Int
 }
@@ -88,6 +90,6 @@ struct Statistics: Codable {
 }
 
 // MARK: - PageInfo
-struct STVPageInfo: Codable {
+struct VideosPageInfo: Codable {
     let totalResults, resultsPerPage: Int
 }

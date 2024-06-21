@@ -71,7 +71,7 @@ class ContentTableViewCell: UITableViewCell {
         ])
     }
 
-    func configure(with viewModels: [ConVideoFrameViewModel]) {
+    func configure(with viewModels: [VideoModel]) {
         for (index, viewModel) in viewModels.enumerated() {
             guard index < conVideoFrameViews.count else { break }
             let conVideoFrameView = conVideoFrameViews[index]

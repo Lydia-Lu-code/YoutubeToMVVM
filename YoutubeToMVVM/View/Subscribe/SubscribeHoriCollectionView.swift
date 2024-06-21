@@ -2,8 +2,9 @@ import UIKit
 
 class SubscribeHoriCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    var subVideoContents: [SubVideoContent] = []
-    var welcome: Welcome?
+//    var subVideoContents: [SubVideoContent] = []
+    var subVideoContents: [VideoModel] = []
+    var welcome: SearchResponse?
     static let identifier = "SubscribeHoriCollectionView"
       
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {

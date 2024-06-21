@@ -33,8 +33,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         super.init(nibName: nil, bundle: nil)
     }
     
-    
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -137,55 +135,56 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         // 將 scrollView 的 contentSize 設置為 contentView 的大小，確保能夠正確上下滾動
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: totalHeight)
-        
-        // 設置其他影片框架
-        otherVideoFrameViews = setOtherVideoFrameViews()
-        
+
         // 初始化 VideoViewModel 并加载数据
         videoViewModel = VideoViewModel()
         videoViewModel.viewController = self
-        videoViewModel.shortsFrameCollectionView = shortsFrameCollectionView
-        videoViewModel.subscribeHoriCollectionView = subscribeHoriCollectionView
-        
+
         // 根据视图控制器类型加载不同的数据
         if let vcType = vcType {
             loadData(for: vcType)
         }
-
-        // 設置 VideoViewModel 的回調
         
         videoViewModel.dataLoadedCallback = { [weak self] videoModels in
             guard let self = self else { return }
-            for (index, videoModel) in videoModels.enumerated() {
-                let title = videoModel.title
-                let thumbnailURL = videoModel.thumbnailURL
-                let channelTitle = videoModel.channelTitle
-                let videoID = videoModel.videoID
-                let viewCount = "12345" // 假設的觀看次數，可以從其他資料源獲取
-                let daysSinceUpload = "5天前" // 假設的上傳時間，可以從其他資料源獲取
-                self.loadDataVideoFrameView(withTitle: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, accountImageURL: "", viewCount: viewCount, daysSinceUpload: daysSinceUpload, atIndex: index)
-            }
+//            self.shortsFrameCollectionView.reloadData()
+//            self.subscribeHoriCollectionView.reloadData()
+            self.handleVideoModelsLoaded(videoModels)
         }
-        // Load the five videos
-        videoViewModel.loadFiveVideos(for: vcType ?? .home)
+        
     }
     
-    func updateContentSize() {
-        contentView.layoutIfNeeded()
-        scrollView.contentSize = contentView.frame.size
+    func handleVideoModelsLoaded(_ videoModels: [VideoModel]) {
+        for (index, videoModel) in videoModels.enumerated() {
+            let title = videoModel.title
+            let thumbnailURL = videoModel.thumbnailURL
+            let channelTitle = videoModel.channelTitle
+            let videoID = videoModel.videoID
+            let viewCount = videoModel.viewCount ?? "﻿沒"
+            let daysSinceUpload = videoModel.daysSinceUpload ?? "﻿沒"
+            let accountImageURL = videoModel.accountImageURL
+            
+            loadDataVideoFrameView(withTitle: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, accountImageURL: accountImageURL, viewCount: viewCount, daysSinceUpload: daysSinceUpload, atIndex: index)
+        }
     }
     
     func loadData(for vcType: ViewControllerType) {
         switch vcType {
         case .home:
-            videoViewModel.searchAndLoad(withQueries: ["txt Dance shorts"], for: .home)
+            videoViewModel.loadShortsCell﻿(withQuery: "txt Dance shorts", for: .home)
+            videoViewModel.loadVideoView(withQuery: "TODO EP.", for: .home)
 
         case .subscribe:
-            videoViewModel.searchAndLoad(withQueries: ["newJeans Dance shorts"], for: .subscribe)
-            
+            videoViewModel.loadShortsCell﻿(withQuery: "IVE Dance shorts, newJeans Dance shorts", for: .subscribe)
+            videoViewModel.loadVideoView(withQuery: "TXT T:Time", for: .subscribe)
         default:
             break
         }
+    }
+    
+    func updateContentSize() {
+        contentView.layoutIfNeeded()
+        scrollView.contentSize = contentView.frame.size
     }
     
     func setViews() {
@@ -207,49 +206,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         // 實現按鈕點擊的相應邏輯
     }
     
-    func setOtherVideoFrameViews() -> [VideoFrameView] {
-        var videoFrameViews: [VideoFrameView] = []
 
-        let firstVideoFrameView = VideoFrameView()
-        firstVideoFrameView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(firstVideoFrameView)
-        videoFrameViews.append(firstVideoFrameView)
-
-        if vcType == .home {
-            NSLayoutConstraint.activate([
-                firstVideoFrameView.topAnchor.constraint(equalTo: shortsFrameCollectionView.bottomAnchor, constant: 10),
-            ])
-        } else if vcType == .subscribe {
-            NSLayoutConstraint.activate([
-                firstVideoFrameView.topAnchor.constraint(equalTo: subscribeHoriCollectionView.bottomAnchor, constant: 10),
-            ])
-        }
-        NSLayoutConstraint.activate([
-            firstVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            firstVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            firstVideoFrameView.heightAnchor.constraint(equalToConstant: 300)
-        ])
-
-        var previousView: UIView = firstVideoFrameView
-
-        for _ in 1..<4 {
-            let videoFrameView = VideoFrameView()
-            videoFrameView.translatesAutoresizingMaskIntoConstraints = false
-            contentView.addSubview(videoFrameView)
-            videoFrameViews.append(videoFrameView)
-
-            NSLayoutConstraint.activate([
-                videoFrameView.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10),
-                videoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                videoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                videoFrameView.heightAnchor.constraint(equalToConstant: 300)
-            ])
-
-            previousView = videoFrameView
-        }
-
-        return videoFrameViews
-    }
 
     func calculateTotalHeight() -> CGFloat {
         switch vcType {
@@ -336,8 +293,48 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
             ])
         }
 
-        // 通过 setOtherVideoFrameViews 添加其他 video frame views
-        otherVideoFrameViews = setOtherVideoFrameViews()
+        // 添加其他 VideoFrameView 并设置约束
+        var videoFrameViews: [VideoFrameView] = []
+
+        let firstVideoFrameView = VideoFrameView()
+        firstVideoFrameView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(firstVideoFrameView)
+        videoFrameViews.append(firstVideoFrameView)
+
+        if vcType == .home {
+            NSLayoutConstraint.activate([
+                firstVideoFrameView.topAnchor.constraint(equalTo: shortsFrameCollectionView.bottomAnchor, constant: 10),
+            ])
+        } else if vcType == .subscribe {
+            NSLayoutConstraint.activate([
+                firstVideoFrameView.topAnchor.constraint(equalTo: subscribeHoriCollectionView.bottomAnchor, constant: 10),
+            ])
+        }
+        NSLayoutConstraint.activate([
+            firstVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            firstVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            firstVideoFrameView.heightAnchor.constraint(equalToConstant: 300)
+        ])
+
+        var previousView: UIView = firstVideoFrameView
+
+        for _ in 1..<4 {
+            let videoFrameView = VideoFrameView()
+            videoFrameView.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview(videoFrameView)
+            videoFrameViews.append(videoFrameView)
+
+            NSLayoutConstraint.activate([
+                videoFrameView.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10),
+                videoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                videoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                videoFrameView.heightAnchor.constraint(equalToConstant: 300)
+            ])
+
+            previousView = videoFrameView
+        }
+
+        otherVideoFrameViews = videoFrameViews
     }
 
     // UICollectionViewDataSource 方法
@@ -443,9 +440,9 @@ extension BaseViewController {
         }
         return nil
     }
-    
+  
     func loadDataVideoFrameView(withTitle title: String, thumbnailURL: String, channelTitle: String, accountImageURL: String, viewCount: String, daysSinceUpload: String, atIndex index: Int) {
-        print(title)
+        print("BaseVC == \(title)")
         
         // 根據 index 獲取 videoFrameView
         guard let videoFrameView = getVideoFrameView(at: index) else {
@@ -456,7 +453,7 @@ extension BaseViewController {
             // 設置標題和其他信息
             videoFrameView.labelMidTitle.text = title
             videoFrameView.labelMidOther.text = "\(channelTitle)．觀看次數： \(self.convertViewCount(viewCount))次．\(daysSinceUpload)"
-            
+            print("BaseVC == \(channelTitle)．觀看次數： \(self.convertViewCount(viewCount))次．\(daysSinceUpload)")
             // 設置影片縮圖
             self.setImage(from: thumbnailURL, to: videoFrameView.videoImgView)
             

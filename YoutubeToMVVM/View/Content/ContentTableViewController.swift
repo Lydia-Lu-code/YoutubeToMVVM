@@ -38,8 +38,8 @@ class ContentTableViewController: UITableViewController, BarButtonItemsDelegate 
             self?.tableView.reloadData()
         }
         
-        conViewModel1.searchAndLoad(withQueries: ["2024 韓 團綜",], for: .content)
-        conViewModel2.searchAndLoad(withQueries: ["2023 年末舞台",], for: .content)
+        conViewModel1.loadShortsCell﻿(withQuery: "2024 韓 團綜", for: .content)
+        conViewModel2.loadShortsCell﻿(withQuery: "2023 年末舞台", for: .content)
         
         // 初始化 barButtonItemsModel 並設置代理
         barButtonItemsModel = BarButtonItemsModel(viewController: self)
@@ -87,15 +87,14 @@ class ContentTableViewController: UITableViewController, BarButtonItemsDelegate 
         if indexPath.section == 1 {
             if conViewModel1.data.value.count > 0 {
                 let items = Array(conViewModel1.data.value.prefix(16))
+//                print("CTVC cellForRowAt.item1 == \(items)")
                 cell.configure(with: items)
-                print("CTVC indexPath.section == 1")
-                
             }
         } else if indexPath.section == 2 {
             if conViewModel2.data.value.count > 0 {
                 let items = Array(conViewModel2.data.value.prefix(16))
+//                print("CTVC cellForRowAt.item1 == \(items)")
                 cell.configure(with: items)
-                print("CTVC indexPath.section == 2")
             }
         }
         return cell
@@ -146,7 +145,7 @@ class ContentTableViewController: UITableViewController, BarButtonItemsDelegate 
                         let imageString = NSAttributedString(attachment: imageAttachment)
                         completeString.append(imageString)
                     } else {
-                        print("No symbol for title: \(title)")
+//                        print("CTVC No symbol for title: \(title)")
                     }
                     
                     let titleString = NSAttributedString(string: " \(title)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
@@ -200,7 +199,7 @@ class ContentTableViewController: UITableViewController, BarButtonItemsDelegate 
 
 extension ContentTableViewController:ContentHeaderViewDelegate {
     func doSegueAction() {
-        print("成功")
+        print("CTVC 成功")
     }
     
 }

@@ -4,6 +4,8 @@
 <dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>訪問您的相冊來上傳圖片。</string>
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>
 		<key>UISceneConfigurations</key>

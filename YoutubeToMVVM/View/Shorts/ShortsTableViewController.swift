@@ -1,3 +1,4 @@
+
 ////  ShortsTableViewController.swift
 //  YoutubeViewController
 //
@@ -9,7 +10,7 @@ import UIKit
 class ShortsTableViewController: UITableViewController {
     
     var videoContent: String?
-    var showItems: [STVItem] = []
+    var showItems: [VideosItem] = []
     var itemCount: Int = 0 // 新增一個變量來跟踪項目數量
     
     override func viewDidLoad() {
@@ -23,7 +24,7 @@ class ShortsTableViewController: UITableViewController {
         tableView.rowHeight = UIScreen.main.bounds.height // 將每個 cell 的高度設置為模擬器滿版畫面的高度
         tableView.delegate = self // 設置委託
         
-        loadDataFromYouTubeAPI()
+//        loadDataFromYouTubeAPI()
         
         // 隱藏或設置 navigationItem 為透明
         navigationItem.title = "" // 將標題設置為空字符串
@@ -59,7 +60,7 @@ class ShortsTableViewController: UITableViewController {
             let item = showItems[indexPath.row]
             
             // 加載縮略圖
-            guard let url = URL(string: item.snippet.thumbnails.standard.url) else {
+            guard let url = URL(string: item.snippet.thumbnails.standard!.url) else {
                 return cell
             }
             
@@ -168,7 +169,7 @@ extension ShortsTableViewController {
             do {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
-                let searchResponse = try decoder.decode(STVWelcome.self, from: data)
+                let searchResponse = try decoder.decode(VideosResponse.self, from: data)
                 
                 self.showItems = searchResponse.items // 將從 API 返回的項目存儲到 showItems 陣列中
                 self.itemCount = self.showItems.count // 更新項目數量
@@ -178,7 +179,7 @@ extension ShortsTableViewController {
                 }
                 
             } catch {
-                print("JSON decoding failed: \(error)")
+                print("STVC JSON decoding failed: \(error)")
             }
             
         }
@@ -186,4 +187,3 @@ extension ShortsTableViewController {
         task.resume()
     }
 }
-

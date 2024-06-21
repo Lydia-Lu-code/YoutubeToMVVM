@@ -117,7 +117,7 @@ class NotificationLogVC: UIViewController {
     }
     
     @objc func moreButtonTapped() {
-        print("實現更多按鈕的功能")
+        print("Not 實現更多按鈕的功能")
     }
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -132,7 +132,7 @@ class NotificationLogVC: UIViewController {
 
     private func presentAlertController(title: String, message: String?) {
         guard let viewController = findViewController() else {
-            print("無法找到視圖控制器")
+            print("Not 無法找到視圖控制器")
             return
         }
 
@@ -162,7 +162,7 @@ class NotificationLogVC: UIViewController {
 
     func presentSearchViewController() {
         guard let viewController = findViewController() else {
-            print("無法找到視圖控制器")
+            print("Not 無法找到視圖控制器")
             return
         }
         
@@ -276,7 +276,7 @@ extension NotificationLogVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 點擊 cell 的動作
-        print("Did select row at: \(indexPath.row)")
+        print("Not Did select row at: \(indexPath.row)")
     }
 }
 

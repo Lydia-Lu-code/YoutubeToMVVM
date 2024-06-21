@@ -6,18 +6,19 @@
 import Foundation
 
 // MARK: - Welcome
-struct Welcome: Codable {
+struct SearchResponse: Codable {
     let kind, etag, nextPageToken, regionCode: String
     let pageInfo: PageInfo
-    let items: [Item]
+    let items: [SearchItem]
+    
 }
 
 
 // MARK: - Item
-struct Item: Codable {
+struct SearchItem: Codable {
     let kind, etag: String
     let id: ID
-    let snippet: Snippet
+    let snippet: SearchSnippet
 }
 
 // MARK: - ID
@@ -31,11 +32,11 @@ struct ID: Codable {
 }
 
 // MARK: - Snippet
-struct Snippet: Codable {
+struct SearchSnippet: Codable {
  //   let publishedAt: Date
     let publishedAt: String
     let channelID, title, description: String
-    let thumbnails: Thumbnails
+    let thumbnails: SearchThumbnails
     let channelTitle: String
     let liveBroadcastContent: String
     let publishTime: String
@@ -49,7 +50,7 @@ struct Snippet: Codable {
 }
 
 // MARK: - Thumbnails
-struct Thumbnails: Codable {
+struct SearchThumbnails: Codable {
     let thumbnailsDefault, medium, high: Default
 
     enum CodingKeys: String, CodingKey {

@@ -28,19 +28,19 @@ class AddVC: UIViewController {
         case .authorized:
             showPhotoPicker()
         case .denied, .restricted:
-            print("相簿訪問權限已被拒絕或受限制。請在設置中啟用相簿訪問權限。")
+            print("AddVC 相簿訪問權限已被拒絕或受限制。請在設置中啟用相簿訪問權限。")
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization { status in
                 DispatchQueue.main.async {
                     if status == .authorized {
                         self.showPhotoPicker()
                     } else {
-                        print("用戶未授予相簿訪問權限。")
+                        print("AddVC 用戶未授予相簿訪問權限。")
                     }
                 }
             }
         @unknown default:
-            fatalError("Unexpected case when checking photo library permission.")
+            fatalError("AssVC Unexpected case when checking photo library permission.")
         }
     }
 
@@ -63,7 +63,7 @@ extension AddVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate
         // 在這裡處理選擇的照片
         if let pickedImage = info[.originalImage] as? UIImage {
             // 在這裡使用選擇的照片進行後續處理
-            print("成功選擇了照片")
+            print("Add 成功選擇了照片")
         }
         picker.dismiss(animated: true, completion: nil)
     }
