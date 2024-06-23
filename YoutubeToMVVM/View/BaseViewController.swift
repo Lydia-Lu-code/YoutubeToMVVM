@@ -147,8 +147,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         videoViewModel.dataLoadedCallback = { [weak self] videoModels in
             guard let self = self else { return }
-//            self.shortsFrameCollectionView.reloadData()
-//            self.subscribeHoriCollectionView.reloadData()
             self.handleVideoModelsLoaded(videoModels)
         }
         
@@ -171,11 +169,11 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func loadData(for vcType: ViewControllerType) {
         switch vcType {
         case .home:
-            videoViewModel.loadShortsCell﻿(withQuery: "txt Dance shorts", for: .home)
+            videoViewModel.loadShortsCell(withQuery: "txt Dance shorts", for: .home)
             videoViewModel.loadVideoView(withQuery: "TODO EP.", for: .home)
 
         case .subscribe:
-            videoViewModel.loadShortsCell﻿(withQuery: "IVE Dance shorts, newJeans Dance shorts", for: .subscribe)
+            videoViewModel.loadShortsCell(withQuery: "IVE Dance shorts, newJeans Dance shorts", for: .subscribe)
             videoViewModel.loadVideoView(withQuery: "TXT T:Time", for: .subscribe)
         default:
             break
@@ -452,8 +450,10 @@ extension BaseViewController {
         DispatchQueue.main.async {
             // 設置標題和其他信息
             videoFrameView.labelMidTitle.text = title
-            videoFrameView.labelMidOther.text = "\(channelTitle)．觀看次數： \(self.convertViewCount(viewCount))次．\(daysSinceUpload)"
+            
+            videoFrameView.labelMidOther.text = "\(channelTitle)．觀看次數： \(self.convertViewCount(viewCount))次．\(self.calculateTimeSinceUpload(from: daysSinceUpload))"
             print("BaseVC == \(channelTitle)．觀看次數： \(self.convertViewCount(viewCount))次．\(daysSinceUpload)")
+            
             // 設置影片縮圖
             self.setImage(from: thumbnailURL, to: videoFrameView.videoImgView)
             

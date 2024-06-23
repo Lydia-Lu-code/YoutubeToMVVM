@@ -38,8 +38,8 @@ class ContentTableViewController: UITableViewController, BarButtonItemsDelegate 
             self?.tableView.reloadData()
         }
         
-        conViewModel1.loadShortsCell﻿(withQuery: "2024 韓 團綜", for: .content)
-        conViewModel2.loadShortsCell﻿(withQuery: "2023 年末舞台", for: .content)
+        conViewModel1.loadShortsCell(withQuery: "2024 韓 團綜", for: .content)
+        conViewModel2.loadShortsCell(withQuery: "2023 年末舞台", for: .content)
         
         // 初始化 barButtonItemsModel 並設置代理
         barButtonItemsModel = BarButtonItemsModel(viewController: self)

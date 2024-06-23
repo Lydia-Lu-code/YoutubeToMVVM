@@ -1,17 +1,15 @@
-
-////  ShortsTableViewController.swift
-//  YoutubeViewController
-//
-//  Created by Lydia Lu on 2024/4/24.
-//
 import Foundation
 import UIKit
 
 class ShortsTableViewController: UITableViewController {
     
     var videoContent: String?
-    var showItems: [VideosItem] = []
+    var showItems: [SearchItem] = []
     var itemCount: Int = 0 // 新增一個變量來跟踪項目數量
+    var videoViewModel: VideoViewModel? // 添加 videoViewModel 屬性
+    
+    var videosModel = VideoViewModel()
+    var videoContents: [VideoModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +22,23 @@ class ShortsTableViewController: UITableViewController {
         tableView.rowHeight = UIScreen.main.bounds.height // 將每個 cell 的高度設置為模擬器滿版畫面的高度
         tableView.delegate = self // 設置委託
         
-//        loadDataFromYouTubeAPI()
-        
         // 隱藏或設置 navigationItem 為透明
         navigationItem.title = "" // 將標題設置為空字符串
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
+
+        // 初始化 videoViewModel
+        videoViewModel = VideoViewModel()
+        
+        // 设置数据加载回调
+        videoViewModel?.dataLoadedCallback = { [weak self] videoModels in
+            self?.tableView.reloadData()
+        }
+        
+        // 加载视频数据
+        videoViewModel?.loadShortsCell(withQuery: "txt dance shorts", for: .shorts)
+
+        print("STVC videosModel == \(videoViewModel?.loadShortsCell(withQuery: "txt dance shorts", for: .shorts))")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -46,48 +55,24 @@ class ShortsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemCount // 返回項目數量
+        guard let videoViewModel = videoViewModel else {
+            print("STVC videoViewModel == 0")
+            return 0
+        }
+        return videoViewModel.data.value.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ShortsTableViewCell", for: indexPath) as! ShortsTableViewCell
         
-        cell.videoContent = videoContent
-        cell.setViews()
+        let video = videoViewModel?.data.value[indexPath.row]
         
-        // 更新 cell 的內容
-        if indexPath.row < showItems.count {
-            let item = showItems[indexPath.row]
-            
-            // 加載縮略圖
-            guard let url = URL(string: item.snippet.thumbnails.standard!.url) else {
-                return cell
-            }
-            
-            URLSession.shared.dataTask(with: url) { data, _, error in
-                if let error = error {
-                    return
-                }
-                guard let data = data, let image = UIImage(data: data) else {
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    let backgroundImageView = UIImageView(image: image)
-                    backgroundImageView.contentMode = .scaleAspectFill
-                    backgroundImageView.clipsToBounds = true
-                    
-                    cell.backgroundView = backgroundImageView
-                    
-                    cell.shortsBtnView.accountButton.setTitle(item.snippet.channelID, for: .normal)
-                    cell.shortsBtnView.txtLabel.text = item.snippet.title
-                }
-                
-            }.resume()
-        }
+        // 配置单元格
+        cell.textLabel?.text = video?.title
+        print("STVC video?.title == \(video?.title)")
+        
         return cell
     }
-    
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // 取得整個屏幕的高度
@@ -136,54 +121,8 @@ class ShortsTableViewController: UITableViewController {
         let nextIndex = (currentIndex + 1) % numberOfRows
         let targetOffsetY = CGFloat(nextIndex) * cellHeight
         
-        
-        
         let indexPath = IndexPath(row: nextIndex, section: 0)
         tableView.scrollToRow(at: indexPath, at: .top, animated: true)
     }
 }
 
-extension ShortsTableViewController {
-    
-    func loadDataFromYouTubeAPI() {
-        
-        let apiKey = ""
-        let baseURL = "https://www.googleapis.com/youtube/v3/videos"
-        
-        var components = URLComponents(string: baseURL)!
-        components.queryItems = [
-            URLQueryItem(name: "part", value: "snippet,contentDetails,statistics"),
-            URLQueryItem(name: "chart", value: "mostPopular"),
-            URLQueryItem(name: "maxResults", value: "8"),
-            URLQueryItem(name: "key", value: apiKey)
-        ]
-        
-        let url = components.url!
-        
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            
-            guard let data = data, error == nil else {
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-                let searchResponse = try decoder.decode(VideosResponse.self, from: data)
-                
-                self.showItems = searchResponse.items // 將從 API 返回的項目存儲到 showItems 陣列中
-                self.itemCount = self.showItems.count // 更新項目數量
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData() // 重新載入表格視圖
-                }
-                
-            } catch {
-                print("STVC JSON decoding failed: \(error)")
-            }
-            
-        }
-        
-        task.resume()
-    }
-}
