@@ -1,15 +1,12 @@
 import Foundation
 import UIKit
+import WebKit
 
 class ShortsTableViewController: UITableViewController {
     
-    var videoContent: String?
-    var showItems: [SearchItem] = []
-    var itemCount: Int = 0 // 新增一個變量來跟踪項目數量
-    var videoViewModel: VideoViewModel? // 添加 videoViewModel 屬性
-    
-    var videosModel = VideoViewModel()
+    var videoViewModel: VideoViewModel?
     var videoContents: [VideoModel] = []
+    var lastContentOffset: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,111 +15,123 @@ class ShortsTableViewController: UITableViewController {
         
         tableView.register(ShortsTableViewCell.self, forCellReuseIdentifier: "ShortsTableViewCell")
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
-        tableView.decelerationRate = .fast // 設置快速滑動減速
-        tableView.rowHeight = UIScreen.main.bounds.height // 將每個 cell 的高度設置為模擬器滿版畫面的高度
-        tableView.delegate = self // 設置委託
+        tableView.decelerationRate = .fast
+        tableView.rowHeight = UIScreen.main.bounds.height
+        tableView.delegate = self
         
-        // 隱藏或設置 navigationItem 為透明
-        navigationItem.title = "" // 將標題設置為空字符串
+        navigationItem.title = ""
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
-
+        
         // 初始化 videoViewModel
         videoViewModel = VideoViewModel()
         
-        // 设置数据加载回调
+        // 設置數據加載回調
         videoViewModel?.dataLoadedCallback = { [weak self] videoModels in
+            self?.videoContents = videoModels
             self?.tableView.reloadData()
+            
+            // 確保在數據加載後進行初始對齊
+            self?.snapToNextCell()
+            self?.tableView.rowHeight = UIScreen.main.bounds.height
+//            self?.alignCellToBottom()
         }
         
-        // 加载视频数据
-        videoViewModel?.loadShortsCell(withQuery: "txt dance shorts", for: .shorts)
-
-        print("STVC videosModel == \(videoViewModel?.loadShortsCell(withQuery: "txt dance shorts", for: .shorts))")
+        // 加載 shorts cell 的數據
+        videoViewModel?.loadShortsCell(withQuery: "IVE, NewJeans, shorts", for: .shorts)
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // 呼叫 exerciseAmbiguityInLayout 方法標識任何模糊的視圖
-        view.exerciseAmbiguityInLayout()
-    }
-    
-    // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1 // Assuming you have only one section
+        return 1 // 假設只有一個分區
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let videoViewModel = videoViewModel else {
-            print("STVC videoViewModel == 0")
-            return 0
-        }
-        return videoViewModel.data.value.count
+        return videoContents.count // 返回 videoContents 的數量
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ShortsTableViewCell", for: indexPath) as! ShortsTableViewCell
         
-        let video = videoViewModel?.data.value[indexPath.row]
+        let video = videoContents[indexPath.row]
         
-        // 配置单元格
-        cell.textLabel?.text = video?.title
-        print("STVC video?.title == \(video?.title)")
+        DispatchQueue.main.async {
+            var thumbnailImage = UIImage()
+            
+            // 確認 thumbnailURL 不為 nil，並從 URL 創建 UIImage
+            if let thumbnailURL = URL(string: video.thumbnailURL),
+               let thumbnailData = try? Data(contentsOf: thumbnailURL) {
+                thumbnailImage = UIImage(data: thumbnailData) ?? UIImage()
+            }
+            
+            let backgroundImageView = UIImageView(image: thumbnailImage)
+            backgroundImageView.contentMode = .scaleAspectFill
+            backgroundImageView.clipsToBounds = true
+            
+            cell.backgroundView = backgroundImageView
+            
+            cell.shortsBtnView.accountButton.setTitle(video.channelTitle, for: .normal)
+            cell.shortsBtnView.txtLabel.text = video.title
+        }
         
         return cell
     }
+
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        // 取得整個屏幕的高度
-        let screenHeight = UIScreen.main.bounds.height
-        return screenHeight
+        return UIScreen.main.bounds.height
     }
     
-    // Overriding scroll view delegate method
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let cellHeight = tableView.rowHeight
         let targetY = targetContentOffset.pointee.y
-        let index = round(targetY / cellHeight)
-        targetContentOffset.pointee = CGPoint(x: 0, y: index * cellHeight)
+        
+        // 输出调试信息
+        print("Velocity: \(velocity)")
+        print("Target Y: \(targetY)")
+        
+        // 判斷滑動方向
+        let direction = velocity.y > 0 ? 1 : (velocity.y < 0 ? -1 : 0)
+        
+        // 如果滑動速度大於 0，表示向上滑動；小於 0，表示向下滑動
+        if direction > 0 {
+            // 向上滑動過半時，回到上一個 cell
+            let index = Int(floor(targetY / cellHeight))
+            print("Going up to index \(index)")
+            targetContentOffset.pointee = CGPoint(x: 0, y: index * Int(cellHeight))
+        } else if direction < 0 {
+            // 向下滑動過半時，回到下一個 cell
+            let index = Int(ceil(targetY / cellHeight))
+            print("Going down to index \(index)")
+            targetContentOffset.pointee = CGPoint(x: 0, y: index * Int(cellHeight))
+        } else {
+            // 沒有速度，直接對齊 cell
+            let index = Int(round(targetY / cellHeight))
+            print("Snapping to index \(index)")
+            targetContentOffset.pointee = CGPoint(x: 0, y: index * Int(cellHeight))
+        }
     }
-    
+
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
             snapToNextCell()
-            alignCellToBottom()
         }
     }
-    
+
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         snapToNextCell()
-        alignCellToBottom()
-    }
-    
-    private func alignCellToBottom() {
-        guard let indexPathsForVisibleRows = tableView.indexPathsForVisibleRows else { return }
-        guard let lastVisibleIndexPath = indexPathsForVisibleRows.last else { return }
-        
-        tableView.scrollToRow(at: lastVisibleIndexPath, at: .bottom, animated: true)
     }
     
     private func snapToNextCell() {
-        let offsetY = tableView.contentOffset.y
+        guard let indexPathsForVisibleRows = tableView.indexPathsForVisibleRows else { return }
+        guard let lastVisibleIndexPath = indexPathsForVisibleRows.last else { return }
+
         let cellHeight = UIScreen.main.bounds.height
-        let currentIndex = Int(round(offsetY / cellHeight))
-        let numberOfRows = tableView.numberOfRows(inSection: 0)
-        
-        // 確保表格視圖中有行數
-        guard numberOfRows > 0 else {
-            return
-        }
-        
-        let nextIndex = (currentIndex + 1) % numberOfRows
-        let targetOffsetY = CGFloat(nextIndex) * cellHeight
-        
-        let indexPath = IndexPath(row: nextIndex, section: 0)
-        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        let targetOffsetY = CGFloat(lastVisibleIndexPath.row + 1) * cellHeight
+
+        let maxOffsetY = tableView.contentSize.height - tableView.bounds.height
+        tableView.setContentOffset(CGPoint(x: 0, y: min(targetOffsetY, maxOffsetY)), animated: true)
     }
+
+
 }
 

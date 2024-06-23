@@ -5,6 +5,7 @@ class ShortsTableViewCell: UITableViewCell {
     
     let emojiBtnView = ShortsEmojiBtnView()
     let shortsBtnView = ShortsBtnView()
+
     
 //    var videoContent: String? // 新增一個用於存儲視頻內容的屬性
 //    var videoContents: [VideoModel] = []
@@ -29,24 +30,26 @@ class ShortsTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-func setViews() {
-    contentView.addSubview(emojiBtnView)
-    contentView.addSubview(shortsBtnView)
+
     
-    emojiBtnView.translatesAutoresizingMaskIntoConstraints = false
-    shortsBtnView.translatesAutoresizingMaskIntoConstraints = false
+    func setViews() {
+        contentView.addSubview(emojiBtnView)
+        contentView.addSubview(shortsBtnView)
+        
+        emojiBtnView.translatesAutoresizingMaskIntoConstraints = false
+        shortsBtnView.translatesAutoresizingMaskIntoConstraints = false
 
-    NSLayoutConstraint.activate([
-        emojiBtnView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-        emojiBtnView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
-    ])
+        NSLayoutConstraint.activate([
+            emojiBtnView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            emojiBtnView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -90)
+        ])
 
-    NSLayoutConstraint.activate([
-        shortsBtnView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-        shortsBtnView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -150),
-        shortsBtnView.widthAnchor.constraint(equalToConstant: 320), // 固定寬度為200
-    ])
-}
+        NSLayoutConstraint.activate([
+            shortsBtnView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            shortsBtnView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -230), // 将顶部对齐到 contentView 的底部
+            shortsBtnView.widthAnchor.constraint(equalToConstant: 320) // 固定宽度为 320
+        ])
+    }
 }
 
 

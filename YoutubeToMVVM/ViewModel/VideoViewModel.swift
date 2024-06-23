@@ -205,7 +205,7 @@ class VideoViewModel: SearchAndLoadProtocol {
             let thumbnailURL = item.snippet.thumbnails.high.url
             let channelTitle = item.snippet.channelTitle
             let videoID = item.id.videoID
-            let accountImageURL = item.snippet.thumbnails.thumbnailsDefault.url
+            let accountImageURL = item.snippet.thumbnails.high.url
             
             let videoModel = VideoModel(title: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, videoID: videoID, accountImageURL: accountImageURL)
             videoModels.append(videoModel)
