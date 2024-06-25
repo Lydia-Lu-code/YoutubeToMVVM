@@ -119,7 +119,8 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var totalHeight: CGFloat = 0
     var videoViewModel: VideoViewModel!
     
-    
+    var clickedVideoID: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -135,11 +136,11 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         // 將 scrollView 的 contentSize 設置為 contentView 的大小，確保能夠正確上下滾動
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: totalHeight)
-
+        
         // 初始化 VideoViewModel 并加载数据
         videoViewModel = VideoViewModel()
         videoViewModel.viewController = self
-
+        
         // 根据视图控制器类型加载不同的数据
         if let vcType = vcType {
             loadData(for: vcType)
@@ -149,20 +150,85 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
             guard let self = self else { return }
             self.handleVideoModelsLoaded(videoModels)
         }
+
+        // 添加点击手势识别器
+        let shortsTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleShortsTap))
+        shortsFrameCollectionView.addGestureRecognizer(shortsTapGesture)
+
+        let subscribeTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleSubscribeTap))
+        subscribeHoriCollectionView.addGestureRecognizer(subscribeTapGesture)
+
+        let singleVideoTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleSingleVideoTap))
+        singleVideoFrameView.addGestureRecognizer(singleVideoTapGesture)
+
+        otherVideoFrameViews.forEach { videoFrameView in
+            let otherVideoTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleOtherVideoTap(_:)))
+            videoFrameView.addGestureRecognizer(otherVideoTapGesture)
+        }
         
     }
     
+    @objc func handleShortsTap() {
+        if let videoID = shortsFrameCollectionView.accessibilityIdentifier {
+            clickedVideoID = videoID
+            loadAndNavigateToShortsTableViewController(with: videoID)
+        }
+        print("BaseVC.handleShortsTap().clickedVideoID == \(clickedVideoID ?? "")")
+    }
+
+    @objc func handleSubscribeTap() {
+        if let videoID = subscribeHoriCollectionView.accessibilityIdentifier {
+            clickedVideoID = videoID
+            loadAndNavigateToShortsTableViewController(with: videoID)
+        }
+        print("BaseVC.handleSubscribeTap().clickedVideoID == \(clickedVideoID ?? "")")
+    }
+
+    @objc func handleSingleVideoTap() {
+        if let videoID = singleVideoFrameView.accessibilityIdentifier {
+            clickedVideoID = videoID
+            loadAndNavigateToShortsTableViewController(with: videoID)
+        }
+        print("BaseVC.handleSingleVideoTap().clickedVideoID == \(clickedVideoID ?? "")")
+    }
+
+    @objc func handleOtherVideoTap(_ sender: UITapGestureRecognizer) {
+        if let videoFrameView = sender.view, let videoID = videoFrameView.accessibilityIdentifier {
+            clickedVideoID = videoID
+            loadAndNavigateToShortsTableViewController(with: videoID)
+        }
+        print("BaseVC.handleOtherVideoTap().clickedVideoID == \(clickedVideoID ?? "")")
+    }
+
+    func loadAndNavigateToShortsTableViewController(with videoID: String) {
+        let playerViewController = PlayerViewController()
+        playerViewController.selectedVideoID = videoID // 传递 videoID
+
+        // Hide back button in the navigation bar
+        playerViewController.navigationItem.hidesBackButton = true
+        playerViewController.navigationItem.leftBarButtonItem = nil
+
+        navigationController?.pushViewController(playerViewController, animated: true)
+    }
+
     func handleVideoModelsLoaded(_ videoModels: [VideoModel]) {
         for (index, videoModel) in videoModels.enumerated() {
             let title = videoModel.title
             let thumbnailURL = videoModel.thumbnailURL
             let channelTitle = videoModel.channelTitle
             let videoID = videoModel.videoID
-            let viewCount = videoModel.viewCount ?? "﻿沒"
-            let daysSinceUpload = videoModel.daysSinceUpload ?? "﻿沒"
+            let viewCount = videoModel.viewCount ?? "沒"
+            let daysSinceUpload = videoModel.daysSinceUpload ?? "沒"
             let accountImageURL = videoModel.accountImageURL
-            
-            loadDataVideoFrameView(withTitle: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, accountImageURL: accountImageURL, viewCount: viewCount, daysSinceUpload: daysSinceUpload, atIndex: index)
+
+            if index == 0 {
+                singleVideoFrameView.accessibilityIdentifier = videoID // 保存 singleVideoFrameView 的 videoID
+                loadDataVideoFrameView(withTitle: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, accountImageURL: accountImageURL, viewCount: viewCount, daysSinceUpload: daysSinceUpload, atIndex: index)
+            } else {
+                let videoFrameView = otherVideoFrameViews[index - 1]
+                videoFrameView.accessibilityIdentifier = videoID // 保存 otherVideoFrameViews 的 videoID
+                loadDataVideoFrameView(withTitle: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, accountImageURL: accountImageURL, viewCount: viewCount, daysSinceUpload: daysSinceUpload, atIndex: index)
+            }
         }
     }
     

@@ -50,7 +50,11 @@ class VideoViewModel: SearchAndLoadProtocol {
     weak var shortsTableView: ShortsTableViewController?
     
     var itemCount: Int = 0
+
+    var shortsData: [VideoModel] = []
     
+    
+
     func cancelSearch() {
         dataTask?.cancel()
     }
@@ -124,10 +128,21 @@ class VideoViewModel: SearchAndLoadProtocol {
                     self.handleSearchResponse(searchResponse, for: viewControllerType)
                 }
                 print("VVM videoIDs == \(videoIDs)")
+//                // 假設 handleSearchResponse 將數據保存在 shortsData 中
+//                self.shortsData = searchResponse.videos // 假設 searchResponse 有個 videos 屬性是 [VideoModel]
+//                self.dataLoadedCallback?(self.shortsData)
             } else {
                 print("VVM 無法為查詢 \(query) 檢索到結果")
             }
         }
+    }
+    
+    func getShortsData() -> [VideoModel]? {
+        return shortsData
+    }
+    
+    func getVideoID(at index: Int) -> String? {
+        return shortsData[safe: index]?.videoID
     }
     
     private func fetchVideoDetails(for ids: [String], maxResults: Int, for viewControllerType: ViewControllerType) {
