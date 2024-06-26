@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5B0783AA2C11622E00A9E08A /* BarBtnItemsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0783A92C11622E00A9E08A /* BarBtnItemsModel.swift */; };
-		5B76D6D12C2AA73A001C031A /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D6D02C2AA73A001C031A /* PlayerViewController.swift */; };
 		5B7C7C102C0D9F44005AE8C6 /* ConVideoFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */; };
 		5BDAA45B2C0B1908007DD2ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */; };
 		5BDAA45D2C0B1908007DD2ED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA45C2C0B1908007DD2ED /* SceneDelegate.swift */; };
@@ -48,6 +47,7 @@
 		5BDAA4D72C0B198D007DD2ED /* ShortsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */; };
 		5BDAA4D82C0B198D007DD2ED /* SubscribeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B42C0B198D007DD2ED /* SubscribeViewController.swift */; };
 		5BDAA4D92C0B198D007DD2ED /* VideoFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */; };
+		5BDD17FB2C2B17FF00924BB7 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDD17FA2C2B17FF00924BB7 /* PlayerViewController.swift */; };
 		5BEA70962C12AB2100F4155F /* VideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70952C12AB2100F4155F /* VideoViewModel.swift */; };
 		5BEA70982C12AC2B00F4155F /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA70972C12AC2B00F4155F /* Observable.swift */; };
 		5BEA71982C194FBB00F4155F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA71972C194FBB00F4155F /* ContentView.swift */; };
@@ -75,7 +75,6 @@
 		5B70EE672C1D8EAA00F6EB21 /* YoutubeToMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoutubeToMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B70EE682C1D8EAA00F6EB21 /* YoutubeToMVVMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoutubeToMVVMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B70EE692C1D8EAA00F6EB21 /* YoutubeToMVVMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoutubeToMVVMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5B76D6D02C2AA73A001C031A /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerViewController.swift; path = "../../../X-YoutubeToMVVM/YoutubeToMVVM/View/PlayerViewController.swift"; sourceTree = "<group>"; };
 		5B7C7C0F2C0D9F44005AE8C6 /* ConVideoFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConVideoFrameView.swift; sourceTree = "<group>"; };
 		5BDAA45A2C0B1908007DD2ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BDAA45C2C0B1908007DD2ED /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -116,6 +115,7 @@
 		5BDAA4B32C0B198D007DD2ED /* ShortsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortsTableViewController.swift; sourceTree = "<group>"; };
 		5BDAA4B42C0B198D007DD2ED /* SubscribeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscribeViewController.swift; sourceTree = "<group>"; };
 		5BDAA4B52C0B198D007DD2ED /* VideoFrameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFrameView.swift; sourceTree = "<group>"; };
+		5BDD17FA2C2B17FF00924BB7 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		5BEA70952C12AB2100F4155F /* VideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewModel.swift; sourceTree = "<group>"; };
 		5BEA70972C12AC2B00F4155F /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		5BEA71932C194ED200F4155F /* YoutubeToMVVM-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YoutubeToMVVM-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -317,7 +317,7 @@
 				5BDAA4AA2C0B198D007DD2ED /* Subscribe */,
 				5B7C7C062C0C27B6005AE8C6 /* Other */,
 				5BDAA4AC2C0B198D007DD2ED /* BaseViewController.swift */,
-				5B76D6D02C2AA73A001C031A /* PlayerViewController.swift */,
+				5BDD17FA2C2B17FF00924BB7 /* PlayerViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -469,7 +469,6 @@
 				5BDAA4D82C0B198D007DD2ED /* SubscribeViewController.swift in Sources */,
 				5BDAA4BA2C0B198D007DD2ED /* ContainerVC.swift in Sources */,
 				5BDAA4D22C0B198D007DD2ED /* ContentTableViewController.swift in Sources */,
-				5B76D6D12C2AA73A001C031A /* PlayerViewController.swift in Sources */,
 				5BDAA4C42C0B198D007DD2ED /* MenuVC.swift in Sources */,
 				5BEA71982C194FBB00F4155F /* ContentView.swift in Sources */,
 				5BDAA4C02C0B198D007DD2ED /* ContentHeaderView.swift in Sources */,
@@ -482,6 +481,7 @@
 				5BDAA4C52C0B198D007DD2ED /* NotificationCustomView.swift in Sources */,
 				5BDAA4C82C0B198D007DD2ED /* NotificationTopButtonCollectionCell.swift in Sources */,
 				5BDAA4D92C0B198D007DD2ED /* VideoFrameView.swift in Sources */,
+				5BDD17FB2C2B17FF00924BB7 /* PlayerViewController.swift in Sources */,
 				5BDAA4BC2C0B198D007DD2ED /* UIViewController+Additions.swift in Sources */,
 				5BDAA4C92C0B198D007DD2ED /* SearchVC.swift in Sources */,
 				5B7C7C102C0D9F44005AE8C6 /* ConVideoFrameView.swift in Sources */,

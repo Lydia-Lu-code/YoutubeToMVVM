@@ -120,6 +120,8 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var videoViewModel: VideoViewModel!
     
     var clickedVideoID: String?
+    var clickedTitle: String?
+    var clickedChannelTitle: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -12,7 +12,7 @@ protocol SearchAndLoadProtocol {
     func searchYouTube<T: Decodable>(query: String, maxResults: Int, responseType: T.Type, completion: @escaping (T?, [String]?) -> Void)
 }
 
-class VideoModel {
+class VideoModel: Decodable {
     var title: String
     var thumbnailURL: String
     var channelTitle: String
@@ -20,6 +20,16 @@ class VideoModel {
     var viewCount: String?
     var daysSinceUpload: String?
     var accountImageURL: String
+    
+    init(videoID: String, title: String, viewCount: String?, daysSinceUpload: String?, channelTitle: String) {
+        self.videoID = videoID
+        self.title = title
+        self.viewCount = viewCount
+        self.daysSinceUpload = daysSinceUpload
+        self.channelTitle = channelTitle
+        self.thumbnailURL = "" // 設置默認值
+        self.accountImageURL = "" // 設置默認值
+    }
     
     init(title: String, thumbnailURL: String, channelTitle: String, videoID: String, viewCount: String?, daysSinceUpload: String?, accountImageURL: String) {
         self.title = title
@@ -64,7 +74,7 @@ class VideoViewModel: SearchAndLoadProtocol {
     }
 
     func searchYouTube<T: Decodable>(query: String, maxResults: Int, responseType: T.Type, completion: @escaping (T?, [String]?) -> Void) {
-        let apiKey = ""
+        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
         let baseURL = "https://www.googleapis.com/youtube/v3/search"
         
         var components = URLComponents(string: baseURL)!
@@ -128,9 +138,6 @@ class VideoViewModel: SearchAndLoadProtocol {
                     self.handleSearchResponse(searchResponse, for: viewControllerType)
                 }
                 print("VVM videoIDs == \(videoIDs)")
-//                // 假設 handleSearchResponse 將數據保存在 shortsData 中
-//                self.shortsData = searchResponse.videos // 假設 searchResponse 有個 videos 屬性是 [VideoModel]
-//                self.dataLoadedCallback?(self.shortsData)
             } else {
                 print("VVM 無法為查詢 \(query) 檢索到結果")
             }
@@ -147,7 +154,7 @@ class VideoViewModel: SearchAndLoadProtocol {
     
     private func fetchVideoDetails(for ids: [String], maxResults: Int, for viewControllerType: ViewControllerType) {
         let idsString = ids.joined(separator: ",")
-        let apiKey = ""
+        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
         let baseURL = "https://www.googleapis.com/youtube/v3/videos"
         
         var components = URLComponents(string: baseURL)!
@@ -280,4 +287,106 @@ class VideoViewModel: SearchAndLoadProtocol {
     }
 
 }
+
+class APIService {
+    
+    func getDataForVideoID(_ videoID: String, completion: @escaping (VideoModel?) -> Void) {
+        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY" // 替換為你的實際 API 金鑰
+        let baseURL = "https://www.googleapis.com/youtube/v3/videos"
+        
+        var components = URLComponents(string: baseURL)!
+        let queryItems: [URLQueryItem] = [
+            URLQueryItem(name: "part", value: "snippet,statistics"),
+            URLQueryItem(name: "id", value: videoID),
+            URLQueryItem(name: "key", value: apiKey)
+        ]
+        components.queryItems = queryItems
+        
+        guard let url = components.url else {
+            print("無效的 URL")
+            completion(nil)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("API 獲取數據時出錯: \(String(describing: error))")
+                completion(nil)
+                return
+            }
+            
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let items = json["items"] as? [[String: Any]],
+                   let firstItem = items.first {
+                    // 手動解析 JSON
+                    let id = firstItem["ID"] as? String ?? ""
+                    let snippet = firstItem["snippet"] as? [String: Any] ?? [:]
+                    let statistics = firstItem["statistics"] as? [String: Any] ?? [:]
+                    
+                    let title = snippet["title"] as? String ?? "無標題"
+                    let channelTitle = snippet["channelTitle"] as? String ?? "未知頻道"
+                    let publishedAt = snippet["publishedAt"] as? String ?? "未知日期"
+                    let viewCount = statistics["viewCount"] as? String ?? "觀看次數未知"
+                    
+                    // 創建 VideoModel 實例
+                    let videoModel = VideoModel(videoID: videoID, title: title, viewCount: viewCount, daysSinceUpload: publishedAt, channelTitle: channelTitle)
+                    
+                    completion(videoModel)
+                } else {
+                    print("無法解析 JSON")
+                    completion(nil)
+                }
+            } catch {
+                print("JSON 解析錯誤: \(error)")
+                completion(nil)
+            }
+        }
+        
+        task.resume()
+    }
+}
+
+
+//class APIService {
+//    
+//    func getDataForVideoID(_ videoID: String, completion: @escaping (VideoModel?) -> Void) {
+//        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY" // 替換為你的實際 API 金鑰
+//        let baseURL = "https://www.googleapis.com/youtube/v3/videos"
+//        
+//        var components = URLComponents(string: baseURL)!
+//        let queryItems: [URLQueryItem] = [
+//            URLQueryItem(name: "part", value: "snippet,contentDetails,statistics"),
+//            URLQueryItem(name: "id", value: videoID),
+//            URLQueryItem(name: "key", value: apiKey)
+//        ]
+//        components.queryItems = queryItems
+//        
+//        guard let url = components.url else {
+//            print("無效的 URL")
+//            completion(nil)
+//            return
+//        }
+//        
+//        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+//            guard let data = data, error == nil else {
+//                print("VVM API 獲取數據時出錯: \(error)")
+//                completion(nil)
+//                return
+//            }
+//            
+//            do {
+//                let decodedResponse = try JSONDecoder().decode(VideoModel.self, from: data)
+//                print("VVM API decodedResponse == \(decodedResponse)")
+//                completion(decodedResponse)
+//            } catch {
+//                print("JSON 解碼錯誤: \(error), data: \(String(data: data, encoding: .utf8) ?? "無法轉換為字符串")")
+//                completion(nil)
+//            }
+//
+//        }
+//        
+//        task.resume()
+//    }
+//}
 
