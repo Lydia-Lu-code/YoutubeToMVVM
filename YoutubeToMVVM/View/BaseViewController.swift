@@ -101,6 +101,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }()
     
     var singleVideoFrameView = VideoFrameView()
+
     var otherVideoFrameViews: [VideoFrameView] = []
     var showItems: [String] = []
     var viewCount = ""
