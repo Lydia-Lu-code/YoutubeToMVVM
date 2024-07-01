@@ -1,7 +1,12 @@
 import UIKit
 
-class BaseViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ButtonCollectionCellDelegate, UICollectionViewDelegateFlowLayout, BarButtonItemsDelegate {
-  
+    class BaseViewController: UIViewController, ButtonCollectionCellDelegate, BarButtonItemsDelegate {
+
+        func didTapButton() {
+            print("BaseVC Button tapped in ButtonCollectionViewCell")
+            // 在這裡處理按鈕點擊的相應邏輯
+        }
+        
     // 實現 BarButtonItemsDelegate 的方法，這些方法將調用 barButtonItemsModel 的對應方法
     func setBarBtnItems() {
         barButtonItemsModel.setBarBtnItems()
@@ -37,8 +42,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         fatalError("init(coder:) has not been implemented")
     }
     
-    let buttonTitles = ["📍", "全部", "音樂", "遊戲", "合輯", "直播中", "動畫", "寵物", "最新上傳", "讓你耳目一新的影片", "提供意見"]
-    
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,18 +53,18 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    lazy var buttonCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 10
-        let buttonCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        buttonCollectionView.showsHorizontalScrollIndicator = false
-        buttonCollectionView.delegate = self
-        buttonCollectionView.dataSource = self
-        buttonCollectionView.register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: ButtonCollectionViewCell.identifier)
-        return buttonCollectionView
-    }()
+        
+        
+        let buttonTitles = ["📍", "全部", "音樂", "遊戲", "合輯", "直播中", "動畫", "寵物", "最新上傳", "讓你耳目一新的影片", "提供意見"]
+        
+        // 可以在這裡定義和配置你的 ButtonCollectionViewCell
+        lazy var buttonCollectionViewCell: ButtonCollectionViewCell = {
+            let cell = ButtonCollectionViewCell(frame: .zero)
+            cell.delegate = self
+            // 在這裡設置額外的配置，例如 cell 的位置和大小等
+            return cell
+        }()
+
     
     // 定義一個 UIImageView 用於顯示播放器符號
     lazy var playerSymbolImageView: UIImageView = {
@@ -101,7 +104,6 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }()
     
     var singleVideoFrameView = VideoFrameView()
-
     var otherVideoFrameViews: [VideoFrameView] = []
     var showItems: [String] = []
     var viewCount = ""
@@ -135,14 +137,14 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         barButtonItemsModel = BarButtonItemsModel(viewController: self)
         barButtonItemsModel.setBarBtnItems()
         
-        buttonCollectionView.register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: ButtonCollectionViewCell.identifier)
-        
         // 將 scrollView 的 contentSize 設置為 contentView 的大小，確保能夠正確上下滾動
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: totalHeight)
         
         // 初始化 VideoViewModel 并加载数据
         videoViewModel = VideoViewModel()
         videoViewModel.viewController = self
+        
+        buttonCollectionViewCell.dataSource = self
         
         // 根据视图控制器类型加载不同的数据
         if let vcType = vcType {
@@ -170,7 +172,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
         
     }
-    
+
     @objc func handleShortsTap() {
         if let videoID = shortsFrameCollectionView.accessibilityIdentifier {
             clickedVideoID = videoID
@@ -257,7 +259,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func setViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubview(buttonCollectionView)
+        contentView.addSubview(buttonCollectionViewCell)
         contentView.addSubview(singleVideoFrameView)
         contentView.addSubview(shortsStackView)
         
@@ -268,12 +270,12 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
             contentView.addSubview(subscribeHoriCollectionView)
         }
     }
-    
-    @objc func buttonTapped(_ sender: UIButton) {
-        // 實現按鈕點擊的相應邏輯
-    }
-    
-
+//    
+//    @objc func buttonTapped(_ sender: UIButton) {
+//        // 實現按鈕點擊的相應邏輯
+//    }
+//    
+//
 
     func calculateTotalHeight() -> CGFloat {
         switch vcType {
@@ -290,12 +292,12 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         subscribeSecItemView.translatesAutoresizingMaskIntoConstraints = false
-
-        buttonCollectionView.translatesAutoresizingMaskIntoConstraints = false
         singleVideoFrameView.translatesAutoresizingMaskIntoConstraints = false
         shortsStackView.translatesAutoresizingMaskIntoConstraints = false
         shortsFrameCollectionView.translatesAutoresizingMaskIntoConstraints = false
         subscribeHoriCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        buttonCollectionViewCell.translatesAutoresizingMaskIntoConstraints = false
+
 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -311,12 +313,13 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
         if vcType == .home {
             NSLayoutConstraint.activate([
-                buttonCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-                buttonCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                buttonCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                buttonCollectionView.heightAnchor.constraint(equalToConstant: 60),
-
-                singleVideoFrameView.topAnchor.constraint(equalTo: buttonCollectionView.bottomAnchor),
+                
+                buttonCollectionViewCell.topAnchor.constraint(equalTo: contentView.topAnchor),
+                buttonCollectionViewCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                buttonCollectionViewCell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                buttonCollectionViewCell.heightAnchor.constraint(equalToConstant: 60),
+                
+                singleVideoFrameView.topAnchor.constraint(equalTo: buttonCollectionViewCell.bottomAnchor),
                 singleVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 singleVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 singleVideoFrameView.heightAnchor.constraint(equalToConstant: 300),
@@ -337,13 +340,13 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 subscribeSecItemView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 subscribeSecItemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 subscribeSecItemView.heightAnchor.constraint(equalToConstant: 90),
-
-                buttonCollectionView.topAnchor.constraint(equalTo: subscribeSecItemView.bottomAnchor),
-                buttonCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                buttonCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                buttonCollectionView.heightAnchor.constraint(equalToConstant: 60),
-
-                singleVideoFrameView.topAnchor.constraint(equalTo: buttonCollectionView.bottomAnchor),
+                
+                buttonCollectionViewCell.topAnchor.constraint(equalTo: subscribeSecItemView.bottomAnchor),
+                buttonCollectionViewCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                buttonCollectionViewCell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                buttonCollectionViewCell.heightAnchor.constraint(equalToConstant: 60),
+                
+                singleVideoFrameView.topAnchor.constraint(equalTo: buttonCollectionViewCell.bottomAnchor),
                 singleVideoFrameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 singleVideoFrameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 singleVideoFrameView.heightAnchor.constraint(equalToConstant: 300),
@@ -403,53 +406,7 @@ class BaseViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
         otherVideoFrameViews = videoFrameViews
     }
-
-    // UICollectionViewDataSource 方法
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return buttonTitles.count
-    }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCollectionViewCell.identifier, for: indexPath) as! ButtonCollectionViewCell
-        let title = buttonTitles[indexPath.item]
-        cell.button.setTitle(title, for: .normal)
-        cell.button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        
-        // 设置按钮的样式
-        cell.button.backgroundColor = UIColor.darkGray // 默认灰色背景
-        cell.button.setTitleColor(UIColor.white, for: .normal) // 默认白色文字
-        cell.button.titleLabel?.font = UIFont.systemFont(ofSize: 14) // 按钮字体大小
-        
-        if indexPath.item == buttonTitles.count - 1 {
-            // 如果是最后一个按钮，则设置特殊样式
-            cell.button.backgroundColor = UIColor.clear // 透明背景
-            cell.button.setTitleColor(UIColor.blue, for: .normal) // 蓝色文字
-            cell.button.titleLabel?.font = UIFont.systemFont(ofSize: 13) // 缩小字体大小
-        }
-        
-        // 添加按鈕點擊事件
-        cell.button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        
-        return cell
-    }
-    
-    // ButtonCollectionCellDelegate 方法
-    func didTapButton() {
-        // 處理按鈕點擊事件
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let title = buttonTitles[indexPath.item]
-        let width = title.size(withAttributes: [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14) // 根據需要調整字體大小
-        ]).width + 20 // 添加一些填充
-        
-        let height: CGFloat = 20
-        let verticalSpacing: CGFloat = 20
-        
-        return CGSize(width: width, height: height + verticalSpacing)
-    }
     
 }
 

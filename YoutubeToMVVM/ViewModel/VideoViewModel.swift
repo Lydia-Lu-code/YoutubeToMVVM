@@ -62,7 +62,7 @@ class VideoViewModel: SearchAndLoadProtocol {
     var itemCount: Int = 0
 
     var shortsData: [VideoModel] = []
-    
+    let apiKey = "AIzaSyC1LUGmn3kwNecr13UCLwOQEDhn7h6r5Co"
     
 
     func cancelSearch() {
@@ -74,7 +74,7 @@ class VideoViewModel: SearchAndLoadProtocol {
     }
     
     func fetchComments(for videoId: String) {
-        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
+        let apiKey = self.apiKey
         let baseURL = "https://www.googleapis.com/youtube/v3/commentThreads"
         
         var components = URLComponents(string: baseURL)!
@@ -115,7 +115,7 @@ class VideoViewModel: SearchAndLoadProtocol {
     }
 
     func searchYouTube<T: Decodable>(query: String, maxResults: Int, responseType: T.Type, completion: @escaping (T?, [String]?) -> Void) {
-        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
+        let apiKey = self.apiKey
         let baseURL = "https://www.googleapis.com/youtube/v3/search"
         
         var components = URLComponents(string: baseURL)!
@@ -195,7 +195,7 @@ class VideoViewModel: SearchAndLoadProtocol {
     
     private func fetchVideoDetails(for ids: [String], maxResults: Int, for viewControllerType: ViewControllerType) {
         let idsString = ids.joined(separator: ",")
-        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY"
+        let apiKey = self.apiKey
         let baseURL = "https://www.googleapis.com/youtube/v3/videos"
         
         var components = URLComponents(string: baseURL)!
@@ -332,7 +332,7 @@ class VideoViewModel: SearchAndLoadProtocol {
 class APIService {
     
     func getDataForVideoID(_ videoID: String, completion: @escaping (VideoModel?) -> Void) {
-        let apiKey = "AIzaSyDC2moKhNm_ElfyiKoQeXKftoLHYzsWwWY" // 替換為你的實際 API 金鑰
+        let apiKey = "AIzaSyC1LUGmn3kwNecr13UCLwOQEDhn7h6r5Co"
         let baseURL = "https://www.googleapis.com/youtube/v3/videos"
         
         var components = URLComponents(string: baseURL)!
