@@ -16,6 +16,9 @@ class PlayerViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var data: Observable<[VideoModel]> = Observable([])  // 明確指定型別並初始化為空陣列
     var dataLoadedCallback: (([VideoModel]) -> Void)?
+    var videoFrameView = VideoFrameView()
+    var videoViewModel = VideoViewModel()
+//    var videoViewModel: VideoViewModel!
     
     
     let playerView: WKWebView = {
@@ -110,7 +113,7 @@ class PlayerViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return max(videosData.count, 15)
+        return max(videosData.count, 9)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -123,8 +126,9 @@ class PlayerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         case 0:
             if let videoModel = videosData.first {
                 cell.textLabel?.numberOfLines = 0
-                let formattedViewCount = baseViewController.convertViewCount(videoModel.viewCount ?? "")
-                let formattedUploadDate = baseViewController.calculateTimeSinceUpload(from: videoModel.daysSinceUpload ?? "")
+                
+                let formattedViewCount = videoFrameView.convertViewCount(videoModel.viewCount ?? "")
+                let formattedUploadDate = videoFrameView.calculateTimeSinceUpload(from: videoModel.daysSinceUpload ?? "")
                 
                 let firstLineAttributes: [NSAttributedString.Key: Any] = [
                     .font: UIFont.boldSystemFont(ofSize: 18)
@@ -228,22 +232,52 @@ class PlayerViewController: UIViewController, UITableViewDelegate, UITableViewDa
             print("PVC Setting up cell for row 1, height: \(cell.bounds.height)")
 
         case 4...:
-            // 第四個 cell 之後的配置
-            let videoFrameView = VideoFrameView(frame: CGRect(x: 0, y: 0, width: cell.contentView.frame.width, height: cell.contentView.frame.height))
-            videoFrameView.translatesAutoresizingMaskIntoConstraints = false
-            cell.contentView.addSubview(videoFrameView)
+            
+            if indexPath.row >= 4 {
+                let videoFrameView = VideoFrameView(frame: .zero)
+                videoFrameView.translatesAutoresizingMaskIntoConstraints = false
+                cell.contentView.addSubview(videoFrameView)
 
-            NSLayoutConstraint.activate([
-                videoFrameView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-                videoFrameView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
-                videoFrameView.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-                videoFrameView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
-            ])
+                NSLayoutConstraint.activate([
+                    videoFrameView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
+                    videoFrameView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
+                    videoFrameView.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+                    videoFrameView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
+                ])
 
+                // 定義查詢條件和最大結果數
+                let query = "BOYNEXTDOOR" // 替換成你的查詢條件
+                let maxResults = 5 // 取五筆資料
+
+                // 使用 searchYouTube 方法搜索相關視頻
+                videoViewModel.searchYouTube(query: query, maxResults: maxResults, responseType: SearchResponse.self) { [weak self] (searchResponse: SearchResponse?, videoIDs: [String]?) in
+                    guard let self = self, let videoIDs = videoIDs else { return }
+                    print("PVC videoIDs == \(videoIDs)")
+
+                    // 確保 videoIDs 的索引不會超出範圍
+                    if indexPath.row - 4 < videoIDs.count {
+                        let videoID = videoIDs[indexPath.row - 4]
+                        self.apiService.getDataForVideoID(videoID) { [weak self] videoModel in
+                            guard let self = self, let videoModel = videoModel else { return }
+                            DispatchQueue.main.async {
+                                videoFrameView.configure(with: videoModel)
+                                
+                                print("PVC 已配置完毕 VideoFrameView with videoModel: \(videoModel.title)")
+                                print("PVC 已配置完毕 VideoFrameView with videoModel: \(videoModel.channelTitle)")
+                                print("PVC 已配置完毕 VideoFrameView with videoModel: \(videoModel.videoID)")
+                                print("PVC 已配置完毕 VideoFrameView with videoModel: \(videoModel.viewCount)")
+                                print("PVC 已配置完毕 VideoFrameView with videoModel: \(videoModel.daysSinceUpload)")
+                                print("PVC 已配置完毕 VideoFrameView with videoModel: \(videoModel.thumbnailURL)")
+                                print("PVC 已配置完毕 VideoFrameView with videoModel: \(videoModel.accountImageURL)")
+                            }
+                        }
+                    }
+                }
+            }
+ 
         default:
             print("PVC Setting up default cell")
         }
-//            self.tableView.reloadData()
         return cell
     }
     

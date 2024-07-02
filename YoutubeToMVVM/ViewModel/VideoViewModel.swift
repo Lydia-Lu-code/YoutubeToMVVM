@@ -6,6 +6,7 @@ enum ViewControllerType: String {
     case subscribe
     case content
     case shorts
+    case player
 }
 
 protocol SearchAndLoadProtocol {
@@ -20,16 +21,6 @@ class VideoModel: Decodable {
     var viewCount: String?
     var daysSinceUpload: String?
     var accountImageURL: String
-    
-    init(videoID: String, title: String, viewCount: String?, daysSinceUpload: String?, channelTitle: String) {
-        self.videoID = videoID
-        self.title = title
-        self.viewCount = viewCount
-        self.daysSinceUpload = daysSinceUpload
-        self.channelTitle = channelTitle
-        self.thumbnailURL = "" // 設置默認值
-        self.accountImageURL = "" // 設置默認值
-    }
     
     init(title: String, thumbnailURL: String, channelTitle: String, videoID: String, viewCount: String?, daysSinceUpload: String?, accountImageURL: String) {
         self.title = title
@@ -62,7 +53,7 @@ class VideoViewModel: SearchAndLoadProtocol {
     var itemCount: Int = 0
 
     var shortsData: [VideoModel] = []
-    let apiKey = "AIzaSyC1LUGmn3kwNecr13UCLwOQEDhn7h6r5Co"
+    let apiKey = ""
     
 
     func cancelSearch() {
@@ -71,47 +62,6 @@ class VideoViewModel: SearchAndLoadProtocol {
     
     deinit {
         cancelSearch()
-    }
-    
-    func fetchComments(for videoId: String) {
-        let apiKey = self.apiKey
-        let baseURL = "https://www.googleapis.com/youtube/v3/commentThreads"
-        
-        var components = URLComponents(string: baseURL)!
-        let queryItems: [URLQueryItem] = [
-            URLQueryItem(name: "part", value: "snippet"),
-            URLQueryItem(name: "videoId", value: videoId),
-            URLQueryItem(name: "key", value: apiKey)
-        ]
-        components.queryItems = queryItems
-        
-        guard let url = components.url else {
-            print("Invalid URL")
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print("Error fetching comments: \(error)")
-                return
-            }
-            
-            guard let data = data else {
-                print("No data returned")
-                return
-            }
-            
-            do {
-                // Assuming response is in JSON format
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                print("JSON Response: \(json)")
-                // Handle parsing of JSON response to extract comments
-            } catch {
-                print("Error parsing JSON: \(error)")
-            }
-        }
-        
-        task.resume()
     }
 
     func searchYouTube<T: Decodable>(query: String, maxResults: Int, responseType: T.Type, completion: @escaping (T?, [String]?) -> Void) {
@@ -169,6 +119,8 @@ class VideoViewModel: SearchAndLoadProtocol {
             maxResults = 16
         case .shorts:
             maxResults = 8
+        default:
+            maxResults = 0
         }
         
         searchYouTube(query: query, maxResults: maxResults, responseType: SearchResponse.self) { [weak self] (searchResponse, videoIDs) in
@@ -184,16 +136,8 @@ class VideoViewModel: SearchAndLoadProtocol {
             }
         }
     }
-    
-    func getShortsData() -> [VideoModel]? {
-        return shortsData
-    }
-    
-    func getVideoID(at index: Int) -> String? {
-        return shortsData[safe: index]?.videoID
-    }
-    
-    private func fetchVideoDetails(for ids: [String], maxResults: Int, for viewControllerType: ViewControllerType) {
+ 
+    func fetchVideoDetails(for ids: [String], maxResults: Int, for viewControllerType: ViewControllerType) {
         let idsString = ids.joined(separator: ",")
         let apiKey = self.apiKey
         let baseURL = "https://www.googleapis.com/youtube/v3/videos"
@@ -230,7 +174,7 @@ class VideoViewModel: SearchAndLoadProtocol {
     }
     
     func loadVideoView(withQuery query: String, for viewControllerType: ViewControllerType) {
-        let maxResults = (viewControllerType == .home || viewControllerType == .subscribe) ? 5 : 0
+        let maxResults = (viewControllerType == .home || viewControllerType == .subscribe || viewControllerType == .player) ? 5 : 0
         
         searchYouTube(query: query, maxResults: maxResults, responseType: SearchResponse.self) { [weak self] (searchResponse, videoIDs) in
             guard let self = self else { return }
@@ -252,11 +196,8 @@ class VideoViewModel: SearchAndLoadProtocol {
         case .subscribe:
             handleCollectionViewResult(response, viewControllerType: .subscribe, collectionView: viewController?.subscribeHoriCollectionView)
             print("VVM Search .subscribe")
-        case .content:
+        case .content, .shorts, .player:
             handleContentSearchResult(response)
-        case .shorts:
-            handleContentSearchResult(response)
-            print("VVM Search .shorts")
         }
     }
     
@@ -332,7 +273,7 @@ class VideoViewModel: SearchAndLoadProtocol {
 class APIService {
     
     func getDataForVideoID(_ videoID: String, completion: @escaping (VideoModel?) -> Void) {
-        let apiKey = "AIzaSyC1LUGmn3kwNecr13UCLwOQEDhn7h6r5Co"
+        let apiKey = ""
         let baseURL = "https://www.googleapis.com/youtube/v3/videos"
         
         var components = URLComponents(string: baseURL)!
@@ -344,14 +285,14 @@ class APIService {
         components.queryItems = queryItems
         
         guard let url = components.url else {
-            print("無效的 URL")
+            print("Invalid URL")
             completion(nil)
             return
         }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
-                print("API 獲取數據時出錯: \(String(describing: error))")
+                print("Error fetching data from API: \(String(describing: error))")
                 completion(nil)
                 return
             }
@@ -364,22 +305,33 @@ class APIService {
                     let snippet = firstItem["snippet"] as? [String: Any] ?? [:]
                     let statistics = firstItem["statistics"] as? [String: Any] ?? [:]
                     
-                    let title = snippet["title"] as? String ?? "無標題"
-                    let channelTitle = snippet["channelTitle"] as? String ?? "未知頻道"
-                    let publishedAt = snippet["publishedAt"] as? String ?? "未知日期"
-                    let viewCount = statistics["viewCount"] as? String ?? "觀看次數未知"
-                    let thumbnailURL = (snippet["thumbnails"] as? [String: Any])?["high"] as? String ?? ""
+                    let title = snippet["title"] as? String ?? "No Title"
+                    let channelTitle = snippet["channelTitle"] as? String ?? "Unknown Channel"
+                    let publishedAt = snippet["publishedAt"] as? String ?? "Unknown Date"
+                    let viewCount = statistics["viewCount"] as? String ?? "View Count Unknown"
+                    let thumbnailURL = ((snippet["thumbnails"] as? [String: Any])?["high"] as? [String: Any])?["url"] as? String ?? ""
+                    
+                    // Assign the same URL to both thumbnailURL and accountImageURL
                     let accountImageURL = thumbnailURL
                     
                     let videoModel = VideoModel(title: title, thumbnailURL: thumbnailURL, channelTitle: channelTitle, videoID: id, viewCount: viewCount, daysSinceUpload: publishedAt, accountImageURL: accountImageURL)
                     
+                    print("Video Model Data:")
+                    print("Title: \(videoModel.title)")
+                    print("Channel Title: \(videoModel.channelTitle)")
+                    print("Video ID: \(videoModel.videoID)")
+                    print("View Count: \(videoModel.viewCount)")
+                    print("Days Since Upload: \(videoModel.daysSinceUpload)")
+                    print("Thumbnail URL: \(videoModel.thumbnailURL)")
+                    print("Account Image URL: \(videoModel.accountImageURL)")
+                    
                     completion(videoModel)
                 } else {
-                    print("無法解析 JSON")
+                    print("Failed to parse JSON")
                     completion(nil)
                 }
             } catch {
-                print("JSON 解析錯誤: \(error)")
+                print("JSON parsing error: \(error)")
                 completion(nil)
             }
         }

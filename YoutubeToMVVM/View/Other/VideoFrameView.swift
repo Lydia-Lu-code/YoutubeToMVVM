@@ -5,87 +5,65 @@ import WebKit
 
 class VideoFrameView: UIView {
     
-    
-    override init(frame: CGRect) {
-        super.init(frame: .zero)
-        setCustomVideoFrameViewLayout()
-    }
-    
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    
-    
-    var videoImgView : UIImageView = {
+    // 定義子視圖
+    var videoImgView: UIImageView = {
         let vidView = UIImageView()
         vidView.translatesAutoresizingMaskIntoConstraints = false
-        vidView.backgroundColor = .lightGray
-        vidView.contentMode = .scaleAspectFill // 將圖片的 contentMode 設置為 .scaleAspectFill，使圖片自動拉伸以填滿視圖
-        vidView.clipsToBounds = true // 剪切超出視圖範圍的部分
+        vidView.contentMode = .scaleAspectFill
+        vidView.clipsToBounds = true
         return vidView
     }()
     
-    lazy var videoView : WKWebView = {
+    lazy var videoView: WKWebView = {
         let vidView = WKWebView()
-//        vidView.translatesAutoresizingMaskIntoConstraints = false
         vidView.contentMode = .scaleAspectFill
         return vidView
     }()
     
-    var photoImageView :UIImageView = {
+    var photoImageView: UIImageView = {
         let imgView = UIImageView()
         imgView.translatesAutoresizingMaskIntoConstraints = false
         imgView.backgroundColor = .darkGray
         return imgView
     }()
     
-    var labelMidTitle : UILabel = {
+    var labelMidTitle: UILabel = {
         let lbl = UILabel()
-        lbl.translatesAutoresizingMaskIntoConstraints  = false
-        //        lbl.backgroundColor = .orange
-        lbl.text = "Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ Title﻿ " // 這裡設定了一個範例文字
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont.systemFont(ofSize: 14)
-        lbl.numberOfLines = 2 // 兩行文字
+        lbl.numberOfLines = 2
         return lbl
     }()
     
-    var labelMidOther : UILabel = {
+    var labelMidOther: UILabel = {
         let lbl = UILabel()
-        lbl.translatesAutoresizingMaskIntoConstraints  = false
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont.systemFont(ofSize: 10)
-        lbl.text = "Other" // 這裡設定了一個範例文字
-        lbl.numberOfLines = 2 // 兩行文字
+        lbl.numberOfLines = 2
         return lbl
     }()
     
-    var buttonRight : UIButton = {
+    var buttonRight: UIButton = {
         let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints  = false
+        btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = .clear
-        btn.setImage(UIImage(systemName: "ellipsis"), for: .normal) // 使用三個點符號作為示意圖
-        btn.tintColor = .lightGray // 設定符號顏色
-        
+        btn.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        btn.tintColor = .lightGray
         return btn
     }()
     
-    lazy var videoFrameView : UIView = {
-        let vidFrameView = UIView()
-        vidFrameView.translatesAutoresizingMaskIntoConstraints = false
-        vidFrameView.addSubview(videoImgView)
-        vidFrameView.addSubview(photoImageView)
-        vidFrameView.addSubview(labelMidTitle)
-        vidFrameView.addSubview(labelMidOther)
-        vidFrameView.addSubview(buttonRight)
-        return vidFrameView
-    }()
+    // 初始化方法
+    override init(frame: CGRect) {
+        super.init(frame: .zero)
+        setCustomVideoFrameViewLayout()
+    }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
+    // 設置子視圖佈局
     private func setCustomVideoFrameViewLayout() {
-        
-        // 添加 imageView 到 VideoFrameView 中
         self.addSubview(videoImgView)
         self.addSubview(videoView)
         self.addSubview(photoImageView)
@@ -93,70 +71,120 @@ class VideoFrameView: UIView {
         self.addSubview(labelMidOther)
         self.addSubview(buttonRight)
         
-        // 設置 imageView 的圓形外觀
-        photoImageView.layer.cornerRadius = 30 // 圓形的半徑為寬度的一半
-        photoImageView.clipsToBounds = true // 剪切超出圓形範圍的部分
-        buttonRight.layer.cornerRadius = 30 // 圓形的半徑為寬度的一半
-        buttonRight.clipsToBounds = true // 剪切超出圓形範圍的部分
+        // 設置圓形外觀
+        photoImageView.layer.cornerRadius = 30
+        photoImageView.clipsToBounds = true
+        buttonRight.layer.cornerRadius = 30
+        buttonRight.clipsToBounds = true
         
-        
-        // 設置 videoView 的約束
+        // 設置約束
         NSLayoutConstraint.activate([
-            videoImgView.leadingAnchor.constraint(equalTo: self.leadingAnchor), // 與 VideoFrameView 的 leadingAnchor 對齊
-            videoImgView.topAnchor.constraint(equalTo: self.topAnchor), // 與 VideoFrameView 的 topAnchor 對齊
-            videoImgView.widthAnchor.constraint(equalTo:videoImgView.heightAnchor, multiplier: 320/180), // 寬度與高度比例為 480:360
+            videoImgView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            videoImgView.topAnchor.constraint(equalTo: self.topAnchor),
+            videoImgView.widthAnchor.constraint(equalTo: videoImgView.heightAnchor, multiplier: 320/180),
             videoImgView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            videoView.leadingAnchor.constraint(equalTo: self.leadingAnchor), // 與 VideoFrameView 的 leadingAnchor 對齊
-            videoView.topAnchor.constraint(equalTo: self.topAnchor), // 與 VideoFrameView 的 topAnchor 對齊
-            videoView.widthAnchor.constraint(equalTo:videoView.heightAnchor, multiplier: 320/180), // 寬度與高度比例為 480:360
-            videoView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        ])
-        
-        // 設置 imageView 的約束
-        NSLayoutConstraint.activate([
-            photoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor), // 與 VideoFrameView 的 leadingAnchor 對齊
-            photoImageView.topAnchor.constraint(equalTo: videoImgView.bottomAnchor, constant: 8), // imageView 的 topAnchor 設置為 videoView 的 bottomAnchor，間距為 8 個點
+            videoView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            videoView.topAnchor.constraint(equalTo: self.topAnchor),
+            videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor, multiplier: 320/180),
+            videoView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            photoImageView.heightAnchor.constraint(equalToConstant: 60), // imageView 的高度設置為 60
-            photoImageView.widthAnchor.constraint(equalToConstant: 60) // imageView 的寬度設置為 60
-        ])
-        
-        NSLayoutConstraint.activate([
+            photoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            photoImageView.topAnchor.constraint(equalTo: videoImgView.bottomAnchor, constant: 8),
+            photoImageView.heightAnchor.constraint(equalToConstant: 60),
+            photoImageView.widthAnchor.constraint(equalToConstant: 60),
+            
             buttonRight.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            buttonRight.topAnchor.constraint(equalTo: videoImgView.bottomAnchor, constant: 8), // buttonRight 的 topAnchor 設置為 videoView 的 bottomAnchor，間距為 8 個點
+            buttonRight.topAnchor.constraint(equalTo: videoImgView.bottomAnchor, constant: 8),
+            buttonRight.heightAnchor.constraint(equalToConstant: 60),
+            buttonRight.widthAnchor.constraint(equalToConstant: 60),
             
-            buttonRight.heightAnchor.constraint(equalToConstant: 60), // imageView 的高度設置為 60
-            buttonRight.widthAnchor.constraint(equalToConstant: 60) // imageView 的寬度設置為 60
-        ])
-        
-        NSLayoutConstraint.activate([
-            // labelMidTitle 的约束
-            labelMidTitle.leadingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: 5), // labelMidTitle 左边与 imageView 右边相距 5 点
-            labelMidTitle.topAnchor.constraint(equalTo: photoImageView.topAnchor), // labelMidTitle 顶部与 imageView 顶部对齐
-            labelMidTitle.heightAnchor.constraint(equalToConstant: 35), // labelMidTitle 高度设为 55 点
+            labelMidTitle.leadingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: 5),
+            labelMidTitle.topAnchor.constraint(equalTo: photoImageView.topAnchor),
+            labelMidTitle.heightAnchor.constraint(equalToConstant: 35),
             labelMidTitle.widthAnchor.constraint(equalTo: videoImgView.widthAnchor, constant: -80),
             
-            // labelMidOther 的约束
-            labelMidOther.leadingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: 5), // labelMidOther 左边与 imageView 右边相距 5 点
-            labelMidOther.topAnchor.constraint(equalTo: labelMidTitle.bottomAnchor), // labelMidOther 顶部与 labelMidTitle 底部相距 0 点
+            labelMidOther.leadingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: 5),
+            labelMidOther.topAnchor.constraint(equalTo: labelMidTitle.bottomAnchor),
             labelMidOther.heightAnchor.constraint(equalToConstant: 25),
-            //            labelMidOther.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -18),  底部固定在 VideoFrameView 的底部並設置間距為 -18
             labelMidOther.widthAnchor.constraint(equalTo: videoImgView.widthAnchor, constant: -80)
-            
         ])
-        
-        
     }
+    
+    func configure(with videoModel: VideoModel) {
+        labelMidTitle.text = videoModel.title
+        let channelTitle = videoModel.channelTitle
+        let viewCountText = convertViewCount(videoModel.viewCount!)
+        let timeSinceUploadText = calculateTimeSinceUpload(from: videoModel.daysSinceUpload!)
+        labelMidOther.text = "\(channelTitle)．觀看次數： \(viewCountText)次．\(timeSinceUploadText)"
         
+        loadImage(from: videoModel.thumbnailURL) { [weak self] image in
+            self?.videoImgView.image = image
+        }
+        loadImage(from: videoModel.accountImageURL) { [weak self] image in
+            self?.photoImageView.image = image
+        }
+    }
+
+    // loadImage 方法中，確保從網絡加載圖片的完整性和正確性
+    private func loadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data, error == nil else {
+                completion(nil)
+                return
+            }
+            let image = UIImage(data: data)
+            DispatchQueue.main.async {
+                completion(image)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    // 將觀看次數轉換為人性化的格式
+    func convertViewCount(_ viewCountString: String) -> String {
+        guard let viewCount = Int(viewCountString) else {
+            return viewCountString // 如果無法解析為整數，返回原始字串
+        }
+        
+        if viewCount > 29999 {
+            return "\(viewCount / 10000)萬"
+        } else if viewCount > 19999 {
+            return "\(viewCount / 10000).\(viewCount % 10000 / 1000)萬"
+        } else if viewCount > 9999 {
+            return "\(viewCount / 10000)萬"
+        } else {
+            return "\(viewCount)"
+        }
+    }
+    
+    func calculateTimeSinceUpload(from publishTime: String) -> String {
+        // 將 publishTime 轉換為日期對象
+        let dateFormatter = ISO8601DateFormatter()
+        if let publishDate = dateFormatter.date(from: publishTime) {
+            // 計算距今的時間間隔
+            let calendar = Calendar.current
+            let components = calendar.dateComponents([.year, .month, .day, .hour], from: publishDate, to: Date())
+            
+            // 判斷距離上傳的時間，決定顯示的格式
+            if let years = components.year, years > 0 {
+                return "\(years)年前"
+            } else if let months = components.month, months > 0 {
+                return "\(months)個月前"
+            } else if let days = components.day, days > 0 {
+                return "\(days)天前"
+            } else if let hours = components.hour, hours > 0 {
+                return "\(hours)個小時前"
+            } else {
+                return "剛剛"
+            }
+        }
+        return ""
+    }
 }
-
-
-
-    
-
-    
-    
-      
-
-

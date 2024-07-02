@@ -270,13 +270,7 @@ import UIKit
             contentView.addSubview(subscribeHoriCollectionView)
         }
     }
-//    
-//    @objc func buttonTapped(_ sender: UIButton) {
-//        // 實現按鈕點擊的相應邏輯
-//    }
-//    
-//
-
+        
     func calculateTotalHeight() -> CGFloat {
         switch vcType {
         case .home:
@@ -412,47 +406,6 @@ import UIKit
 
 extension BaseViewController {
     
-    // 將觀看次數轉換為人性化的格式
-    func convertViewCount(_ viewCountString: String) -> String {
-        guard let viewCount = Int(viewCountString) else {
-            return viewCountString // 如果無法解析為整數，返回原始字串
-        }
-        
-        if viewCount > 29999 {
-            return "\(viewCount / 10000)萬"
-        } else if viewCount > 19999 {
-            return "\(viewCount / 10000).\(viewCount % 10000 / 1000)萬"
-        } else if viewCount > 9999 {
-            return "\(viewCount / 10000)萬"
-        } else {
-            return "\(viewCount)"
-        }
-    }
-    
-    func calculateTimeSinceUpload(from publishTime: String) -> String {
-        // 將 publishTime 轉換為日期對象
-        let dateFormatter = ISO8601DateFormatter()
-        if let publishDate = dateFormatter.date(from: publishTime) {
-            // 計算距今的時間間隔
-            let calendar = Calendar.current
-            let components = calendar.dateComponents([.year, .month, .day, .hour], from: publishDate, to: Date())
-            
-            // 判斷距離上傳的時間，決定顯示的格式
-            if let years = components.year, years > 0 {
-                return "\(years)年前"
-            } else if let months = components.month, months > 0 {
-                return "\(months)個月前"
-            } else if let days = components.day, days > 0 {
-                return "\(days)天前"
-            } else if let hours = components.hour, hours > 0 {
-                return "\(hours)個小時前"
-            } else {
-                return "剛剛"
-            }
-        }
-        return ""
-    }
-    
     private func getVideoFrameView(at index: Int) -> VideoFrameView? {
         if index == 0 {
             return singleVideoFrameView
@@ -465,47 +418,32 @@ extension BaseViewController {
         return nil
     }
   
-    func loadDataVideoFrameView(withTitle title: String, thumbnailURL: String, channelTitle: String, accountImageURL: String, viewCount: String, daysSinceUpload: String, atIndex index: Int) {
+    func loadDataVideoFrameView(withTitle title: String,
+                                thumbnailURL: String,
+                                channelTitle: String,
+                                accountImageURL: String,
+                                viewCount: String,
+                                daysSinceUpload: String,
+                                atIndex index: Int) {
         print("BaseVC == \(title)")
         
-        // 根據 index 獲取 videoFrameView
+        // 根据 index 获取 videoFrameView
         guard let videoFrameView = getVideoFrameView(at: index) else {
             return
         }
         
         DispatchQueue.main.async {
-            // 設置標題和其他信息
-            videoFrameView.labelMidTitle.text = title
-            
-            videoFrameView.labelMidOther.text = "\(channelTitle)．觀看次數： \(self.convertViewCount(viewCount))次．\(self.calculateTimeSinceUpload(from: daysSinceUpload))"
-            print("BaseVC == \(channelTitle)．觀看次數： \(self.convertViewCount(viewCount))次．\(daysSinceUpload)")
-            
-            // 設置影片縮圖
-            self.setImage(from: thumbnailURL, to: videoFrameView.videoImgView)
-            
-            // 設置帳號圖片
-            self.setImage(from: accountImageURL, to: videoFrameView.photoImageView)
+            // 调用 VideoFrameView 的 configure 方法设置内容
+            let videoModel = VideoModel(title: title,
+                                        thumbnailURL: thumbnailURL,
+                                        channelTitle: channelTitle,
+                                        videoID: "", // 此处可以传入视频ID，或者根据需要调整
+                                        viewCount: viewCount,
+                                        daysSinceUpload: daysSinceUpload,
+                                        accountImageURL: accountImageURL)
+            videoFrameView.configure(with: videoModel)
         }
     }
-    
-    func setImage(from urlString: String, to imageView: UIImageView) {
-        guard let url = URL(string: urlString) else {
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            if let error = error {
-                return
-            }
-            guard let data = data, let image = UIImage(data: data) else {
-                return
-            }
-            DispatchQueue.main.async {
-                imageView.image = image
-            }
-        }.resume()
-    }
-    
  }
 
 extension Collection {
